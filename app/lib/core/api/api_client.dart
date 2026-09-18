@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import '../env.dart';
 import 'api_exception.dart';
@@ -15,7 +14,8 @@ class ApiClient {
       connectTimeout: const Duration(seconds: 12),
       receiveTimeout: const Duration(seconds: 20),
       contentType: Headers.jsonContentType,
-      headers: {'X-Device': Platform.operatingSystem},
+      // dart:io Platform throws on web; keep labels close to operatingSystem.
+      headers: {'X-Device': _deviceLabel},
     );
     _dio = Dio(options);
     _refreshDio = Dio(options);
@@ -80,4 +80,17 @@ class ApiClient {
       throw ApiException.from(e);
     }
   }
+}
+
+/// Labels match `dart:io` `Platform.operatingSystem` where possible.
+String get _deviceLabel {
+  if (kIsWeb) return 'web';
+  return switch (defaultTargetPlatform) {
+    TargetPlatform.iOS => 'ios',
+    TargetPlatform.android => 'android',
+    TargetPlatform.macOS => 'macos',
+    TargetPlatform.windows => 'windows',
+    TargetPlatform.linux => 'linux',
+    TargetPlatform.fuchsia => 'fuchsia',
+  };
 }

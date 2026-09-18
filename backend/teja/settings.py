@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 from urllib.parse import urlparse
 
+from corsheaders.defaults import default_headers
 from django.core.exceptions import ImproperlyConfigured
 from dotenv import load_dotenv
 
@@ -119,6 +120,9 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 CORS_ALLOW_ALL_ORIGINS = DEBUG
 CORS_ALLOWED_ORIGINS = [o for o in env("CORS_ALLOWED_ORIGINS", "").split(",") if o]
+# Dio sends X-Device on every request; browsers preflight it and drop the call
+# unless it is explicitly allowed (default_headers does not include it).
+CORS_ALLOW_HEADERS = (*default_headers, "x-device")
 
 # --- Teja -------------------------------------------------------------------
 
