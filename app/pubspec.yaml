@@ -1,0 +1,49 @@
+name: teja
+description: One prompt a day. Make something small.
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  # 3.8 is the floor required by json_serializable 6.14.
+  sdk: ">=3.8.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Ships the CupertinoIcons font; without it every glyph renders as tofu.
+  cupertino_icons: ^1.0.8
+
+  # State + routing
+  flutter_riverpod: ^2.5.1
+  go_router: ^14.2.7
+
+  # Models
+  freezed_annotation: ^3.0.0
+  json_annotation: ^4.12.0
+
+  # Network + storage
+  dio: ^5.7.0
+  flutter_secure_storage: ^9.2.2
+  shared_preferences: ^2.3.2
+
+  # Platform
+  sign_in_with_apple: ^6.1.2
+  image_picker: ^1.1.2
+  image_cropper: ^8.0.2
+  flutter_local_notifications: ^17.2.3
+  cached_network_image: ^3.4.1
+  flutter_markdown: ^0.7.3
+  share_plus: ^10.0.2
+  timezone: ^0.9.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: ^2.4.13
+  freezed: ^4.0.1
+  json_serializable: ^6.9.0
+
+flutter:
+  uses-material-design: false

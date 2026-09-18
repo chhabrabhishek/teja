@@ -1,0 +1,24 @@
+# Optional. Local dev defaults to SQLite and no Redis — bring these up only when
+# you want to develop against the same engines production runs on.
+#   docker compose up -d
+#   DATABASE_URL=postgres://teja:teja@localhost:5432/teja
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: teja
+      POSTGRES_PASSWORD: teja
+      POSTGRES_DB: teja
+    ports: ["5432:5432"]
+    volumes: ["teja_pg:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U teja"]
+      interval: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+
+volumes:
+  teja_pg:

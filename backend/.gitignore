@@ -1,0 +1,24 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.env
+staticfiles/
+
+# Flutter / Dart
+app/.dart_tool/
+app/build/
+app/.flutter-plugins
+app/.flutter-plugins-dependencies
+app/ios/Pods/
+app/ios/.symlinks/
+app/ios/Flutter/Flutter.framework/
+app/ios/Flutter/Flutter.podspec
+app/ios/Flutter/ephemeral/
+app/**/*.g.dart
+app/**/*.freezed.dart
+
+# Tooling
+.DS_Store
+*.log
+.idea/
