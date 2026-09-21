@@ -2,12 +2,14 @@ from __future__ import annotations
 
 from django.db import transaction
 from django.http import HttpRequest
+from django.utils import timezone
 from ninja import Router
 
 from teja.accounts import apple, emailcode
-from teja.accounts.models import Block, Streak, User
+from teja.accounts.models import Block, Device, Streak, User
 from teja.accounts.schemas import (
     AppleSignInIn,
+    DeviceIn,
     EmailRequestIn,
     EmailVerifyIn,
     MeOut,
@@ -157,6 +159,28 @@ def delete_me(request):
 @me_router.get("/streak")
 def get_streak(request):
     return streak_payload(request.user)
+
+
+@me_router.post("/devices", response={204: None})
+def register_device(request, data: DeviceIn):
+    """Idempotent: a token can move between accounts on a shared device."""
+    Device.objects.update_or_create(
+        token=data.token,
+        defaults={
+            "user": request.user,
+            "platform": data.platform,
+            "app_version": data.app_version[:16],
+            "is_active": True,
+            "last_seen_at": timezone.now(),
+        },
+    )
+    return 204, None
+
+
+@me_router.delete("/devices/{token}", response={204: None})
+def unregister_device(request, token: str):
+    Device.objects.filter(user=request.user, token=token).update(is_active=False)
+    return 204, None
 
 
 # --- users ------------------------------------------------------------------

@@ -144,7 +144,14 @@ EMAIL_BACKEND = (
 APPLE_BUNDLE_ID = env("APPLE_BUNDLE_ID", "app.teja.ios")
 APPLE_KEYS_URL = "https://appleid.apple.com/auth/keys"
 APPLE_ISSUER = "https://appleid.apple.com"
-
+# --- APNs (push) ------------------------------------------------------------
+APNS_KEY_ID = env("APNS_KEY_ID")
+APNS_TEAM_ID = env("APNS_TEAM_ID")
+APNS_KEY_PATH = env("APNS_KEY_PATH")
+APNS_KEY_CONTENT = env("APNS_KEY_CONTENT")
+APNS_BUNDLE_ID = env("APNS_BUNDLE_ID") or APPLE_BUNDLE_ID
+# Debug builds installed from Xcode get sandbox tokens; TestFlight/App Store do not.
+APNS_USE_SANDBOX = env_bool("APNS_USE_SANDBOX", DEBUG)
 MEDIA_BUCKET = env("MEDIA_BUCKET", "teja-media")
 MEDIA_REGION = env("MEDIA_REGION", "auto")
 MEDIA_ENDPOINT_URL = env("MEDIA_ENDPOINT_URL") or None

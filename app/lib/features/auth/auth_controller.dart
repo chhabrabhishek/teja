@@ -4,6 +4,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../core/api/api_exception.dart';
 import '../../data/auth_repository.dart';
+import '../../data/push_repository.dart';
 import '../../domain/models.dart';
 
 enum AuthStatus { unknown, signedOut, signedIn }
@@ -87,7 +88,7 @@ class AuthController extends Notifier<AuthState> {
       final session = await _repo.signInWithApple(
         identityToken: credential.identityToken ?? '',
         fullName: name.isEmpty ? null : name,
-        timezone: localTimezone(),
+        timezone: await localTimezone(),
       );
       _apply(session);
     } on SignInWithAppleAuthorizationException {
@@ -115,7 +116,7 @@ class AuthController extends Notifier<AuthState> {
     if (email == null) return false;
     state = state.copyWith(busy: true, clearError: true);
     try {
-      _apply(await _repo.verifyEmailCode(email, code, localTimezone()));
+      _apply(await _repo.verifyEmailCode(email, code, await localTimezone()));
       return true;
     } on ApiException catch (e) {
       state = state.copyWith(
@@ -142,6 +143,7 @@ class AuthController extends Notifier<AuthState> {
   }
 
   Future<void> signOut() async {
+    await ref.read(pushRepositoryProvider).unregister();
     await _repo.signOut();
     _forceSignOut();
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 
 import '../core/api/api_client.dart';
 import '../core/api/token_store.dart';
@@ -100,14 +101,16 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepository(ref.watch(apiClientProvider), ref.watch(tokenStoreProvider));
 });
 
-/// Best-effort IANA zone. The server uses it to decide when "today" ends.
-String localTimezone() {
+/// The device's IANA zone, e.g. `Asia/Kolkata`.
+///
+/// The server uses this to decide when "today" ends, so it drives streaks as
+/// well as the reminder. `DateTime.timeZoneName` returns an abbreviation like
+/// `IST` which is ambiguous and not resolvable, hence the platform lookup.
+Future<String> localTimezone() async {
   try {
-    return DateTime.now().timeZoneName.length > 3
-        ? DateTime.now().timeZoneName
-        : 'UTC';
-  } catch (_) {
-    if (kDebugMode) debugPrint('timezone lookup failed');
+    return await FlutterTimezone.getLocalTimezone();
+  } catch (e) {
+    if (kDebugMode) debugPrint('timezone lookup failed: $e');
     return 'UTC';
   }
 }

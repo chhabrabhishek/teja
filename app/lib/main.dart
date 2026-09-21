@@ -3,10 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app/router.dart';
 import 'app/theme.dart';
+import 'core/notifications.dart';
 import 'design/tokens/colors.dart';
 
-void main() {
-  runApp(const ProviderScope(child: TejaApp()));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final container = ProviderContainer();
+  // Loads the tz database before any screen can schedule against it.
+  await container.read(notificationServiceProvider).init();
+  runApp(
+    UncontrolledProviderScope(container: container, child: const TejaApp()),
+  );
 }
 
 class TejaApp extends ConsumerWidget {

@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/theme.dart';
+import '../../core/notifications.dart';
+import '../../data/auth_repository.dart';
 import '../../design/components/stat_row.dart';
 import '../../design/components/teja_press.dart';
 import '../../design/components/teja_scaffold.dart';
@@ -11,6 +14,7 @@ import '../../design/tokens/flavor.dart';
 import '../../design/tokens/spacing.dart';
 import '../../design/tokens/typography.dart';
 import '../auth/auth_controller.dart';
+import 'reminder_controller.dart';
 
 /// Settings is four groups and nothing more. Every extra toggle here is a
 /// decision we've pushed onto someone who just wanted to draw something.
@@ -22,6 +26,7 @@ class SettingsScreen extends ConsumerWidget {
     final c = context.colors;
     final user = ref.watch(authControllerProvider).user;
     final theme = ref.watch(themeModeProvider);
+    final reminder = ref.watch(reminderControllerProvider);
 
     return TejaPage(
       title: 'Settings',
@@ -39,6 +44,12 @@ class SettingsScreen extends ConsumerWidget {
                   : _hourLabel(user!.reminderHour!),
               onTap: () => _pickHour(context, ref, user?.reminderHour ?? 9),
             ),
+            if (user?.reminderHour != null && !reminder.granted)
+              _Row(
+                label: 'Notifications are off in iOS Settings',
+                value: 'Fix',
+                onTap: () => ref.read(reminderControllerProvider.notifier).askPermission(),
+              ),
           ]),
           Gap.h32,
           const Eyebrow('Appearance'),
@@ -78,6 +89,18 @@ class SettingsScreen extends ConsumerWidget {
             _Row(label: 'Version', value: '1.0.0 (1)', muted: true),
           ]),
           Gap.h40,
+          if (kDebugMode) ...[
+            const Eyebrow('Debug'),
+            Gap.h12,
+            _Group(children: [
+              _Row(
+                label: 'Send test reminder (10s)',
+                value: reminder.granted ? 'Ready' : 'No permission',
+                onTap: () => _sendTestReminder(context, ref),
+              ),
+            ]),
+            Gap.h40,
+          ],
           Center(
             child: TejaPress(
               onTap: () => ref.read(authControllerProvider.notifier).signOut(),
@@ -128,17 +151,57 @@ class SettingsScreen extends ConsumerWidget {
                 ],
               ),
             ),
-            CupertinoButton(
-              onPressed: () {
-                ref
-                    .read(authControllerProvider.notifier)
-                    .updateProfile({'reminder_hour': selected});
-                sheetContext.pop();
-              },
-              child: const Text('Done'),
+            Row(
+              children: [
+                CupertinoButton(
+                  onPressed: () {
+                    ref.read(reminderControllerProvider.notifier).setHour(null);
+                    sheetContext.pop();
+                  },
+                  child: const Text('Turn off'),
+                ),
+                const Spacer(),
+                CupertinoButton(
+                  onPressed: () {
+                    ref.read(reminderControllerProvider.notifier).setHour(selected);
+                    sheetContext.pop();
+                  },
+                  child: const Text('Done'),
+                ),
+              ],
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Future<void> _sendTestReminder(BuildContext context, WidgetRef ref) async {
+    final service = ref.read(notificationServiceProvider);
+    if (!await service.hasPermission()) {
+      await ref.read(reminderControllerProvider.notifier).askPermission();
+      if (!await service.hasPermission()) return;
+    }
+    final when = await service.scheduleTest(timezoneName: await localTimezone());
+    final pending = await service.pending();
+    if (!context.mounted) return;
+    showCupertinoDialog<void>(
+      context: context,
+      builder: (dialogContext) => CupertinoAlertDialog(
+        title: const Text('Test reminder scheduled'),
+        content: Text(
+          'Fires at ${when.hour.toString().padLeft(2, '0')}:'
+          '${when.minute.toString().padLeft(2, '0')}:'
+          '${when.second.toString().padLeft(2, '0')} (${when.location.name}).\n\n'
+          'Pending notifications: ${pending.map((p) => p.id).join(', ')}\n\n'
+          'Background the app now (Cmd+Shift+H) to see the banner.',
+        ),
+        actions: [
+          CupertinoDialogAction(
+            onPressed: () => dialogContext.pop(),
+            child: const Text('OK'),
+          ),
+        ],
       ),
     );
   }

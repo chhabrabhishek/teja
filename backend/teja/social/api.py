@@ -1,11 +1,15 @@
 from __future__ import annotations
 
+import logging
+import threading
+
 from django.conf import settings
 from django.db.models import Count, F, Q
 from django.db import transaction
 from ninja import Router
 
 from teja.accounts.models import Block
+from teja.common import push
 from teja.common.errors import ApiError, Forbidden, NotFound
 from teja.common.pagination import decode_cursor, encode_cursor
 from teja.common.ratelimit import hit
@@ -23,6 +27,8 @@ from teja.submissions.models import Submission
 social_router = Router()
 comments_router = Router()
 reports_router = Router()
+
+logger = logging.getLogger(__name__)
 
 
 def _visible_submission(request, submission_id: str) -> Submission:
@@ -132,8 +138,36 @@ def create_comment(request, submission_id: str, data: CommentIn):
         Submission.objects.filter(id=submission.id).update(
             comment_count=F("comment_count") + 1
         )
+        transaction.on_commit(
+            lambda: _notify_comment(submission, request.user, body)
+        )
     comment.user = request.user
     return comment_payload(comment, request.user)
+
+
+def _notify_comment(submission, commenter, body: str) -> None:
+    """Fire-and-forget push to the author. Never blocks or fails the request."""
+    if submission.user_id == commenter.id:
+        return
+    if Block.objects.filter(blocker=submission.user, blocked=commenter).exists():
+        return
+
+    def _send():
+        try:
+            push.send_to_user(
+                submission.user,
+                title=f"{commenter.name} commented",
+                body=body[:120],
+                data={"submission_id": str(submission.id), "type": "comment"},
+                # One push per submission per wave, not one per comment.
+                collapse_id=f"comment-{submission.id}",
+            )
+        except push.PushNotConfigured:
+            pass
+        except Exception:
+            logger.exception("comment push failed")
+
+    threading.Thread(target=_send, daemon=True).start()
 
 
 @comments_router.delete("/{comment_id}", response={204: None})

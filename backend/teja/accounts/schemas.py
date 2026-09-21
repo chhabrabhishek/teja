@@ -41,6 +41,7 @@ class MeOut(UserOut):
     email: EmailStr
     timezone: str
     reminder_hour: Optional[int] = None
+    push_enabled: bool = True
     preferred_categories: list[str] = []
     streak: StreakOut
 
@@ -82,6 +83,12 @@ class RefreshIn(Schema):
     refresh_token: str
 
 
+class DeviceIn(Schema):
+    token: str
+    platform: str = "ios"
+    app_version: str = ""
+
+
 class UpdateMeIn(Schema):
     display_name: Optional[str] = None
     username: Optional[str] = None
@@ -89,6 +96,7 @@ class UpdateMeIn(Schema):
     avatar_key: Optional[str] = None
     timezone: Optional[str] = None
     reminder_hour: Optional[int] = None
+    push_enabled: Optional[bool] = None
     preferred_categories: Optional[list[str]] = None
 
     @field_validator("username")
@@ -137,6 +145,7 @@ def me_payload(user: User) -> dict:
         "email": user.email,
         "timezone": user.timezone,
         "reminder_hour": user.reminder_hour,
+        "push_enabled": user.push_enabled,
         "preferred_categories": user.preferred_categories,
         "streak": streak_payload(user),
     }

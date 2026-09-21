@@ -41,6 +41,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     avatar_key = models.CharField(max_length=255, blank=True, default="")
     timezone = models.CharField(max_length=64, default="UTC")
     reminder_hour = models.SmallIntegerField(null=True, blank=True, default=9)
+    # Push is opt-out; the daily reminder is local and unaffected by this.
+    push_enabled = models.BooleanField(default=True)
     # JSON rather than a Postgres array: we never query it, and this keeps SQLite working.
     preferred_categories = models.JSONField(default=list, blank=True)
 
@@ -118,6 +120,26 @@ class Streak(models.Model):
         if self.last_date >= today - timedelta(days=1):
             return self.current
         return 0
+
+
+class Device(models.Model):
+    """An APNs device token. One row per install, not per user."""
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="devices")
+    token = models.CharField(max_length=200, unique=True)
+    platform = models.CharField(max_length=8, default="ios")
+    app_version = models.CharField(max_length=16, blank=True, default="")
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_seen_at = models.DateTimeField(default=tz_now)
+
+    class Meta:
+        db_table = "devices"
+        indexes = [models.Index(fields=["user", "is_active"])]
+
+    def __str__(self) -> str:
+        return f"{self.user.username} · {self.platform} · {self.token[:12]}…"
 
 
 class Block(models.Model):

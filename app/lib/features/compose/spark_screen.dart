@@ -14,6 +14,7 @@ import '../../design/tokens/motion.dart';
 import '../../design/tokens/spacing.dart';
 import '../../design/tokens/typography.dart';
 import '../feed/feed_controller.dart';
+import '../profile/reminder_controller.dart';
 
 /// The dopamine.
 ///
@@ -43,6 +44,21 @@ class _SparkScreenState extends ConsumerState<SparkScreen>
     ref.read(feedControllerProvider.notifier).refresh();
     _controller.forward();
     _autoAdvance = Timer(const Duration(milliseconds: 2400), _toFeed);
+    _maybeAskForReminder();
+  }
+
+  /// Asked here, never on cold launch: permission requested right after someone
+  /// has actually made something converts far better, and finally makes sense.
+  Future<void> _maybeAskForReminder() async {
+    final reminder = ref.read(reminderControllerProvider);
+    if (reminder.asked || reminder.granted) return;
+    await Future<void>.delayed(const Duration(milliseconds: 1400));
+    if (!mounted) return;
+    _autoAdvance?.cancel();
+    await ref.read(reminderControllerProvider.notifier).askPermission();
+    if (mounted && !_left) {
+      _autoAdvance = Timer(const Duration(milliseconds: 1200), _toFeed);
+    }
   }
 
   @override

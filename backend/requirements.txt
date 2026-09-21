@@ -8,6 +8,7 @@ cryptography>=43.0
 python-dotenv>=1.0
 boto3>=1.35
 requests>=2.32
+httpx[http2]>=0.27    # APNs uses HTTP/2
 django-cors-headers>=4.4
 redis>=5.0            # optional: rate limiting + counters
 openai>=1.50          # only used by the offline prompt generator
