@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "teja.accounts",
+    "teja.topics",
     "teja.prompts",
     "teja.submissions",
     "teja.social",

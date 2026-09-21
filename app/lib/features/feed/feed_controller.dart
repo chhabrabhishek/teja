@@ -4,9 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/teja_repository.dart';
 import '../../domain/models.dart';
 
+enum FeedScope { today, all }
+
 @immutable
 class FeedState {
   const FeedState({
+    this.scope = FeedScope.today,
     this.locked = true,
     this.creatorCount = 0,
     this.prompt,
@@ -15,6 +18,7 @@ class FeedState {
     this.loadingMore = false,
   });
 
+  final FeedScope scope;
   final bool locked;
   final int creatorCount;
   final Prompt? prompt;
@@ -25,6 +29,7 @@ class FeedState {
   bool get hasMore => cursor != null;
 
   FeedState copyWith({
+    FeedScope? scope,
     bool? locked,
     int? creatorCount,
     Prompt? prompt,
@@ -34,6 +39,7 @@ class FeedState {
     bool clearCursor = false,
   }) =>
       FeedState(
+        scope: scope ?? this.scope,
         locked: locked ?? this.locked,
         creatorCount: creatorCount ?? this.creatorCount,
         prompt: prompt ?? this.prompt,
@@ -44,12 +50,17 @@ class FeedState {
 }
 
 class FeedController extends AsyncNotifier<FeedState> {
-  @override
-  Future<FeedState> build() => _load();
+  FeedScope _scope = FeedScope.today;
 
-  Future<FeedState> _load() async {
-    final page = await ref.read(tejaRepositoryProvider).todayFeed();
+  @override
+  Future<FeedState> build() => _load(_scope);
+
+  Future<FeedState> _load(FeedScope scope) async {
+    final repo = ref.read(tejaRepositoryProvider);
+    final page =
+        scope == FeedScope.today ? await repo.todayFeed() : await repo.allFeed();
     return FeedState(
+      scope: scope,
       locked: page.locked,
       creatorCount: page.creatorCount,
       prompt: page.prompt,
@@ -58,19 +69,28 @@ class FeedController extends AsyncNotifier<FeedState> {
     );
   }
 
-  Future<void> refresh() async {
-    state = await AsyncValue.guard(_load);
+  Future<void> setScope(FeedScope scope) async {
+    if (_scope == scope) return;
+    _scope = scope;
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() => _load(scope));
   }
 
-  /// The feed is finite by design — one prompt, one day. Reaching the end is a
-  /// feature, so there is no infinite scroll and no prefetch loop.
+  Future<void> refresh() async {
+    state = await AsyncValue.guard(() => _load(_scope));
+  }
+
+  /// Today's feed is finite by design — one prompt, one day — so reaching the
+  /// end is a feature. All-time pages properly.
   Future<void> loadMore() async {
     final current = state.valueOrNull;
     if (current == null || current.loadingMore || !current.hasMore) return;
     state = AsyncData(current.copyWith(loadingMore: true));
     try {
-      final page =
-          await ref.read(tejaRepositoryProvider).todayFeed(cursor: current.cursor);
+      final repo = ref.read(tejaRepositoryProvider);
+      final page = current.scope == FeedScope.today
+          ? await repo.todayFeed(cursor: current.cursor)
+          : await repo.allFeed(cursor: current.cursor);
       state = AsyncData(current.copyWith(
         items: [...current.items, ...page.items],
         cursor: page.nextCursor,

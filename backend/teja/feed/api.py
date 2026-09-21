@@ -1,31 +1,50 @@
-"""The feed. Locked until you create — enforced here, on the server."""
+"""The feed.
+
+Two modes, deliberately different:
+
+- `/feed/today` — the campfire. Everyone who answered *your* prompt today.
+  Locked until you publish today; this is the creation-first mechanic.
+- `/feed/all` — everything ever made in the topics you follow. Requires you to
+  have created at least once, so the feed is still earned — just not re-earned
+  every single day.
+"""
 
 from __future__ import annotations
 
 from ninja import Router
 
-from teja.accounts.models import Block
+from teja.accounts.models import Block, Streak
 from teja.accounts.schemas import user_today
 from teja.prompts.api import resolve_prompt
 from teja.prompts.schemas import prompt_payload
-from teja.submissions.api import serialize_page
+from teja.submissions.api import annotate_reactions, serialize_page
 from teja.submissions.models import Submission
+from teja.submissions.schemas import submission_payload
+from teja.topics.api import subscribed_topic_ids
 
 feed_router = Router()
+
+
+def _visible(user):
+    blocked_ids = Block.objects.filter(blocker=user).values_list("blocked_id", flat=True)
+    return (
+        Submission.objects.filter(status=Submission.Status.PUBLISHED, is_removed=False)
+        .exclude(user_id__in=blocked_ids)
+        .select_related("user", "user__streak", "prompt", "prompt__topic")
+    )
 
 
 @feed_router.get("/today")
 def today_feed(request, cursor: str | None = None, limit: int = 20):
     user = request.user
-    prompt = resolve_prompt(user_today(user))
+    prompt = resolve_prompt(user, user_today(user))
 
     published = Submission.objects.filter(
         prompt=prompt, status=Submission.Status.PUBLISHED, is_removed=False
     )
     creator_count = published.count()
-    has_published = published.filter(user=user).exists()
 
-    if not has_published:
+    if not published.filter(user=user).exists():
         # 200, not 403: the client renders a designed lock screen, not an error.
         return {
             "locked": True,
@@ -35,24 +54,16 @@ def today_feed(request, cursor: str | None = None, limit: int = 20):
             "next_cursor": None,
         }
 
-    blocked_ids = Block.objects.filter(blocker=user).values_list("blocked_id", flat=True)
-    qs = (
-        published.exclude(user_id__in=blocked_ids)
-        .exclude(user=user)
-        .select_related("user", "prompt")
-        .order_by("-published_at", "-id")
-    )
-    page = serialize_page(qs, user, cursor, limit)
+    qs = _visible(user).filter(prompt=prompt).exclude(user=user)
+    page = serialize_page(qs.order_by("-published_at", "-id"), user, cursor, limit)
 
     if cursor is None:
-        # Your own creation is always the first thing you see.
         mine = (
-            published.filter(user=user).select_related("user", "user__streak", "prompt").first()
+            published.filter(user=user)
+            .select_related("user", "user__streak", "prompt", "prompt__topic")
+            .first()
         )
         if mine is not None:
-            from teja.submissions.api import annotate_reactions
-            from teja.submissions.schemas import submission_payload
-
             counts, my_reactions = annotate_reactions([mine], user)
             page["items"].insert(
                 0,
@@ -70,3 +81,38 @@ def today_feed(request, cursor: str | None = None, limit: int = 20):
         "prompt": prompt_payload(prompt),
         **page,
     }
+
+
+@feed_router.get("/all")
+def all_feed(
+    request,
+    cursor: str | None = None,
+    limit: int = 20,
+    topic_id: str | None = None,
+    prompt_id: str | None = None,
+):
+    """Everything, newest first, scoped to the caller's topics by default."""
+    user = request.user
+
+    streak, _ = Streak.objects.get_or_create(user=user)
+    if streak.total == 0:
+        return {"locked": True, "reason": "create_once", "items": [], "next_cursor": None}
+
+    qs = _visible(user)
+
+    if prompt_id:
+        qs = qs.filter(prompt_id=prompt_id)
+    elif topic_id:
+        from teja.topics.models import Topic, expand_topic_ids
+
+        topic = Topic.objects.filter(id=topic_id, is_active=True).first()
+        qs = qs.filter(
+            prompt__topic_id__in=expand_topic_ids([topic.id]) if topic else []
+        )
+    else:
+        topic_ids = subscribed_topic_ids(user)
+        if topic_ids:
+            qs = qs.filter(prompt__topic_id__in=topic_ids)
+
+    page = serialize_page(qs.order_by("-published_at", "-id"), user, cursor, limit)
+    return {"locked": False, **page}

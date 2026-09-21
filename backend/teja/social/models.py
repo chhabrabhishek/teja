@@ -30,14 +30,23 @@ class Comment(models.Model):
         "submissions.Submission", on_delete=models.CASCADE, related_name="comments"
     )
     user = models.ForeignKey("accounts.User", on_delete=models.CASCADE, related_name="comments")
+    # One level of replies only. Deeper nesting is unreadable on a phone and
+    # turns a kind word into a thread nobody finishes.
+    parent = models.ForeignKey(
+        "self", on_delete=models.CASCADE, null=True, blank=True, related_name="replies"
+    )
     body = models.CharField(max_length=500)
+    reply_count = models.IntegerField(default=0)
     is_removed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = "comments"
         ordering = ["created_at"]
-        indexes = [models.Index(fields=["submission", "created_at"])]
+        indexes = [
+            models.Index(fields=["submission", "created_at"]),
+            models.Index(fields=["parent", "created_at"]),
+        ]
 
 
 class Report(models.Model):

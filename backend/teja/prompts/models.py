@@ -26,7 +26,10 @@ WEEKLY_ROTATION = [
 
 class Prompt(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    date = models.DateField(unique=True, db_index=True)
+    date = models.DateField(db_index=True)
+    topic = models.ForeignKey(
+        "topics.Topic", on_delete=models.PROTECT, related_name="prompts", null=True
+    )
     category = models.CharField(max_length=16, choices=Category.choices)
     text = models.CharField(max_length=240)
     nudge = models.CharField(max_length=120, default="Five minutes is enough.")
@@ -37,6 +40,12 @@ class Prompt(models.Model):
     class Meta:
         db_table = "prompts"
         ordering = ["-date"]
+        constraints = [
+            # One prompt per topic per day — this is what keeps a topic's feed a
+            # shared room rather than a timeline of unrelated things.
+            models.UniqueConstraint(fields=["topic", "date"], name="uniq_topic_date"),
+        ]
+        indexes = [models.Index(fields=["date", "is_published"])]
 
     def __str__(self) -> str:
         return f"{self.date} · {self.get_category_display()} · {self.text[:48]}"

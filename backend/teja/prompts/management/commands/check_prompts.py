@@ -2,10 +2,9 @@
 
     python manage.py check_prompts --min-runway 14
 
-Exits non-zero when the published runway is short, so cron/CI/uptime tooling can
-alert. Running out of published prompts is the one failure that silently breaks
-the whole product: `resolve_prompt` falls back to the most recent live prompt, so
-every user would quietly get yesterday's challenge again instead of an error.
+Exits non-zero when any active leaf topic is short. Runway is measured **per
+topic**, because a global count can look healthy while one topic has nothing —
+and its subscribers would silently fall back to another topic's prompt.
 """
 
 from __future__ import annotations
@@ -16,10 +15,11 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 
 from teja.prompts.models import Prompt
+from teja.topics.models import Topic
 
 
 class Command(BaseCommand):
-    help = "Report how many days of published prompts remain."
+    help = "Report how many days of published prompts remain, per topic."
 
     def add_arguments(self, parser):
         parser.add_argument("--min-runway", type=int, default=14)
@@ -28,37 +28,42 @@ class Command(BaseCommand):
         today = timezone.now().date()
         minimum = opts["min_runway"]
 
-        published = set(
-            Prompt.objects.filter(is_published=True, date__gte=today).values_list(
-                "date", flat=True
+        leaves = list(
+            Topic.objects.filter(is_active=True, accepts_prompts=True).order_by(
+                "sort_order", "name"
             )
         )
-        # Runway is consecutive days from today, not a raw count: a gap tomorrow
-        # matters far more than 40 prompts sitting behind it.
-        runway = 0
-        while today + timedelta(days=runway) in published:
-            runway += 1
+        if not leaves:
+            self.stderr.write(self.style.ERROR("No active topics. Run `seed_topics`."))
+            raise SystemExit(1)
+
+        published = {
+            (topic_id, date)
+            for topic_id, date in Prompt.objects.filter(
+                is_published=True, date__gte=today
+            ).values_list("topic_id", "date")
+        }
+
+        worst: tuple[str, int] | None = None
+        for leaf in leaves:
+            runway = 0
+            while (leaf.id, today + timedelta(days=runway)) in published:
+                runway += 1
+            flag = "  " if runway >= minimum else "!!"
+            self.stdout.write(f"{flag} {leaf.slug:20s} {runway:3d} day(s)")
+            if worst is None or runway < worst[1]:
+                worst = (leaf.slug, runway)
 
         awaiting = Prompt.objects.filter(is_published=False, date__gte=today).count()
-        gaps = [
-            today + timedelta(days=i)
-            for i in range(minimum)
-            if today + timedelta(days=i) not in published
-        ]
+        self.stdout.write(f"   drafts awaiting review: {awaiting}")
 
-        self.stdout.write(f"consecutive published runway : {runway} day(s)")
-        self.stdout.write(f"drafts awaiting review       : {awaiting}")
-        if gaps:
-            self.stdout.write(f"missing days in next {minimum}   : {len(gaps)} "
-                              f"(first {gaps[0]})")
-
-        if runway < minimum:
+        if worst and worst[1] < minimum:
             self.stderr.write(
                 self.style.ERROR(
-                    f"PROMPT RUNWAY LOW: {runway} day(s) left, want {minimum}. "
+                    f"PROMPT RUNWAY LOW: '{worst[0]}' has {worst[1]} day(s), want {minimum}. "
                     f"Run `generate_prompts --ensure-runway 60` and review in /admin/."
                 )
             )
             raise SystemExit(1)
 
-        self.stdout.write(self.style.SUCCESS("Prompt runway healthy."))
+        self.stdout.write(self.style.SUCCESS("Every topic has a healthy runway."))

@@ -86,14 +86,29 @@ def _parse_prompts(raw: str) -> list[dict]:
     return parsed
 
 
-def generate(category: str, count: int, avoid: list[str]) -> list[dict]:
+def generate(
+    category: str,
+    count: int,
+    avoid: list[str],
+    *,
+    topic_name: str | None = None,
+    topic_blurb: str | None = None,
+) -> list[dict]:
     """Return [{text, nudge}]. Requires OPENAI_API_KEY."""
     from openai import OpenAI
 
     client = OpenAI(api_key=settings.OPENAI_API_KEY, max_retries=4, timeout=120.0)
 
+    focus = (
+        f"Sub-topic: {topic_name}" + (f" — {topic_blurb}" if topic_blurb else "") + "\n"
+        "Every prompt must be unmistakably about this sub-topic, not the broad category.\n"
+        if topic_name
+        else ""
+    )
+
     user_msg = (
         f"Category: {Category(category).label}\n"
+        f"{focus}"
         f"Examples of the right voice:\n- " + "\n- ".join(EXEMPLARS[Category(category)]) + "\n\n"
         f"Do NOT repeat or paraphrase any of these existing prompts:\n- "
         + "\n- ".join(avoid[:60])

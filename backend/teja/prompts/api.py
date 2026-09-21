@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 from datetime import date as date_cls
 from datetime import datetime, time, timedelta
 from zoneinfo import ZoneInfo
@@ -11,6 +12,7 @@ from teja.accounts.schemas import streak_payload, user_today
 from teja.common.errors import NotFound
 from teja.prompts.models import Prompt
 from teja.prompts.schemas import PromptOut, TodayOut, prompt_payload
+from teja.topics.api import subscribed_topic_ids
 
 prompts_router = Router()
 
@@ -25,14 +27,47 @@ def seconds_left_today(user) -> int:
     return max(0, int((midnight - now).total_seconds()))
 
 
-def resolve_prompt(day: date_cls) -> Prompt:
-    prompt = Prompt.objects.filter(date=day, is_published=True).first()
-    if prompt is None:
-        # Never show an error on the home screen: fall back to the most recent live prompt.
-        prompt = Prompt.objects.filter(is_published=True, date__lte=day).order_by("-date").first()
-    if prompt is None:
+def prompts_for(user, day: date_cls) -> list[Prompt]:
+    """Every published prompt available to this user on `day`."""
+    topic_ids = subscribed_topic_ids(user)
+    qs = Prompt.objects.filter(date=day, is_published=True).select_related("topic")
+    if topic_ids:
+        qs = qs.filter(topic_id__in=topic_ids)
+    return list(qs.order_by("topic__sort_order", "id"))
+
+
+def pick_daily(user, day: date_cls, candidates: list[Prompt]) -> Prompt | None:
+    """Choose one challenge, stably.
+
+    Deterministic on (user, date) so the answer never changes mid-day or between
+    requests, but rotates across a user's topics day to day. Needs no stored state.
+    """
+    if not candidates:
+        return None
+    digest = hashlib.sha256(f"{user.id}:{day.isoformat()}".encode()).digest()
+    return candidates[int.from_bytes(digest[:8], "big") % len(candidates)]
+
+
+def resolve_prompt(user, day: date_cls) -> Prompt:
+    chosen = pick_daily(user, day, prompts_for(user, day))
+    if chosen is not None:
+        return chosen
+
+    # No topics picked, or none of them have a prompt today: fall back so the
+    # home screen is never an error.
+    fallback = (
+        Prompt.objects.filter(date=day, is_published=True)
+        .select_related("topic")
+        .order_by("id")
+        .first()
+        or Prompt.objects.filter(is_published=True, date__lte=day)
+        .select_related("topic")
+        .order_by("-date")
+        .first()
+    )
+    if fallback is None:
         raise NotFound("No prompt yet. Check back soon.", code="prompt_missing")
-    return prompt
+    return fallback
 
 
 @prompts_router.get("/today", response=TodayOut)
@@ -43,16 +78,18 @@ def today(request):
 
     user = request.user
     day = user_today(user)
-    prompt = resolve_prompt(day)
+    prompt = resolve_prompt(user, day)
 
     mine = (
         Submission.objects.filter(user=user, prompt=prompt)
-        .select_related("user", "prompt")
+        .select_related("user", "prompt", "prompt__topic")
         .first()
     )
     creator_count = Submission.objects.filter(
         prompt=prompt, status=Submission.Status.PUBLISHED, is_removed=False
     ).count()
+
+    others = [p for p in prompts_for(user, day) if p.id != prompt.id]
 
     return {
         "prompt": prompt_payload(prompt),
@@ -60,12 +97,17 @@ def today(request):
         "creator_count": creator_count,
         "my_submission": submission_payload(mine, user) if mine else None,
         "streak": streak_payload(user),
+        "other_prompts": [prompt_payload(p) for p in others],
     }
 
 
-@prompts_router.get("/{prompt_date}", response=PromptOut)
-def prompt_by_date(request, prompt_date: date_cls):
-    prompt = Prompt.objects.filter(date=prompt_date, is_published=True).first()
+@prompts_router.get("/{prompt_id}", response=PromptOut)
+def prompt_detail(request, prompt_id: str):
+    prompt = (
+        Prompt.objects.filter(id=prompt_id, is_published=True)
+        .select_related("topic")
+        .first()
+    )
     if prompt is None:
-        raise NotFound("No prompt for that day.", code="prompt_missing")
+        raise NotFound("That prompt doesn't exist.", code="prompt_missing")
     return prompt_payload(prompt)

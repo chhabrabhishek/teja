@@ -36,6 +36,32 @@ abstract class TejaUser with _$TejaUser {
 }
 
 @freezed
+abstract class Topic with _$Topic {
+  const Topic._();
+
+  const factory Topic({
+    required String id,
+    required String slug,
+    required String name,
+    @Default('') String blurb,
+    @Default('writing') String craft,
+    @JsonKey(name: 'parent_id') String? parentId,
+    @JsonKey(name: 'accepts_prompts') @Default(true) bool acceptsPrompts,
+    @JsonKey(name: 'subscriber_count') @Default(0) int subscriberCount,
+    @JsonKey(name: 'is_selected') @Default(false) bool isSelected,
+    @Default(<Topic>[]) List<Topic> children,
+  }) = _Topic;
+
+  factory Topic.fromJson(Map<String, dynamic> json) => _$TopicFromJson(json);
+
+  bool get isRoot => parentId == null;
+
+  /// A root counts as chosen when it, or any child, is selected.
+  bool get hasSelection =>
+      isSelected || children.any((c) => c.isSelected || c.hasSelection);
+}
+
+@freezed
 abstract class Prompt with _$Prompt {
   const factory Prompt({
     required String id,
@@ -45,6 +71,9 @@ abstract class Prompt with _$Prompt {
     @Default('text') String kind,
     required String text,
     @Default('Five minutes is enough.') String nudge,
+    @JsonKey(name: 'topic_id') String? topicId,
+    @JsonKey(name: 'topic_name') String? topicName,
+    @JsonKey(name: 'topic_path') String? topicPath,
   }) = _Prompt;
 
   factory Prompt.fromJson(Map<String, dynamic> json) => _$PromptFromJson(json);
@@ -84,6 +113,10 @@ abstract class Submission with _$Submission {
     @JsonKey(name: 'prompt_id') @Default('') String promptId,
     @JsonKey(name: 'prompt_text') @Default('') String promptText,
     @JsonKey(name: 'prompt_category') @Default('writing') String promptCategory,
+    @JsonKey(name: 'prompt_nudge') @Default('') String promptNudge,
+    @JsonKey(name: 'prompt_date') DateTime? promptDate,
+    @JsonKey(name: 'topic_name') String? topicName,
+    @JsonKey(name: 'topic_path') String? topicPath,
     @JsonKey(name: 'my_reactions') @Default(<String>[]) List<String> myReactions,
     @JsonKey(name: 'reaction_counts') @Default(<String, int>{}) Map<String, int> reactionCounts,
   }) = _Submission;
@@ -108,6 +141,9 @@ abstract class Comment with _$Comment {
     @JsonKey(name: 'author_username') @Default('') String authorUsername,
     @JsonKey(name: 'author_name') @Default('') String authorName,
     @JsonKey(name: 'author_avatar_url') String? authorAvatarUrl,
+    @JsonKey(name: 'parent_id') String? parentId,
+    @JsonKey(name: 'reply_count') @Default(0) int replyCount,
+    @Default(<Comment>[]) List<Comment> replies,
   }) = _Comment;
 
   factory Comment.fromJson(Map<String, dynamic> json) => _$CommentFromJson(json);
@@ -122,6 +158,7 @@ abstract class Today with _$Today {
     @JsonKey(name: 'creator_count') @Default(0) int creatorCount,
     @JsonKey(name: 'my_submission') Submission? mySubmission,
     @Default(Streak()) Streak streak,
+    @JsonKey(name: 'other_prompts') @Default(<Prompt>[]) List<Prompt> otherPrompts,
   }) = _Today;
 
   factory Today.fromJson(Map<String, dynamic> json) => _$TodayFromJson(json);

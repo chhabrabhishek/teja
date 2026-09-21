@@ -6,10 +6,14 @@ import 'package:go_router/go_router.dart';
 import '../../core/utils/date_x.dart';
 import '../../data/teja_repository.dart';
 import '../../design/components/avatar.dart';
+import '../../design/components/chips.dart';
 import '../../design/components/reaction_bar.dart';
 import '../../design/components/stat_row.dart';
 import '../../design/components/states.dart';
+import '../../design/components/teja_card.dart';
+import '../../design/components/teja_press.dart';
 import '../../design/tokens/colors.dart';
+import '../../design/tokens/flavor.dart';
 import '../../design/tokens/motion.dart';
 import '../../design/tokens/spacing.dart';
 import '../../design/tokens/typography.dart';
@@ -41,6 +45,7 @@ class SubmissionScreen extends ConsumerStatefulWidget {
 class _SubmissionScreenState extends ConsumerState<SubmissionScreen> {
   final _comment = TextEditingController();
   bool _sending = false;
+  Comment? _replyingTo;
 
   @override
   void dispose() {
@@ -53,8 +58,13 @@ class _SubmissionScreenState extends ConsumerState<SubmissionScreen> {
     if (body.isEmpty || _sending) return;
     setState(() => _sending = true);
     try {
-      await ref.read(tejaRepositoryProvider).addComment(widget.submissionId, body);
+      await ref.read(tejaRepositoryProvider).addComment(
+            widget.submissionId,
+            body,
+            parentId: _replyingTo?.id,
+          );
       _comment.clear();
+      _replyingTo = null;
       ref.invalidate(_commentsProvider(widget.submissionId));
       ref.invalidate(_submissionProvider(widget.submissionId));
     } catch (_) {
@@ -150,6 +160,8 @@ class _SubmissionScreenState extends ConsumerState<SubmissionScreen> {
                   physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.fromLTRB(Gap.gutter, Gap.lg, Gap.gutter, Gap.section),
                   children: [
+                    _PromptContext(submission: data),
+                    Gap.h20,
                     _AuthorRow(submission: data),
                     Gap.h20,
                     if (data.hasImage) ...[
@@ -196,7 +208,12 @@ class _SubmissionScreenState extends ConsumerState<SubmissionScreen> {
                             )
                           : Column(
                               children: [
-                                for (final comment in items) _CommentRow(comment: comment),
+                                for (final comment in items)
+                                  _CommentRow(
+                                    comment: comment,
+                                    onReply: (target) =>
+                                        setState(() => _replyingTo = target),
+                                  ),
                               ],
                             ),
                     ),
@@ -207,10 +224,67 @@ class _SubmissionScreenState extends ConsumerState<SubmissionScreen> {
                 controller: _comment,
                 sending: _sending,
                 onSend: _send,
+                replyingTo: _replyingTo,
+                onCancelReply: () => setState(() => _replyingTo = null),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// The question being answered.
+///
+/// Without this, a post is a stranger's sentence with no context — the prompt is
+/// half the work and half the meaning, so it leads rather than hides in a footer.
+class _PromptContext extends StatelessWidget {
+  const _PromptContext({required this.submission});
+
+  final Submission submission;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    final s = context.style;
+    final hue = TejaColors.forCategory(submission.promptCategory);
+
+    return TejaCard(
+      elevated: false,
+      color: c.surfaceAlt,
+      padding: const EdgeInsets.all(Gap.lg),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(CategoryChip.glyphFor(submission.promptCategory), size: 13, color: hue),
+              Gap.w8,
+              Expanded(
+                child: Text(
+                  (submission.topicPath ?? submission.promptCategory).toUpperCase(),
+                  style: TejaText.eyebrow.on(hue),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              if (submission.promptDate != null)
+                Text(
+                  submission.promptDate!.eyebrowLabel.split(' · ').last,
+                  style: TejaText.footnote.on(c.inkTertiary),
+                ),
+            ],
+          ),
+          Gap.h12,
+          Text(
+            submission.promptText,
+            style: TejaText.title2.on(c.ink).copyWith(
+                  fontFamily: s.roundedFamily,
+                  fontWeight: s.headlineWeight,
+                ),
+          ),
+        ],
       ),
     );
   }
@@ -258,37 +332,64 @@ class _AuthorRow extends StatelessWidget {
 }
 
 class _CommentRow extends StatelessWidget {
-  const _CommentRow({required this.comment});
+  const _CommentRow({
+    required this.comment,
+    required this.onReply,
+    this.isReply = false,
+  });
 
   final Comment comment;
+  final ValueChanged<Comment> onReply;
+  final bool isReply;
 
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
     return Padding(
-      padding: const EdgeInsets.only(bottom: Gap.lg),
-      child: Row(
+      padding: EdgeInsets.only(bottom: Gap.lg, left: isReply ? Gap.section : 0),
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Avatar(name: comment.authorName, url: comment.authorAvatarUrl, size: 28),
-          Gap.w12,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Avatar(
+                name: comment.authorName,
+                url: comment.authorAvatarUrl,
+                size: isReply ? 24 : 28,
+                onTap: () => context.push('/u/${comment.authorUsername}'),
+              ),
+              Gap.w12,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(comment.authorName, style: TejaText.subhead.on(c.ink)),
-                    Gap.w8,
-                    Text(comment.createdAt.shortAgo,
-                        style: TejaText.footnote.on(c.inkTertiary)),
+                    Row(
+                      children: [
+                        Text(comment.authorName, style: TejaText.subhead.on(c.ink)),
+                        Gap.w8,
+                        Text(comment.createdAt.shortAgo,
+                            style: TejaText.footnote.on(c.inkTertiary)),
+                      ],
+                    ),
+                    Gap.h4,
+                    Text(comment.body, style: TejaText.callout.on(c.inkSecondary)),
+                    Gap.h4,
+                    TejaPress(
+                      onTap: () => onReply(comment),
+                      semanticLabel: 'Reply to ${comment.authorName}',
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: Gap.xs),
+                        child: Text('Reply', style: TejaText.footnote.on(c.ember)),
+                      ),
+                    ),
                   ],
                 ),
-                Gap.h4,
-                Text(comment.body, style: TejaText.callout.on(c.inkSecondary)),
-              ],
-            ),
+              ),
+            ],
           ),
+          for (final reply in comment.replies)
+            _CommentRow(comment: reply, onReply: onReply, isReply: true),
         ],
       ),
     );
@@ -300,11 +401,15 @@ class _CommentComposer extends StatelessWidget {
     required this.controller,
     required this.sending,
     required this.onSend,
+    this.replyingTo,
+    this.onCancelReply,
   });
 
   final TextEditingController controller;
   final bool sending;
   final VoidCallback onSend;
+  final Comment? replyingTo;
+  final VoidCallback? onCancelReply;
 
   @override
   Widget build(BuildContext context) {
@@ -315,29 +420,56 @@ class _CommentComposer extends StatelessWidget {
         color: c.surfaceAlt,
         border: Border(top: BorderSide(color: c.hairline, width: 0.5)),
       ),
-      child: Row(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(
-            child: CupertinoTextField(
-              controller: controller,
-              // Setting the norm in the placeholder measurably reduces hostility.
-              placeholder: 'Say something kind…',
-              placeholderStyle: TejaText.callout.on(c.inkTertiary),
-              style: TejaText.callout.on(c.ink),
-              cursorColor: c.ember,
-              maxLines: 4,
-              minLines: 1,
-              maxLength: 500,
-              decoration: const BoxDecoration(),
-              onSubmitted: (_) => onSend(),
+          if (replyingTo != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: Gap.sm),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Replying to ${replyingTo!.authorName}',
+                      style: TejaText.footnote.on(c.ember),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  TejaPress(
+                    onTap: onCancelReply,
+                    semanticLabel: 'Cancel reply',
+                    child: Icon(CupertinoIcons.xmark, size: 14, color: c.inkTertiary),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Gap.w8,
-          GestureDetector(
-            onTap: onSend,
-            child: sending
-                ? const CupertinoActivityIndicator()
-                : Icon(CupertinoIcons.arrow_up_circle_fill, size: 30, color: c.ember),
+          Row(
+            children: [
+              Expanded(
+                child: CupertinoTextField(
+                  controller: controller,
+                  // Setting the norm in the placeholder measurably reduces hostility.
+                  placeholder: replyingTo == null
+                      ? 'Say something kind…'
+                      : 'Reply to ${replyingTo!.authorName}…',
+                  placeholderStyle: TejaText.callout.on(c.inkTertiary),
+                  style: TejaText.callout.on(c.ink),
+                  cursorColor: c.ember,
+                  maxLines: 4,
+                  minLines: 1,
+                  maxLength: 500,
+                  decoration: const BoxDecoration(),
+                  onSubmitted: (_) => onSend(),
+                ),
+              ),
+              Gap.w8,
+              GestureDetector(
+                onTap: onSend,
+                child: sending
+                    ? const CupertinoActivityIndicator()
+                    : Icon(CupertinoIcons.arrow_up_circle_fill, size: 30, color: c.ember),
+              ),
+            ],
           ),
         ],
       ),

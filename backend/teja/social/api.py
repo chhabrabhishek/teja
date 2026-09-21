@@ -104,7 +104,7 @@ def list_comments(request, submission_id: str, cursor: str | None = None, limit:
     submission = _visible_submission(request, submission_id)
     blocked_ids = Block.objects.filter(blocker=request.user).values_list("blocked_id", flat=True)
     qs = (
-        Comment.objects.filter(submission=submission, is_removed=False)
+        Comment.objects.filter(submission=submission, is_removed=False, parent__isnull=True)
         .exclude(user_id__in=blocked_ids)
         .select_related("user")
         .order_by("created_at", "id")
@@ -115,12 +115,34 @@ def list_comments(request, submission_id: str, cursor: str | None = None, limit:
         qs = qs.filter(Q(created_at__gt=ts) | Q(created_at=ts, id__gt=last_id))
 
     limit = max(1, min(limit, 50))
-    rows = list(qs[: limit + 1])
-    has_more = len(rows) > limit
-    rows = rows[:limit]
+    roots = list(qs[: limit + 1])
+    has_more = len(roots) > limit
+    roots = roots[:limit]
+
+    # One query for every reply on the page rather than one per comment.
+    replies_by_parent: dict = {}
+    if roots:
+        for reply in (
+            Comment.objects.filter(parent_id__in=[r.id for r in roots], is_removed=False)
+            .exclude(user_id__in=blocked_ids)
+            .select_related("user")
+            .order_by("created_at", "id")
+        ):
+            replies_by_parent.setdefault(reply.parent_id, []).append(reply)
+
     return {
-        "items": [comment_payload(c, request.user) for c in rows],
-        "next_cursor": encode_cursor(rows[-1].created_at, rows[-1].id) if has_more and rows else None,
+        "items": [
+            comment_payload(
+                root,
+                request.user,
+                replies=[
+                    comment_payload(r, request.user)
+                    for r in replies_by_parent.get(root.id, [])
+                ],
+            )
+            for root in roots
+        ],
+        "next_cursor": encode_cursor(roots[-1].created_at, roots[-1].id) if has_more and roots else None,
     }
 
 
@@ -131,35 +153,53 @@ def create_comment(request, submission_id: str, data: CommentIn):
     if not body:
         raise ApiError("Say something first.", code="empty_comment")
     submission = _visible_submission(request, submission_id)
+
+    parent = None
+    if data.parent_id:
+        parent = Comment.objects.filter(
+            id=data.parent_id, submission=submission, is_removed=False
+        ).first()
+        if parent is None:
+            raise NotFound("That comment is gone.", code="comment_not_found")
+        # Replies are one level deep; a reply to a reply attaches to its root.
+        if parent.parent_id:
+            parent = Comment.objects.filter(id=parent.parent_id).first()
+
     with transaction.atomic():
         comment = Comment.objects.create(
-            submission=submission, user=request.user, body=body[:500]
+            submission=submission,
+            user=request.user,
+            body=body[:500],
+            parent=parent,
         )
         Submission.objects.filter(id=submission.id).update(
             comment_count=F("comment_count") + 1
         )
+        if parent is not None:
+            Comment.objects.filter(id=parent.id).update(reply_count=F("reply_count") + 1)
         transaction.on_commit(
-            lambda: _notify_comment(submission, request.user, body)
+            lambda: _notify_comment(submission, request.user, body, parent)
         )
     comment.user = request.user
     return comment_payload(comment, request.user)
 
 
-def _notify_comment(submission, commenter, body: str) -> None:
-    """Fire-and-forget push to the author. Never blocks or fails the request."""
-    if submission.user_id == commenter.id:
+def _notify_comment(submission, commenter, body: str, parent=None) -> None:
+    """Fire-and-forget push. Never blocks or fails the request."""
+    # A reply notifies the comment's author; a top-level comment notifies the maker.
+    target = parent.user if parent is not None else submission.user
+    if target.id == commenter.id:
         return
-    if Block.objects.filter(blocker=submission.user, blocked=commenter).exists():
+    if Block.objects.filter(blocker=target, blocked=commenter).exists():
         return
 
     def _send():
         try:
             push.send_to_user(
-                submission.user,
-                title=f"{commenter.name} commented",
+                target,
+                title=f"{commenter.name} {'replied' if parent else 'commented'}",
                 body=body[:120],
                 data={"submission_id": str(submission.id), "type": "comment"},
-                # One push per submission per wave, not one per comment.
                 collapse_id=f"comment-{submission.id}",
             )
         except push.PushNotConfigured:

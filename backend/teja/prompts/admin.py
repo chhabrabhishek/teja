@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import Count
 
 from teja.prompts.models import Prompt
 
@@ -7,13 +8,24 @@ from teja.prompts.models import Prompt
 class PromptAdmin(admin.ModelAdmin):
     """The human-review queue. Nothing reaches a user until it's approved here."""
 
-    list_display = ("date", "category", "text", "is_published", "source")
-    list_filter = ("is_published", "category", "source")
+    list_display = ("date", "topic", "category", "text", "is_published", "submissions", "source")
+    # `topic` is the leaf that actually decides who sees this; `category` is only
+    # the craft it belongs to.
+    list_filter = ("is_published", "topic", "category", "source")
     list_editable = ("is_published",)
-    search_fields = ("text",)
+    list_select_related = ("topic",)
+    search_fields = ("text", "nudge", "topic__name")
+    autocomplete_fields = ("topic",)
     date_hierarchy = "date"
-    ordering = ("date",)
+    ordering = ("date", "topic__sort_order")
     actions = ["publish", "unpublish"]
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(_subs=Count("submissions"))
+
+    @admin.display(description="Responses", ordering="_subs")
+    def submissions(self, obj):
+        return obj._subs
 
     @admin.action(description="Publish selected prompts")
     def publish(self, request, queryset):

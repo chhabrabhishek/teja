@@ -38,6 +38,11 @@ class SettingsScreen extends ConsumerWidget {
           Gap.h12,
           _Group(children: [
             _Row(
+              label: 'Your interests',
+              value: 'Change',
+              onTap: () => context.push('/you/interests'),
+            ),
+            _Row(
               label: 'Daily reminder',
               value: user?.reminderHour == null
                   ? 'Off'

@@ -9,6 +9,7 @@ import '../../design/components/states.dart';
 import '../../design/components/submission_card.dart';
 import '../../design/components/teja_button.dart';
 import '../../design/tokens/colors.dart';
+import '../../design/tokens/flavor.dart';
 import '../../design/tokens/motion.dart';
 import '../../design/tokens/spacing.dart';
 import '../../design/tokens/typography.dart';
@@ -62,9 +63,73 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
           onAction: () => ref.read(feedControllerProvider.notifier).refresh(),
         ),
         data: (state) => state.locked
-            ? _LockedFeed(count: state.creatorCount)
+            ? (state.scope == FeedScope.today
+                ? _LockedFeed(count: state.creatorCount)
+                : const _LockedAllTime())
             : _UnlockedFeed(state: state, controller: _scroll),
       ),
+    );
+  }
+}
+
+/// Two modes, deliberately different: Today is the campfire and is re-earned
+/// daily; All time is the archive and is earned once.
+class _ScopeSwitcher extends ConsumerWidget {
+  const _ScopeSwitcher({required this.scope});
+
+  final FeedScope scope;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final c = context.colors;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(Gap.gutter, Gap.sm, Gap.gutter, Gap.md),
+      child: CupertinoSlidingSegmentedControl<FeedScope>(
+        groupValue: scope,
+        backgroundColor: c.surfaceAlt,
+        thumbColor: c.surface,
+        onValueChanged: (value) {
+          if (value != null) {
+            Feel.select();
+            ref.read(feedControllerProvider.notifier).setScope(value);
+          }
+        },
+        children: {
+          FeedScope.today: Padding(
+            padding: const EdgeInsets.symmetric(vertical: Gap.sm),
+            child: Text('Today', style: TejaText.subhead.on(c.ink)),
+          ),
+          FeedScope.all: Padding(
+            padding: const EdgeInsets.symmetric(vertical: Gap.sm),
+            child: Text('All time', style: TejaText.subhead.on(c.ink)),
+          ),
+        },
+      ),
+    );
+  }
+}
+
+class _LockedAllTime extends StatelessWidget {
+  const _LockedAllTime();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 100),
+        const _ScopeSwitcher(scope: FeedScope.all),
+        Expanded(
+          child: EmptyState(
+            icon: CupertinoIcons.lock_fill,
+            title: 'Make one thing first',
+            message:
+                'The archive opens once you have created something yourself. '
+                'Just once — not every day.',
+            actionLabel: 'Go to today',
+            onAction: () => context.go('/today'),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -85,13 +150,20 @@ class _UnlockedFeed extends ConsumerWidget {
       physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
       slivers: [
         CupertinoSliverNavigationBar(
-          largeTitle: Text("Today's Feed", style: TejaText.title1.on(c.ink)),
+          largeTitle: Text(
+            state.scope == FeedScope.today ? "Today's Feed" : 'All time',
+            style: TejaText.title1.on(c.ink).copyWith(
+                  fontFamily: context.style.roundedFamily,
+                  fontWeight: context.style.displayWeight,
+                ),
+          ),
           backgroundColor: c.canvas.withValues(alpha: 0.82),
           border: null,
           automaticallyImplyLeading: false,
         ),
         CupertinoSliverRefreshControl(onRefresh: notifier.refresh),
-        if (state.prompt != null)
+        SliverToBoxAdapter(child: _ScopeSwitcher(scope: state.scope)),
+        if (state.prompt != null && state.scope == FeedScope.today)
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(Gap.gutter, Gap.sm, Gap.gutter, Gap.lg),
@@ -115,12 +187,16 @@ class _UnlockedFeed extends ConsumerWidget {
             ),
           ),
         if (state.items.isEmpty)
-          const SliverFillRemaining(
+          SliverFillRemaining(
             hasScrollBody: false,
             child: EmptyState(
               icon: CupertinoIcons.sparkles,
-              title: "You're first today",
-              message: 'Others will appear through the day. Come back tonight.',
+              title: state.scope == FeedScope.today
+                  ? "You're first today"
+                  : 'Nothing here yet',
+              message: state.scope == FeedScope.today
+                  ? 'Others will appear through the day. Come back tonight.'
+                  : 'Creations in your topics will collect here.',
             ),
           )
         else
@@ -149,7 +225,9 @@ class _UnlockedFeed extends ConsumerWidget {
                   : state.items.isEmpty
                       ? const SizedBox.shrink()
                       : Text(
-                          "That's everyone so far.",
+                          state.scope == FeedScope.today
+                              ? "That's everyone so far."
+                              : "You've reached the beginning.",
                           style: TejaText.footnote.on(c.inkTertiary),
                         ),
             ),

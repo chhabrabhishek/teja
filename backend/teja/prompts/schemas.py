@@ -14,6 +14,9 @@ class PromptOut(Schema):
     kind: str
     text: str
     nudge: str
+    topic_id: Optional[str] = None
+    topic_name: Optional[str] = None
+    topic_path: Optional[str] = None
 
 
 class TodayOut(Schema):
@@ -22,9 +25,11 @@ class TodayOut(Schema):
     creator_count: int
     my_submission: Optional[dict] = None
     streak: dict
+    other_prompts: list[PromptOut] = []
 
 
 def prompt_payload(prompt) -> dict:
+    topic = getattr(prompt, "topic", None)
     return {
         "id": str(prompt.id),
         "date": prompt.date,
@@ -33,4 +38,7 @@ def prompt_payload(prompt) -> dict:
         "kind": prompt.kind,
         "text": prompt.text,
         "nudge": prompt.nudge,
+        "topic_id": str(topic.id) if topic else None,
+        "topic_name": topic.name if topic else None,
+        "topic_path": topic.path if topic else None,
     }

@@ -56,12 +56,35 @@ class TejaRepository {
         onProgress: onProgress,
       );
 
+  // --- topics --------------------------------------------------------------
+
+  Future<List<Topic>> topics() async {
+    final raw = await _api.get<List<dynamic>>('/topics');
+    return raw.map((e) => Topic.fromJson(e as Map<String, dynamic>)).toList();
+  }
+
+  Future<List<Topic>> setTopics(List<String> topicIds) async {
+    final raw = await _api.put<List<dynamic>>('/topics/me', body: {'topic_ids': topicIds});
+    return raw.map((e) => Topic.fromJson(e as Map<String, dynamic>)).toList();
+  }
+
   // --- feed ----------------------------------------------------------------
 
   Future<FeedPage> todayFeed({String? cursor}) async => FeedPage.fromJson(
         await _api.get<Map<String, dynamic>>(
           '/feed/today',
           query: {if (cursor != null) 'cursor': cursor},
+        ),
+      );
+
+  Future<FeedPage> allFeed({String? cursor, String? topicId}) async =>
+      FeedPage.fromJson(
+        await _api.get<Map<String, dynamic>>(
+          '/feed/all',
+          query: {
+            if (cursor != null) 'cursor': cursor,
+            if (topicId != null) 'topic_id': topicId,
+          },
         ),
       );
 
@@ -87,10 +110,10 @@ class TejaRepository {
         query: {if (cursor != null) 'cursor': cursor},
       ));
 
-  Future<Comment> addComment(String submissionId, String body) async =>
+  Future<Comment> addComment(String submissionId, String body, {String? parentId}) async =>
       Comment.fromJson(await _api.post<Map<String, dynamic>>(
         '/submissions/$submissionId/comments',
-        body: {'body': body},
+        body: {'body': body, if (parentId != null) 'parent_id': parentId},
       ));
 
   Future<void> report({String? submissionId, String? commentId, required String reason}) =>

@@ -10,6 +10,7 @@ from teja.common.storage import public_url
 
 class CommentIn(Schema):
     body: str
+    parent_id: Optional[str] = None
 
 
 class CommentOut(Schema):
@@ -20,6 +21,12 @@ class CommentOut(Schema):
     author_username: str
     author_name: str
     author_avatar_url: Optional[str] = None
+    parent_id: Optional[str] = None
+    reply_count: int = 0
+    replies: list["CommentOut"] = []
+
+
+CommentOut.model_rebuild()
 
 
 class CommentPageOut(Schema):
@@ -40,7 +47,7 @@ class ReactionCountsOut(Schema):
     reaction_count: int
 
 
-def comment_payload(comment, viewer) -> dict:
+def comment_payload(comment, viewer, replies: list | None = None) -> dict:
     return {
         "id": str(comment.id),
         "body": comment.body,
@@ -51,4 +58,7 @@ def comment_payload(comment, viewer) -> dict:
         "author_avatar_url": public_url(comment.user.avatar_key)
         if comment.user.avatar_key
         else None,
+        "parent_id": str(comment.parent_id) if comment.parent_id else None,
+        "reply_count": comment.reply_count,
+        "replies": replies or [],
     }

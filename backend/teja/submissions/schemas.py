@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import date, datetime
 from typing import Literal, Optional
 
 from ninja import Schema
@@ -47,6 +47,10 @@ class SubmissionOut(Schema):
     prompt_id: str
     prompt_text: str
     prompt_category: str
+    prompt_nudge: str = ""
+    prompt_date: Optional[date] = None
+    topic_name: Optional[str] = None
+    topic_path: Optional[str] = None
     my_reactions: list[str] = []
     reaction_counts: dict[str, int] = {}
 
@@ -74,6 +78,7 @@ def submission_payload(
     my_reactions: list[str] | None = None,
     reaction_counts: dict[str, int] | None = None,
 ) -> dict:
+    topic = getattr(submission.prompt, "topic", None)
     return {
         "id": str(submission.id),
         "kind": submission.kind,
@@ -91,6 +96,10 @@ def submission_payload(
         "prompt_id": str(submission.prompt_id),
         "prompt_text": submission.prompt.text,
         "prompt_category": submission.prompt.category,
+        "prompt_nudge": submission.prompt.nudge,
+        "prompt_date": submission.prompt.date,
+        "topic_name": topic.name if topic else None,
+        "topic_path": topic.path if topic else None,
         "my_reactions": my_reactions or [],
         "reaction_counts": reaction_counts or {},
     }

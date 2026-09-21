@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../features/auth/auth_controller.dart';
 import '../features/auth/code_screen.dart';
-import '../features/auth/crafts_screen.dart';
+import '../features/auth/interests_screen.dart';
 import '../features/auth/email_screen.dart';
 import '../features/auth/welcome_screen.dart';
 import '../features/compose/compose_screen.dart';
@@ -70,7 +70,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/auth/crafts',
-        pageBuilder: (c, s) => CupertinoPage(key: s.pageKey, child: const CraftsScreen()),
+        pageBuilder: (c, s) => CupertinoPage(key: s.pageKey, child: const InterestsScreen()),
       ),
 
       // Compose and The Spark live above the tab bar: full-screen, undistracted.
@@ -132,6 +132,13 @@ final routerProvider = Provider<GoRouter>((ref) {
                   path: 'settings',
                   pageBuilder: (c, s) =>
                       CupertinoPage(key: s.pageKey, child: const SettingsScreen()),
+                ),
+                GoRoute(
+                  path: 'interests',
+                  pageBuilder: (c, s) => CupertinoPage(
+                    key: s.pageKey,
+                    child: const InterestsScreen(isOnboarding: false),
+                  ),
                 ),
                 GoRoute(
                   path: 'edit',

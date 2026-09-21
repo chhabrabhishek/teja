@@ -54,6 +54,36 @@ Map<String, dynamic> _$TejaUserToJson(_TejaUser instance) => <String, dynamic>{
   'streak': instance.streak,
 };
 
+_Topic _$TopicFromJson(Map<String, dynamic> json) => _Topic(
+  id: json['id'] as String,
+  slug: json['slug'] as String,
+  name: json['name'] as String,
+  blurb: json['blurb'] as String? ?? '',
+  craft: json['craft'] as String? ?? 'writing',
+  parentId: json['parent_id'] as String?,
+  acceptsPrompts: json['accepts_prompts'] as bool? ?? true,
+  subscriberCount: (json['subscriber_count'] as num?)?.toInt() ?? 0,
+  isSelected: json['is_selected'] as bool? ?? false,
+  children:
+      (json['children'] as List<dynamic>?)
+          ?.map((e) => Topic.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const <Topic>[],
+);
+
+Map<String, dynamic> _$TopicToJson(_Topic instance) => <String, dynamic>{
+  'id': instance.id,
+  'slug': instance.slug,
+  'name': instance.name,
+  'blurb': instance.blurb,
+  'craft': instance.craft,
+  'parent_id': instance.parentId,
+  'accepts_prompts': instance.acceptsPrompts,
+  'subscriber_count': instance.subscriberCount,
+  'is_selected': instance.isSelected,
+  'children': instance.children,
+};
+
 _Prompt _$PromptFromJson(Map<String, dynamic> json) => _Prompt(
   id: json['id'] as String,
   date: DateTime.parse(json['date'] as String),
@@ -62,6 +92,9 @@ _Prompt _$PromptFromJson(Map<String, dynamic> json) => _Prompt(
   kind: json['kind'] as String? ?? 'text',
   text: json['text'] as String,
   nudge: json['nudge'] as String? ?? 'Five minutes is enough.',
+  topicId: json['topic_id'] as String?,
+  topicName: json['topic_name'] as String?,
+  topicPath: json['topic_path'] as String?,
 );
 
 Map<String, dynamic> _$PromptToJson(_Prompt instance) => <String, dynamic>{
@@ -72,6 +105,9 @@ Map<String, dynamic> _$PromptToJson(_Prompt instance) => <String, dynamic>{
   'kind': instance.kind,
   'text': instance.text,
   'nudge': instance.nudge,
+  'topic_id': instance.topicId,
+  'topic_name': instance.topicName,
+  'topic_path': instance.topicPath,
 };
 
 _Author _$AuthorFromJson(Map<String, dynamic> json) => _Author(
@@ -111,6 +147,12 @@ _Submission _$SubmissionFromJson(Map<String, dynamic> json) => _Submission(
   promptId: json['prompt_id'] as String? ?? '',
   promptText: json['prompt_text'] as String? ?? '',
   promptCategory: json['prompt_category'] as String? ?? 'writing',
+  promptNudge: json['prompt_nudge'] as String? ?? '',
+  promptDate: json['prompt_date'] == null
+      ? null
+      : DateTime.parse(json['prompt_date'] as String),
+  topicName: json['topic_name'] as String?,
+  topicPath: json['topic_path'] as String?,
   myReactions:
       (json['my_reactions'] as List<dynamic>?)
           ?.map((e) => e as String)
@@ -141,6 +183,10 @@ Map<String, dynamic> _$SubmissionToJson(_Submission instance) =>
       'prompt_id': instance.promptId,
       'prompt_text': instance.promptText,
       'prompt_category': instance.promptCategory,
+      'prompt_nudge': instance.promptNudge,
+      'prompt_date': instance.promptDate?.toIso8601String(),
+      'topic_name': instance.topicName,
+      'topic_path': instance.topicPath,
       'my_reactions': instance.myReactions,
       'reaction_counts': instance.reactionCounts,
     };
@@ -153,6 +199,13 @@ _Comment _$CommentFromJson(Map<String, dynamic> json) => _Comment(
   authorUsername: json['author_username'] as String? ?? '',
   authorName: json['author_name'] as String? ?? '',
   authorAvatarUrl: json['author_avatar_url'] as String?,
+  parentId: json['parent_id'] as String?,
+  replyCount: (json['reply_count'] as num?)?.toInt() ?? 0,
+  replies:
+      (json['replies'] as List<dynamic>?)
+          ?.map((e) => Comment.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const <Comment>[],
 );
 
 Map<String, dynamic> _$CommentToJson(_Comment instance) => <String, dynamic>{
@@ -163,6 +216,9 @@ Map<String, dynamic> _$CommentToJson(_Comment instance) => <String, dynamic>{
   'author_username': instance.authorUsername,
   'author_name': instance.authorName,
   'author_avatar_url': instance.authorAvatarUrl,
+  'parent_id': instance.parentId,
+  'reply_count': instance.replyCount,
+  'replies': instance.replies,
 };
 
 _Today _$TodayFromJson(Map<String, dynamic> json) => _Today(
@@ -175,6 +231,11 @@ _Today _$TodayFromJson(Map<String, dynamic> json) => _Today(
   streak: json['streak'] == null
       ? const Streak()
       : Streak.fromJson(json['streak'] as Map<String, dynamic>),
+  otherPrompts:
+      (json['other_prompts'] as List<dynamic>?)
+          ?.map((e) => Prompt.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const <Prompt>[],
 );
 
 Map<String, dynamic> _$TodayToJson(_Today instance) => <String, dynamic>{
@@ -183,6 +244,7 @@ Map<String, dynamic> _$TodayToJson(_Today instance) => <String, dynamic>{
   'creator_count': instance.creatorCount,
   'my_submission': instance.mySubmission,
   'streak': instance.streak,
+  'other_prompts': instance.otherPrompts,
 };
 
 _FeedPage _$FeedPageFromJson(Map<String, dynamic> json) => _FeedPage(

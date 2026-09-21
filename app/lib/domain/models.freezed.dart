@@ -614,9 +614,312 @@ $StreakCopyWith<$Res> get streak {
 
 
 /// @nodoc
+mixin _$Topic {
+
+ String get id; String get slug; String get name; String get blurb; String get craft;@JsonKey(name: 'parent_id') String? get parentId;@JsonKey(name: 'accepts_prompts') bool get acceptsPrompts;@JsonKey(name: 'subscriber_count') int get subscriberCount;@JsonKey(name: 'is_selected') bool get isSelected; List<Topic> get children;
+/// Create a copy of Topic
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TopicCopyWith<Topic> get copyWith => _$TopicCopyWithImpl<Topic>(this as Topic, _$identity);
+
+  /// Serializes this Topic to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as Topic;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Topic&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.slug, _this.slug) || other.slug == _this.slug)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.blurb, _this.blurb) || other.blurb == _this.blurb)&&(identical(other.craft, _this.craft) || other.craft == _this.craft)&&(identical(other.parentId, _this.parentId) || other.parentId == _this.parentId)&&(identical(other.acceptsPrompts, _this.acceptsPrompts) || other.acceptsPrompts == _this.acceptsPrompts)&&(identical(other.subscriberCount, _this.subscriberCount) || other.subscriberCount == _this.subscriberCount)&&(identical(other.isSelected, _this.isSelected) || other.isSelected == _this.isSelected)&&const DeepCollectionEquality().equals(other.children, _this.children));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as Topic;
+  return Object.hash(runtimeType,_this.id,_this.slug,_this.name,_this.blurb,_this.craft,_this.parentId,_this.acceptsPrompts,_this.subscriberCount,_this.isSelected,const DeepCollectionEquality().hash(_this.children));
+}
+
+@override
+String toString() {
+  final _this = this as Topic;
+  return 'Topic(id: ${_this.id}, slug: ${_this.slug}, name: ${_this.name}, blurb: ${_this.blurb}, craft: ${_this.craft}, parentId: ${_this.parentId}, acceptsPrompts: ${_this.acceptsPrompts}, subscriberCount: ${_this.subscriberCount}, isSelected: ${_this.isSelected}, children: ${_this.children})';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $TopicCopyWith<$Res>  {
+  factory $TopicCopyWith(Topic value, $Res Function(Topic) _then) = _$TopicCopyWithImpl;
+@useResult
+$Res call({
+ String id, String slug, String name, String blurb, String craft,@JsonKey(name: 'parent_id') String? parentId,@JsonKey(name: 'accepts_prompts') bool acceptsPrompts,@JsonKey(name: 'subscriber_count') int subscriberCount,@JsonKey(name: 'is_selected') bool isSelected, List<Topic> children
+});
+
+
+
+
+}
+/// @nodoc
+class _$TopicCopyWithImpl<$Res>
+    implements $TopicCopyWith<$Res> {
+  _$TopicCopyWithImpl(this._self, this._then);
+
+  final Topic _self;
+  final $Res Function(Topic) _then;
+
+/// Create a copy of Topic
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? slug = null,Object? name = null,Object? blurb = null,Object? craft = null,Object? parentId = freezed,Object? acceptsPrompts = null,Object? subscriberCount = null,Object? isSelected = null,Object? children = null,}) {
+  return _then(Topic(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,slug: null == slug ? _self.slug : slug // ignore: cast_nullable_to_non_nullable
+as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,blurb: null == blurb ? _self.blurb : blurb // ignore: cast_nullable_to_non_nullable
+as String,craft: null == craft ? _self.craft : craft // ignore: cast_nullable_to_non_nullable
+as String,parentId: freezed == parentId ? _self.parentId : parentId // ignore: cast_nullable_to_non_nullable
+as String?,acceptsPrompts: null == acceptsPrompts ? _self.acceptsPrompts : acceptsPrompts // ignore: cast_nullable_to_non_nullable
+as bool,subscriberCount: null == subscriberCount ? _self.subscriberCount : subscriberCount // ignore: cast_nullable_to_non_nullable
+as int,isSelected: null == isSelected ? _self.isSelected : isSelected // ignore: cast_nullable_to_non_nullable
+as bool,children: null == children ? _self.children : children // ignore: cast_nullable_to_non_nullable
+as List<Topic>,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [Topic].
+extension TopicPatterns on Topic {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Topic value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _Topic() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Topic value)  $default,){
+final _that = this;
+switch (_that) {
+case _Topic():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Topic value)?  $default,){
+final _that = this;
+switch (_that) {
+case _Topic() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String slug,  String name,  String blurb,  String craft, @JsonKey(name: 'parent_id')  String? parentId, @JsonKey(name: 'accepts_prompts')  bool acceptsPrompts, @JsonKey(name: 'subscriber_count')  int subscriberCount, @JsonKey(name: 'is_selected')  bool isSelected,  List<Topic> children)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _Topic() when $default != null:
+return $default(_that.id,_that.slug,_that.name,_that.blurb,_that.craft,_that.parentId,_that.acceptsPrompts,_that.subscriberCount,_that.isSelected,_that.children);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String slug,  String name,  String blurb,  String craft, @JsonKey(name: 'parent_id')  String? parentId, @JsonKey(name: 'accepts_prompts')  bool acceptsPrompts, @JsonKey(name: 'subscriber_count')  int subscriberCount, @JsonKey(name: 'is_selected')  bool isSelected,  List<Topic> children)  $default,) {final _that = this;
+switch (_that) {
+case _Topic():
+return $default(_that.id,_that.slug,_that.name,_that.blurb,_that.craft,_that.parentId,_that.acceptsPrompts,_that.subscriberCount,_that.isSelected,_that.children);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String slug,  String name,  String blurb,  String craft, @JsonKey(name: 'parent_id')  String? parentId, @JsonKey(name: 'accepts_prompts')  bool acceptsPrompts, @JsonKey(name: 'subscriber_count')  int subscriberCount, @JsonKey(name: 'is_selected')  bool isSelected,  List<Topic> children)?  $default,) {final _that = this;
+switch (_that) {
+case _Topic() when $default != null:
+return $default(_that.id,_that.slug,_that.name,_that.blurb,_that.craft,_that.parentId,_that.acceptsPrompts,_that.subscriberCount,_that.isSelected,_that.children);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _Topic extends Topic {
+  const _Topic({required this.id, required this.slug, required this.name, this.blurb = '', this.craft = 'writing', @JsonKey(name: 'parent_id') this.parentId, @JsonKey(name: 'accepts_prompts') this.acceptsPrompts = true, @JsonKey(name: 'subscriber_count') this.subscriberCount = 0, @JsonKey(name: 'is_selected') this.isSelected = false,  List<Topic> children = const <Topic>[]}): _children = children,super._();
+  factory _Topic.fromJson(Map<String, dynamic> json) => _$TopicFromJson(json);
+
+@override final  String id;
+@override final  String slug;
+@override final  String name;
+@override@JsonKey() final  String blurb;
+@override@JsonKey() final  String craft;
+@override@JsonKey(name: 'parent_id') final  String? parentId;
+@override@JsonKey(name: 'accepts_prompts') final  bool acceptsPrompts;
+@override@JsonKey(name: 'subscriber_count') final  int subscriberCount;
+@override@JsonKey(name: 'is_selected') final  bool isSelected;
+ final  List<Topic> _children;
+@override@JsonKey() List<Topic> get children {
+  if (_children is EqualUnmodifiableListView) return _children;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_children);
+}
+
+
+/// Create a copy of Topic
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TopicCopyWith<_Topic> get copyWith => __$TopicCopyWithImpl<_Topic>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$TopicToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Topic&&(identical(other.id, id) || other.id == id)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.name, name) || other.name == name)&&(identical(other.blurb, blurb) || other.blurb == blurb)&&(identical(other.craft, craft) || other.craft == craft)&&(identical(other.parentId, parentId) || other.parentId == parentId)&&(identical(other.acceptsPrompts, acceptsPrompts) || other.acceptsPrompts == acceptsPrompts)&&(identical(other.subscriberCount, subscriberCount) || other.subscriberCount == subscriberCount)&&(identical(other.isSelected, isSelected) || other.isSelected == isSelected)&&const DeepCollectionEquality().equals(other.children, _children));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,id,slug,name,blurb,craft,parentId,acceptsPrompts,subscriberCount,isSelected,const DeepCollectionEquality().hash(_children));
+}
+
+@override
+String toString() {
+    return 'Topic(id: $id, slug: $slug, name: $name, blurb: $blurb, craft: $craft, parentId: $parentId, acceptsPrompts: $acceptsPrompts, subscriberCount: $subscriberCount, isSelected: $isSelected, children: $children)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$TopicCopyWith<$Res> implements $TopicCopyWith<$Res> {
+  factory _$TopicCopyWith(_Topic value, $Res Function(_Topic) _then) = __$TopicCopyWithImpl;
+@override @useResult
+$Res call({
+ String id, String slug, String name, String blurb, String craft,@JsonKey(name: 'parent_id') String? parentId,@JsonKey(name: 'accepts_prompts') bool acceptsPrompts,@JsonKey(name: 'subscriber_count') int subscriberCount,@JsonKey(name: 'is_selected') bool isSelected, List<Topic> children
+});
+
+
+
+
+}
+/// @nodoc
+class __$TopicCopyWithImpl<$Res>
+    implements _$TopicCopyWith<$Res> {
+  __$TopicCopyWithImpl(this._self, this._then);
+
+  final _Topic _self;
+  final $Res Function(_Topic) _then;
+
+/// Create a copy of Topic
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? slug = null,Object? name = null,Object? blurb = null,Object? craft = null,Object? parentId = freezed,Object? acceptsPrompts = null,Object? subscriberCount = null,Object? isSelected = null,Object? children = null,}) {
+  return _then(_Topic(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,slug: null == slug ? _self.slug : slug // ignore: cast_nullable_to_non_nullable
+as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,blurb: null == blurb ? _self.blurb : blurb // ignore: cast_nullable_to_non_nullable
+as String,craft: null == craft ? _self.craft : craft // ignore: cast_nullable_to_non_nullable
+as String,parentId: freezed == parentId ? _self.parentId : parentId // ignore: cast_nullable_to_non_nullable
+as String?,acceptsPrompts: null == acceptsPrompts ? _self.acceptsPrompts : acceptsPrompts // ignore: cast_nullable_to_non_nullable
+as bool,subscriberCount: null == subscriberCount ? _self.subscriberCount : subscriberCount // ignore: cast_nullable_to_non_nullable
+as int,isSelected: null == isSelected ? _self.isSelected : isSelected // ignore: cast_nullable_to_non_nullable
+as bool,children: null == children ? _self._children : children // ignore: cast_nullable_to_non_nullable
+as List<Topic>,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$Prompt {
 
- String get id; DateTime get date; String get category;@JsonKey(name: 'category_label') String get categoryLabel; String get kind; String get text; String get nudge;
+ String get id; DateTime get date; String get category;@JsonKey(name: 'category_label') String get categoryLabel; String get kind; String get text; String get nudge;@JsonKey(name: 'topic_id') String? get topicId;@JsonKey(name: 'topic_name') String? get topicName;@JsonKey(name: 'topic_path') String? get topicPath;
 /// Create a copy of Prompt
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -630,20 +933,20 @@ $PromptCopyWith<Prompt> get copyWith => _$PromptCopyWithImpl<Prompt>(this as Pro
 @override
 bool operator ==(Object other) {
   final _this = this as Prompt;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Prompt&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.date, _this.date) || other.date == _this.date)&&(identical(other.category, _this.category) || other.category == _this.category)&&(identical(other.categoryLabel, _this.categoryLabel) || other.categoryLabel == _this.categoryLabel)&&(identical(other.kind, _this.kind) || other.kind == _this.kind)&&(identical(other.text, _this.text) || other.text == _this.text)&&(identical(other.nudge, _this.nudge) || other.nudge == _this.nudge));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Prompt&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.date, _this.date) || other.date == _this.date)&&(identical(other.category, _this.category) || other.category == _this.category)&&(identical(other.categoryLabel, _this.categoryLabel) || other.categoryLabel == _this.categoryLabel)&&(identical(other.kind, _this.kind) || other.kind == _this.kind)&&(identical(other.text, _this.text) || other.text == _this.text)&&(identical(other.nudge, _this.nudge) || other.nudge == _this.nudge)&&(identical(other.topicId, _this.topicId) || other.topicId == _this.topicId)&&(identical(other.topicName, _this.topicName) || other.topicName == _this.topicName)&&(identical(other.topicPath, _this.topicPath) || other.topicPath == _this.topicPath));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Prompt;
-  return Object.hash(runtimeType,_this.id,_this.date,_this.category,_this.categoryLabel,_this.kind,_this.text,_this.nudge);
+  return Object.hash(runtimeType,_this.id,_this.date,_this.category,_this.categoryLabel,_this.kind,_this.text,_this.nudge,_this.topicId,_this.topicName,_this.topicPath);
 }
 
 @override
 String toString() {
   final _this = this as Prompt;
-  return 'Prompt(id: ${_this.id}, date: ${_this.date}, category: ${_this.category}, categoryLabel: ${_this.categoryLabel}, kind: ${_this.kind}, text: ${_this.text}, nudge: ${_this.nudge})';
+  return 'Prompt(id: ${_this.id}, date: ${_this.date}, category: ${_this.category}, categoryLabel: ${_this.categoryLabel}, kind: ${_this.kind}, text: ${_this.text}, nudge: ${_this.nudge}, topicId: ${_this.topicId}, topicName: ${_this.topicName}, topicPath: ${_this.topicPath})';
 }
 
 
@@ -654,7 +957,7 @@ abstract mixin class $PromptCopyWith<$Res>  {
   factory $PromptCopyWith(Prompt value, $Res Function(Prompt) _then) = _$PromptCopyWithImpl;
 @useResult
 $Res call({
- String id, DateTime date, String category,@JsonKey(name: 'category_label') String categoryLabel, String kind, String text, String nudge
+ String id, DateTime date, String category,@JsonKey(name: 'category_label') String categoryLabel, String kind, String text, String nudge,@JsonKey(name: 'topic_id') String? topicId,@JsonKey(name: 'topic_name') String? topicName,@JsonKey(name: 'topic_path') String? topicPath
 });
 
 
@@ -671,7 +974,7 @@ class _$PromptCopyWithImpl<$Res>
 
 /// Create a copy of Prompt
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? date = null,Object? category = null,Object? categoryLabel = null,Object? kind = null,Object? text = null,Object? nudge = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? date = null,Object? category = null,Object? categoryLabel = null,Object? kind = null,Object? text = null,Object? nudge = null,Object? topicId = freezed,Object? topicName = freezed,Object? topicPath = freezed,}) {
   return _then(Prompt(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
@@ -680,7 +983,10 @@ as String,categoryLabel: null == categoryLabel ? _self.categoryLabel : categoryL
 as String,kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
 as String,text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
 as String,nudge: null == nudge ? _self.nudge : nudge // ignore: cast_nullable_to_non_nullable
-as String,
+as String,topicId: freezed == topicId ? _self.topicId : topicId // ignore: cast_nullable_to_non_nullable
+as String?,topicName: freezed == topicName ? _self.topicName : topicName // ignore: cast_nullable_to_non_nullable
+as String?,topicPath: freezed == topicPath ? _self.topicPath : topicPath // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -765,10 +1071,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  DateTime date,  String category, @JsonKey(name: 'category_label')  String categoryLabel,  String kind,  String text,  String nudge)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  DateTime date,  String category, @JsonKey(name: 'category_label')  String categoryLabel,  String kind,  String text,  String nudge, @JsonKey(name: 'topic_id')  String? topicId, @JsonKey(name: 'topic_name')  String? topicName, @JsonKey(name: 'topic_path')  String? topicPath)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Prompt() when $default != null:
-return $default(_that.id,_that.date,_that.category,_that.categoryLabel,_that.kind,_that.text,_that.nudge);case _:
+return $default(_that.id,_that.date,_that.category,_that.categoryLabel,_that.kind,_that.text,_that.nudge,_that.topicId,_that.topicName,_that.topicPath);case _:
   return orElse();
 
 }
@@ -786,10 +1092,10 @@ return $default(_that.id,_that.date,_that.category,_that.categoryLabel,_that.kin
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  DateTime date,  String category, @JsonKey(name: 'category_label')  String categoryLabel,  String kind,  String text,  String nudge)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  DateTime date,  String category, @JsonKey(name: 'category_label')  String categoryLabel,  String kind,  String text,  String nudge, @JsonKey(name: 'topic_id')  String? topicId, @JsonKey(name: 'topic_name')  String? topicName, @JsonKey(name: 'topic_path')  String? topicPath)  $default,) {final _that = this;
 switch (_that) {
 case _Prompt():
-return $default(_that.id,_that.date,_that.category,_that.categoryLabel,_that.kind,_that.text,_that.nudge);case _:
+return $default(_that.id,_that.date,_that.category,_that.categoryLabel,_that.kind,_that.text,_that.nudge,_that.topicId,_that.topicName,_that.topicPath);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -806,10 +1112,10 @@ return $default(_that.id,_that.date,_that.category,_that.categoryLabel,_that.kin
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  DateTime date,  String category, @JsonKey(name: 'category_label')  String categoryLabel,  String kind,  String text,  String nudge)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  DateTime date,  String category, @JsonKey(name: 'category_label')  String categoryLabel,  String kind,  String text,  String nudge, @JsonKey(name: 'topic_id')  String? topicId, @JsonKey(name: 'topic_name')  String? topicName, @JsonKey(name: 'topic_path')  String? topicPath)?  $default,) {final _that = this;
 switch (_that) {
 case _Prompt() when $default != null:
-return $default(_that.id,_that.date,_that.category,_that.categoryLabel,_that.kind,_that.text,_that.nudge);case _:
+return $default(_that.id,_that.date,_that.category,_that.categoryLabel,_that.kind,_that.text,_that.nudge,_that.topicId,_that.topicName,_that.topicPath);case _:
   return null;
 
 }
@@ -821,7 +1127,7 @@ return $default(_that.id,_that.date,_that.category,_that.categoryLabel,_that.kin
 @JsonSerializable()
 
 class _Prompt implements Prompt {
-  const _Prompt({required this.id, required this.date, required this.category, @JsonKey(name: 'category_label') required this.categoryLabel, this.kind = 'text', required this.text, this.nudge = 'Five minutes is enough.'});
+  const _Prompt({required this.id, required this.date, required this.category, @JsonKey(name: 'category_label') required this.categoryLabel, this.kind = 'text', required this.text, this.nudge = 'Five minutes is enough.', @JsonKey(name: 'topic_id') this.topicId, @JsonKey(name: 'topic_name') this.topicName, @JsonKey(name: 'topic_path') this.topicPath});
   factory _Prompt.fromJson(Map<String, dynamic> json) => _$PromptFromJson(json);
 
 @override final  String id;
@@ -831,6 +1137,9 @@ class _Prompt implements Prompt {
 @override@JsonKey() final  String kind;
 @override final  String text;
 @override@JsonKey() final  String nudge;
+@override@JsonKey(name: 'topic_id') final  String? topicId;
+@override@JsonKey(name: 'topic_name') final  String? topicName;
+@override@JsonKey(name: 'topic_path') final  String? topicPath;
 
 /// Create a copy of Prompt
 /// with the given fields replaced by the non-null parameter values.
@@ -845,18 +1154,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Prompt&&(identical(other.id, id) || other.id == id)&&(identical(other.date, date) || other.date == date)&&(identical(other.category, category) || other.category == category)&&(identical(other.categoryLabel, categoryLabel) || other.categoryLabel == categoryLabel)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.text, text) || other.text == text)&&(identical(other.nudge, nudge) || other.nudge == nudge));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Prompt&&(identical(other.id, id) || other.id == id)&&(identical(other.date, date) || other.date == date)&&(identical(other.category, category) || other.category == category)&&(identical(other.categoryLabel, categoryLabel) || other.categoryLabel == categoryLabel)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.text, text) || other.text == text)&&(identical(other.nudge, nudge) || other.nudge == nudge)&&(identical(other.topicId, topicId) || other.topicId == topicId)&&(identical(other.topicName, topicName) || other.topicName == topicName)&&(identical(other.topicPath, topicPath) || other.topicPath == topicPath));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,date,category,categoryLabel,kind,text,nudge);
+    return Object.hash(runtimeType,id,date,category,categoryLabel,kind,text,nudge,topicId,topicName,topicPath);
 }
 
 @override
 String toString() {
-    return 'Prompt(id: $id, date: $date, category: $category, categoryLabel: $categoryLabel, kind: $kind, text: $text, nudge: $nudge)';
+    return 'Prompt(id: $id, date: $date, category: $category, categoryLabel: $categoryLabel, kind: $kind, text: $text, nudge: $nudge, topicId: $topicId, topicName: $topicName, topicPath: $topicPath)';
 }
 
 
@@ -867,7 +1176,7 @@ abstract mixin class _$PromptCopyWith<$Res> implements $PromptCopyWith<$Res> {
   factory _$PromptCopyWith(_Prompt value, $Res Function(_Prompt) _then) = __$PromptCopyWithImpl;
 @override @useResult
 $Res call({
- String id, DateTime date, String category,@JsonKey(name: 'category_label') String categoryLabel, String kind, String text, String nudge
+ String id, DateTime date, String category,@JsonKey(name: 'category_label') String categoryLabel, String kind, String text, String nudge,@JsonKey(name: 'topic_id') String? topicId,@JsonKey(name: 'topic_name') String? topicName,@JsonKey(name: 'topic_path') String? topicPath
 });
 
 
@@ -884,7 +1193,7 @@ class __$PromptCopyWithImpl<$Res>
 
 /// Create a copy of Prompt
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? date = null,Object? category = null,Object? categoryLabel = null,Object? kind = null,Object? text = null,Object? nudge = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? date = null,Object? category = null,Object? categoryLabel = null,Object? kind = null,Object? text = null,Object? nudge = null,Object? topicId = freezed,Object? topicName = freezed,Object? topicPath = freezed,}) {
   return _then(_Prompt(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
@@ -893,7 +1202,10 @@ as String,categoryLabel: null == categoryLabel ? _self.categoryLabel : categoryL
 as String,kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
 as String,text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
 as String,nudge: null == nudge ? _self.nudge : nudge // ignore: cast_nullable_to_non_nullable
-as String,
+as String,topicId: freezed == topicId ? _self.topicId : topicId // ignore: cast_nullable_to_non_nullable
+as String?,topicName: freezed == topicName ? _self.topicName : topicName // ignore: cast_nullable_to_non_nullable
+as String?,topicPath: freezed == topicPath ? _self.topicPath : topicPath // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -1186,7 +1498,7 @@ as int,
 /// @nodoc
 mixin _$Submission {
 
- String get id; String get kind; String get body;@JsonKey(name: 'image_url') String? get imageUrl;@JsonKey(name: 'image_width') int? get imageWidth;@JsonKey(name: 'image_height') int? get imageHeight; String get status;@JsonKey(name: 'published_at') DateTime? get publishedAt;@JsonKey(name: 'created_at') DateTime? get createdAt;@JsonKey(name: 'reaction_count') int get reactionCount;@JsonKey(name: 'comment_count') int get commentCount;@JsonKey(name: 'is_mine') bool get isMine; Author get author;@JsonKey(name: 'prompt_id') String get promptId;@JsonKey(name: 'prompt_text') String get promptText;@JsonKey(name: 'prompt_category') String get promptCategory;@JsonKey(name: 'my_reactions') List<String> get myReactions;@JsonKey(name: 'reaction_counts') Map<String, int> get reactionCounts;
+ String get id; String get kind; String get body;@JsonKey(name: 'image_url') String? get imageUrl;@JsonKey(name: 'image_width') int? get imageWidth;@JsonKey(name: 'image_height') int? get imageHeight; String get status;@JsonKey(name: 'published_at') DateTime? get publishedAt;@JsonKey(name: 'created_at') DateTime? get createdAt;@JsonKey(name: 'reaction_count') int get reactionCount;@JsonKey(name: 'comment_count') int get commentCount;@JsonKey(name: 'is_mine') bool get isMine; Author get author;@JsonKey(name: 'prompt_id') String get promptId;@JsonKey(name: 'prompt_text') String get promptText;@JsonKey(name: 'prompt_category') String get promptCategory;@JsonKey(name: 'prompt_nudge') String get promptNudge;@JsonKey(name: 'prompt_date') DateTime? get promptDate;@JsonKey(name: 'topic_name') String? get topicName;@JsonKey(name: 'topic_path') String? get topicPath;@JsonKey(name: 'my_reactions') List<String> get myReactions;@JsonKey(name: 'reaction_counts') Map<String, int> get reactionCounts;
 /// Create a copy of Submission
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1200,20 +1512,20 @@ $SubmissionCopyWith<Submission> get copyWith => _$SubmissionCopyWithImpl<Submiss
 @override
 bool operator ==(Object other) {
   final _this = this as Submission;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Submission&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.kind, _this.kind) || other.kind == _this.kind)&&(identical(other.body, _this.body) || other.body == _this.body)&&(identical(other.imageUrl, _this.imageUrl) || other.imageUrl == _this.imageUrl)&&(identical(other.imageWidth, _this.imageWidth) || other.imageWidth == _this.imageWidth)&&(identical(other.imageHeight, _this.imageHeight) || other.imageHeight == _this.imageHeight)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.publishedAt, _this.publishedAt) || other.publishedAt == _this.publishedAt)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.reactionCount, _this.reactionCount) || other.reactionCount == _this.reactionCount)&&(identical(other.commentCount, _this.commentCount) || other.commentCount == _this.commentCount)&&(identical(other.isMine, _this.isMine) || other.isMine == _this.isMine)&&(identical(other.author, _this.author) || other.author == _this.author)&&(identical(other.promptId, _this.promptId) || other.promptId == _this.promptId)&&(identical(other.promptText, _this.promptText) || other.promptText == _this.promptText)&&(identical(other.promptCategory, _this.promptCategory) || other.promptCategory == _this.promptCategory)&&const DeepCollectionEquality().equals(other.myReactions, _this.myReactions)&&const DeepCollectionEquality().equals(other.reactionCounts, _this.reactionCounts));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Submission&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.kind, _this.kind) || other.kind == _this.kind)&&(identical(other.body, _this.body) || other.body == _this.body)&&(identical(other.imageUrl, _this.imageUrl) || other.imageUrl == _this.imageUrl)&&(identical(other.imageWidth, _this.imageWidth) || other.imageWidth == _this.imageWidth)&&(identical(other.imageHeight, _this.imageHeight) || other.imageHeight == _this.imageHeight)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.publishedAt, _this.publishedAt) || other.publishedAt == _this.publishedAt)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.reactionCount, _this.reactionCount) || other.reactionCount == _this.reactionCount)&&(identical(other.commentCount, _this.commentCount) || other.commentCount == _this.commentCount)&&(identical(other.isMine, _this.isMine) || other.isMine == _this.isMine)&&(identical(other.author, _this.author) || other.author == _this.author)&&(identical(other.promptId, _this.promptId) || other.promptId == _this.promptId)&&(identical(other.promptText, _this.promptText) || other.promptText == _this.promptText)&&(identical(other.promptCategory, _this.promptCategory) || other.promptCategory == _this.promptCategory)&&(identical(other.promptNudge, _this.promptNudge) || other.promptNudge == _this.promptNudge)&&(identical(other.promptDate, _this.promptDate) || other.promptDate == _this.promptDate)&&(identical(other.topicName, _this.topicName) || other.topicName == _this.topicName)&&(identical(other.topicPath, _this.topicPath) || other.topicPath == _this.topicPath)&&const DeepCollectionEquality().equals(other.myReactions, _this.myReactions)&&const DeepCollectionEquality().equals(other.reactionCounts, _this.reactionCounts));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Submission;
-  return Object.hash(runtimeType,_this.id,_this.kind,_this.body,_this.imageUrl,_this.imageWidth,_this.imageHeight,_this.status,_this.publishedAt,_this.createdAt,_this.reactionCount,_this.commentCount,_this.isMine,_this.author,_this.promptId,_this.promptText,_this.promptCategory,const DeepCollectionEquality().hash(_this.myReactions),const DeepCollectionEquality().hash(_this.reactionCounts));
+  return Object.hashAll([runtimeType,_this.id,_this.kind,_this.body,_this.imageUrl,_this.imageWidth,_this.imageHeight,_this.status,_this.publishedAt,_this.createdAt,_this.reactionCount,_this.commentCount,_this.isMine,_this.author,_this.promptId,_this.promptText,_this.promptCategory,_this.promptNudge,_this.promptDate,_this.topicName,_this.topicPath,const DeepCollectionEquality().hash(_this.myReactions),const DeepCollectionEquality().hash(_this.reactionCounts)]);
 }
 
 @override
 String toString() {
   final _this = this as Submission;
-  return 'Submission(id: ${_this.id}, kind: ${_this.kind}, body: ${_this.body}, imageUrl: ${_this.imageUrl}, imageWidth: ${_this.imageWidth}, imageHeight: ${_this.imageHeight}, status: ${_this.status}, publishedAt: ${_this.publishedAt}, createdAt: ${_this.createdAt}, reactionCount: ${_this.reactionCount}, commentCount: ${_this.commentCount}, isMine: ${_this.isMine}, author: ${_this.author}, promptId: ${_this.promptId}, promptText: ${_this.promptText}, promptCategory: ${_this.promptCategory}, myReactions: ${_this.myReactions}, reactionCounts: ${_this.reactionCounts})';
+  return 'Submission(id: ${_this.id}, kind: ${_this.kind}, body: ${_this.body}, imageUrl: ${_this.imageUrl}, imageWidth: ${_this.imageWidth}, imageHeight: ${_this.imageHeight}, status: ${_this.status}, publishedAt: ${_this.publishedAt}, createdAt: ${_this.createdAt}, reactionCount: ${_this.reactionCount}, commentCount: ${_this.commentCount}, isMine: ${_this.isMine}, author: ${_this.author}, promptId: ${_this.promptId}, promptText: ${_this.promptText}, promptCategory: ${_this.promptCategory}, promptNudge: ${_this.promptNudge}, promptDate: ${_this.promptDate}, topicName: ${_this.topicName}, topicPath: ${_this.topicPath}, myReactions: ${_this.myReactions}, reactionCounts: ${_this.reactionCounts})';
 }
 
 
@@ -1224,7 +1536,7 @@ abstract mixin class $SubmissionCopyWith<$Res>  {
   factory $SubmissionCopyWith(Submission value, $Res Function(Submission) _then) = _$SubmissionCopyWithImpl;
 @useResult
 $Res call({
- String id, String kind, String body,@JsonKey(name: 'image_url') String? imageUrl,@JsonKey(name: 'image_width') int? imageWidth,@JsonKey(name: 'image_height') int? imageHeight, String status,@JsonKey(name: 'published_at') DateTime? publishedAt,@JsonKey(name: 'created_at') DateTime? createdAt,@JsonKey(name: 'reaction_count') int reactionCount,@JsonKey(name: 'comment_count') int commentCount,@JsonKey(name: 'is_mine') bool isMine, Author author,@JsonKey(name: 'prompt_id') String promptId,@JsonKey(name: 'prompt_text') String promptText,@JsonKey(name: 'prompt_category') String promptCategory,@JsonKey(name: 'my_reactions') List<String> myReactions,@JsonKey(name: 'reaction_counts') Map<String, int> reactionCounts
+ String id, String kind, String body,@JsonKey(name: 'image_url') String? imageUrl,@JsonKey(name: 'image_width') int? imageWidth,@JsonKey(name: 'image_height') int? imageHeight, String status,@JsonKey(name: 'published_at') DateTime? publishedAt,@JsonKey(name: 'created_at') DateTime? createdAt,@JsonKey(name: 'reaction_count') int reactionCount,@JsonKey(name: 'comment_count') int commentCount,@JsonKey(name: 'is_mine') bool isMine, Author author,@JsonKey(name: 'prompt_id') String promptId,@JsonKey(name: 'prompt_text') String promptText,@JsonKey(name: 'prompt_category') String promptCategory,@JsonKey(name: 'prompt_nudge') String promptNudge,@JsonKey(name: 'prompt_date') DateTime? promptDate,@JsonKey(name: 'topic_name') String? topicName,@JsonKey(name: 'topic_path') String? topicPath,@JsonKey(name: 'my_reactions') List<String> myReactions,@JsonKey(name: 'reaction_counts') Map<String, int> reactionCounts
 });
 
 
@@ -1241,7 +1553,7 @@ class _$SubmissionCopyWithImpl<$Res>
 
 /// Create a copy of Submission
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? kind = null,Object? body = null,Object? imageUrl = freezed,Object? imageWidth = freezed,Object? imageHeight = freezed,Object? status = null,Object? publishedAt = freezed,Object? createdAt = freezed,Object? reactionCount = null,Object? commentCount = null,Object? isMine = null,Object? author = null,Object? promptId = null,Object? promptText = null,Object? promptCategory = null,Object? myReactions = null,Object? reactionCounts = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? kind = null,Object? body = null,Object? imageUrl = freezed,Object? imageWidth = freezed,Object? imageHeight = freezed,Object? status = null,Object? publishedAt = freezed,Object? createdAt = freezed,Object? reactionCount = null,Object? commentCount = null,Object? isMine = null,Object? author = null,Object? promptId = null,Object? promptText = null,Object? promptCategory = null,Object? promptNudge = null,Object? promptDate = freezed,Object? topicName = freezed,Object? topicPath = freezed,Object? myReactions = null,Object? reactionCounts = null,}) {
   return _then(Submission(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
@@ -1259,7 +1571,11 @@ as bool,author: null == author ? _self.author : author // ignore: cast_nullable_
 as Author,promptId: null == promptId ? _self.promptId : promptId // ignore: cast_nullable_to_non_nullable
 as String,promptText: null == promptText ? _self.promptText : promptText // ignore: cast_nullable_to_non_nullable
 as String,promptCategory: null == promptCategory ? _self.promptCategory : promptCategory // ignore: cast_nullable_to_non_nullable
-as String,myReactions: null == myReactions ? _self.myReactions : myReactions // ignore: cast_nullable_to_non_nullable
+as String,promptNudge: null == promptNudge ? _self.promptNudge : promptNudge // ignore: cast_nullable_to_non_nullable
+as String,promptDate: freezed == promptDate ? _self.promptDate : promptDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,topicName: freezed == topicName ? _self.topicName : topicName // ignore: cast_nullable_to_non_nullable
+as String?,topicPath: freezed == topicPath ? _self.topicPath : topicPath // ignore: cast_nullable_to_non_nullable
+as String?,myReactions: null == myReactions ? _self.myReactions : myReactions // ignore: cast_nullable_to_non_nullable
 as List<String>,reactionCounts: null == reactionCounts ? _self.reactionCounts : reactionCounts // ignore: cast_nullable_to_non_nullable
 as Map<String, int>,
   ));
@@ -1355,10 +1671,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String kind,  String body, @JsonKey(name: 'image_url')  String? imageUrl, @JsonKey(name: 'image_width')  int? imageWidth, @JsonKey(name: 'image_height')  int? imageHeight,  String status, @JsonKey(name: 'published_at')  DateTime? publishedAt, @JsonKey(name: 'created_at')  DateTime? createdAt, @JsonKey(name: 'reaction_count')  int reactionCount, @JsonKey(name: 'comment_count')  int commentCount, @JsonKey(name: 'is_mine')  bool isMine,  Author author, @JsonKey(name: 'prompt_id')  String promptId, @JsonKey(name: 'prompt_text')  String promptText, @JsonKey(name: 'prompt_category')  String promptCategory, @JsonKey(name: 'my_reactions')  List<String> myReactions, @JsonKey(name: 'reaction_counts')  Map<String, int> reactionCounts)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String kind,  String body, @JsonKey(name: 'image_url')  String? imageUrl, @JsonKey(name: 'image_width')  int? imageWidth, @JsonKey(name: 'image_height')  int? imageHeight,  String status, @JsonKey(name: 'published_at')  DateTime? publishedAt, @JsonKey(name: 'created_at')  DateTime? createdAt, @JsonKey(name: 'reaction_count')  int reactionCount, @JsonKey(name: 'comment_count')  int commentCount, @JsonKey(name: 'is_mine')  bool isMine,  Author author, @JsonKey(name: 'prompt_id')  String promptId, @JsonKey(name: 'prompt_text')  String promptText, @JsonKey(name: 'prompt_category')  String promptCategory, @JsonKey(name: 'prompt_nudge')  String promptNudge, @JsonKey(name: 'prompt_date')  DateTime? promptDate, @JsonKey(name: 'topic_name')  String? topicName, @JsonKey(name: 'topic_path')  String? topicPath, @JsonKey(name: 'my_reactions')  List<String> myReactions, @JsonKey(name: 'reaction_counts')  Map<String, int> reactionCounts)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Submission() when $default != null:
-return $default(_that.id,_that.kind,_that.body,_that.imageUrl,_that.imageWidth,_that.imageHeight,_that.status,_that.publishedAt,_that.createdAt,_that.reactionCount,_that.commentCount,_that.isMine,_that.author,_that.promptId,_that.promptText,_that.promptCategory,_that.myReactions,_that.reactionCounts);case _:
+return $default(_that.id,_that.kind,_that.body,_that.imageUrl,_that.imageWidth,_that.imageHeight,_that.status,_that.publishedAt,_that.createdAt,_that.reactionCount,_that.commentCount,_that.isMine,_that.author,_that.promptId,_that.promptText,_that.promptCategory,_that.promptNudge,_that.promptDate,_that.topicName,_that.topicPath,_that.myReactions,_that.reactionCounts);case _:
   return orElse();
 
 }
@@ -1376,10 +1692,10 @@ return $default(_that.id,_that.kind,_that.body,_that.imageUrl,_that.imageWidth,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String kind,  String body, @JsonKey(name: 'image_url')  String? imageUrl, @JsonKey(name: 'image_width')  int? imageWidth, @JsonKey(name: 'image_height')  int? imageHeight,  String status, @JsonKey(name: 'published_at')  DateTime? publishedAt, @JsonKey(name: 'created_at')  DateTime? createdAt, @JsonKey(name: 'reaction_count')  int reactionCount, @JsonKey(name: 'comment_count')  int commentCount, @JsonKey(name: 'is_mine')  bool isMine,  Author author, @JsonKey(name: 'prompt_id')  String promptId, @JsonKey(name: 'prompt_text')  String promptText, @JsonKey(name: 'prompt_category')  String promptCategory, @JsonKey(name: 'my_reactions')  List<String> myReactions, @JsonKey(name: 'reaction_counts')  Map<String, int> reactionCounts)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String kind,  String body, @JsonKey(name: 'image_url')  String? imageUrl, @JsonKey(name: 'image_width')  int? imageWidth, @JsonKey(name: 'image_height')  int? imageHeight,  String status, @JsonKey(name: 'published_at')  DateTime? publishedAt, @JsonKey(name: 'created_at')  DateTime? createdAt, @JsonKey(name: 'reaction_count')  int reactionCount, @JsonKey(name: 'comment_count')  int commentCount, @JsonKey(name: 'is_mine')  bool isMine,  Author author, @JsonKey(name: 'prompt_id')  String promptId, @JsonKey(name: 'prompt_text')  String promptText, @JsonKey(name: 'prompt_category')  String promptCategory, @JsonKey(name: 'prompt_nudge')  String promptNudge, @JsonKey(name: 'prompt_date')  DateTime? promptDate, @JsonKey(name: 'topic_name')  String? topicName, @JsonKey(name: 'topic_path')  String? topicPath, @JsonKey(name: 'my_reactions')  List<String> myReactions, @JsonKey(name: 'reaction_counts')  Map<String, int> reactionCounts)  $default,) {final _that = this;
 switch (_that) {
 case _Submission():
-return $default(_that.id,_that.kind,_that.body,_that.imageUrl,_that.imageWidth,_that.imageHeight,_that.status,_that.publishedAt,_that.createdAt,_that.reactionCount,_that.commentCount,_that.isMine,_that.author,_that.promptId,_that.promptText,_that.promptCategory,_that.myReactions,_that.reactionCounts);case _:
+return $default(_that.id,_that.kind,_that.body,_that.imageUrl,_that.imageWidth,_that.imageHeight,_that.status,_that.publishedAt,_that.createdAt,_that.reactionCount,_that.commentCount,_that.isMine,_that.author,_that.promptId,_that.promptText,_that.promptCategory,_that.promptNudge,_that.promptDate,_that.topicName,_that.topicPath,_that.myReactions,_that.reactionCounts);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1396,10 +1712,10 @@ return $default(_that.id,_that.kind,_that.body,_that.imageUrl,_that.imageWidth,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String kind,  String body, @JsonKey(name: 'image_url')  String? imageUrl, @JsonKey(name: 'image_width')  int? imageWidth, @JsonKey(name: 'image_height')  int? imageHeight,  String status, @JsonKey(name: 'published_at')  DateTime? publishedAt, @JsonKey(name: 'created_at')  DateTime? createdAt, @JsonKey(name: 'reaction_count')  int reactionCount, @JsonKey(name: 'comment_count')  int commentCount, @JsonKey(name: 'is_mine')  bool isMine,  Author author, @JsonKey(name: 'prompt_id')  String promptId, @JsonKey(name: 'prompt_text')  String promptText, @JsonKey(name: 'prompt_category')  String promptCategory, @JsonKey(name: 'my_reactions')  List<String> myReactions, @JsonKey(name: 'reaction_counts')  Map<String, int> reactionCounts)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String kind,  String body, @JsonKey(name: 'image_url')  String? imageUrl, @JsonKey(name: 'image_width')  int? imageWidth, @JsonKey(name: 'image_height')  int? imageHeight,  String status, @JsonKey(name: 'published_at')  DateTime? publishedAt, @JsonKey(name: 'created_at')  DateTime? createdAt, @JsonKey(name: 'reaction_count')  int reactionCount, @JsonKey(name: 'comment_count')  int commentCount, @JsonKey(name: 'is_mine')  bool isMine,  Author author, @JsonKey(name: 'prompt_id')  String promptId, @JsonKey(name: 'prompt_text')  String promptText, @JsonKey(name: 'prompt_category')  String promptCategory, @JsonKey(name: 'prompt_nudge')  String promptNudge, @JsonKey(name: 'prompt_date')  DateTime? promptDate, @JsonKey(name: 'topic_name')  String? topicName, @JsonKey(name: 'topic_path')  String? topicPath, @JsonKey(name: 'my_reactions')  List<String> myReactions, @JsonKey(name: 'reaction_counts')  Map<String, int> reactionCounts)?  $default,) {final _that = this;
 switch (_that) {
 case _Submission() when $default != null:
-return $default(_that.id,_that.kind,_that.body,_that.imageUrl,_that.imageWidth,_that.imageHeight,_that.status,_that.publishedAt,_that.createdAt,_that.reactionCount,_that.commentCount,_that.isMine,_that.author,_that.promptId,_that.promptText,_that.promptCategory,_that.myReactions,_that.reactionCounts);case _:
+return $default(_that.id,_that.kind,_that.body,_that.imageUrl,_that.imageWidth,_that.imageHeight,_that.status,_that.publishedAt,_that.createdAt,_that.reactionCount,_that.commentCount,_that.isMine,_that.author,_that.promptId,_that.promptText,_that.promptCategory,_that.promptNudge,_that.promptDate,_that.topicName,_that.topicPath,_that.myReactions,_that.reactionCounts);case _:
   return null;
 
 }
@@ -1411,7 +1727,7 @@ return $default(_that.id,_that.kind,_that.body,_that.imageUrl,_that.imageWidth,_
 @JsonSerializable()
 
 class _Submission extends Submission {
-  const _Submission({required this.id, this.kind = 'text', this.body = '', @JsonKey(name: 'image_url') this.imageUrl, @JsonKey(name: 'image_width') this.imageWidth, @JsonKey(name: 'image_height') this.imageHeight, this.status = 'draft', @JsonKey(name: 'published_at') this.publishedAt, @JsonKey(name: 'created_at') this.createdAt, @JsonKey(name: 'reaction_count') this.reactionCount = 0, @JsonKey(name: 'comment_count') this.commentCount = 0, @JsonKey(name: 'is_mine') this.isMine = false, required this.author, @JsonKey(name: 'prompt_id') this.promptId = '', @JsonKey(name: 'prompt_text') this.promptText = '', @JsonKey(name: 'prompt_category') this.promptCategory = 'writing', @JsonKey(name: 'my_reactions')  List<String> myReactions = const <String>[], @JsonKey(name: 'reaction_counts')  Map<String, int> reactionCounts = const <String, int>{}}): _myReactions = myReactions,_reactionCounts = reactionCounts,super._();
+  const _Submission({required this.id, this.kind = 'text', this.body = '', @JsonKey(name: 'image_url') this.imageUrl, @JsonKey(name: 'image_width') this.imageWidth, @JsonKey(name: 'image_height') this.imageHeight, this.status = 'draft', @JsonKey(name: 'published_at') this.publishedAt, @JsonKey(name: 'created_at') this.createdAt, @JsonKey(name: 'reaction_count') this.reactionCount = 0, @JsonKey(name: 'comment_count') this.commentCount = 0, @JsonKey(name: 'is_mine') this.isMine = false, required this.author, @JsonKey(name: 'prompt_id') this.promptId = '', @JsonKey(name: 'prompt_text') this.promptText = '', @JsonKey(name: 'prompt_category') this.promptCategory = 'writing', @JsonKey(name: 'prompt_nudge') this.promptNudge = '', @JsonKey(name: 'prompt_date') this.promptDate, @JsonKey(name: 'topic_name') this.topicName, @JsonKey(name: 'topic_path') this.topicPath, @JsonKey(name: 'my_reactions')  List<String> myReactions = const <String>[], @JsonKey(name: 'reaction_counts')  Map<String, int> reactionCounts = const <String, int>{}}): _myReactions = myReactions,_reactionCounts = reactionCounts,super._();
   factory _Submission.fromJson(Map<String, dynamic> json) => _$SubmissionFromJson(json);
 
 @override final  String id;
@@ -1430,6 +1746,10 @@ class _Submission extends Submission {
 @override@JsonKey(name: 'prompt_id') final  String promptId;
 @override@JsonKey(name: 'prompt_text') final  String promptText;
 @override@JsonKey(name: 'prompt_category') final  String promptCategory;
+@override@JsonKey(name: 'prompt_nudge') final  String promptNudge;
+@override@JsonKey(name: 'prompt_date') final  DateTime? promptDate;
+@override@JsonKey(name: 'topic_name') final  String? topicName;
+@override@JsonKey(name: 'topic_path') final  String? topicPath;
  final  List<String> _myReactions;
 @override@JsonKey(name: 'my_reactions') List<String> get myReactions {
   if (_myReactions is EqualUnmodifiableListView) return _myReactions;
@@ -1458,18 +1778,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Submission&&(identical(other.id, id) || other.id == id)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.body, body) || other.body == body)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.imageWidth, imageWidth) || other.imageWidth == imageWidth)&&(identical(other.imageHeight, imageHeight) || other.imageHeight == imageHeight)&&(identical(other.status, status) || other.status == status)&&(identical(other.publishedAt, publishedAt) || other.publishedAt == publishedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.reactionCount, reactionCount) || other.reactionCount == reactionCount)&&(identical(other.commentCount, commentCount) || other.commentCount == commentCount)&&(identical(other.isMine, isMine) || other.isMine == isMine)&&(identical(other.author, author) || other.author == author)&&(identical(other.promptId, promptId) || other.promptId == promptId)&&(identical(other.promptText, promptText) || other.promptText == promptText)&&(identical(other.promptCategory, promptCategory) || other.promptCategory == promptCategory)&&const DeepCollectionEquality().equals(other.myReactions, _myReactions)&&const DeepCollectionEquality().equals(other.reactionCounts, _reactionCounts));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Submission&&(identical(other.id, id) || other.id == id)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.body, body) || other.body == body)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.imageWidth, imageWidth) || other.imageWidth == imageWidth)&&(identical(other.imageHeight, imageHeight) || other.imageHeight == imageHeight)&&(identical(other.status, status) || other.status == status)&&(identical(other.publishedAt, publishedAt) || other.publishedAt == publishedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.reactionCount, reactionCount) || other.reactionCount == reactionCount)&&(identical(other.commentCount, commentCount) || other.commentCount == commentCount)&&(identical(other.isMine, isMine) || other.isMine == isMine)&&(identical(other.author, author) || other.author == author)&&(identical(other.promptId, promptId) || other.promptId == promptId)&&(identical(other.promptText, promptText) || other.promptText == promptText)&&(identical(other.promptCategory, promptCategory) || other.promptCategory == promptCategory)&&(identical(other.promptNudge, promptNudge) || other.promptNudge == promptNudge)&&(identical(other.promptDate, promptDate) || other.promptDate == promptDate)&&(identical(other.topicName, topicName) || other.topicName == topicName)&&(identical(other.topicPath, topicPath) || other.topicPath == topicPath)&&const DeepCollectionEquality().equals(other.myReactions, _myReactions)&&const DeepCollectionEquality().equals(other.reactionCounts, _reactionCounts));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,kind,body,imageUrl,imageWidth,imageHeight,status,publishedAt,createdAt,reactionCount,commentCount,isMine,author,promptId,promptText,promptCategory,const DeepCollectionEquality().hash(_myReactions),const DeepCollectionEquality().hash(_reactionCounts));
+    return Object.hashAll([runtimeType,id,kind,body,imageUrl,imageWidth,imageHeight,status,publishedAt,createdAt,reactionCount,commentCount,isMine,author,promptId,promptText,promptCategory,promptNudge,promptDate,topicName,topicPath,const DeepCollectionEquality().hash(_myReactions),const DeepCollectionEquality().hash(_reactionCounts)]);
 }
 
 @override
 String toString() {
-    return 'Submission(id: $id, kind: $kind, body: $body, imageUrl: $imageUrl, imageWidth: $imageWidth, imageHeight: $imageHeight, status: $status, publishedAt: $publishedAt, createdAt: $createdAt, reactionCount: $reactionCount, commentCount: $commentCount, isMine: $isMine, author: $author, promptId: $promptId, promptText: $promptText, promptCategory: $promptCategory, myReactions: $myReactions, reactionCounts: $reactionCounts)';
+    return 'Submission(id: $id, kind: $kind, body: $body, imageUrl: $imageUrl, imageWidth: $imageWidth, imageHeight: $imageHeight, status: $status, publishedAt: $publishedAt, createdAt: $createdAt, reactionCount: $reactionCount, commentCount: $commentCount, isMine: $isMine, author: $author, promptId: $promptId, promptText: $promptText, promptCategory: $promptCategory, promptNudge: $promptNudge, promptDate: $promptDate, topicName: $topicName, topicPath: $topicPath, myReactions: $myReactions, reactionCounts: $reactionCounts)';
 }
 
 
@@ -1480,7 +1800,7 @@ abstract mixin class _$SubmissionCopyWith<$Res> implements $SubmissionCopyWith<$
   factory _$SubmissionCopyWith(_Submission value, $Res Function(_Submission) _then) = __$SubmissionCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String kind, String body,@JsonKey(name: 'image_url') String? imageUrl,@JsonKey(name: 'image_width') int? imageWidth,@JsonKey(name: 'image_height') int? imageHeight, String status,@JsonKey(name: 'published_at') DateTime? publishedAt,@JsonKey(name: 'created_at') DateTime? createdAt,@JsonKey(name: 'reaction_count') int reactionCount,@JsonKey(name: 'comment_count') int commentCount,@JsonKey(name: 'is_mine') bool isMine, Author author,@JsonKey(name: 'prompt_id') String promptId,@JsonKey(name: 'prompt_text') String promptText,@JsonKey(name: 'prompt_category') String promptCategory,@JsonKey(name: 'my_reactions') List<String> myReactions,@JsonKey(name: 'reaction_counts') Map<String, int> reactionCounts
+ String id, String kind, String body,@JsonKey(name: 'image_url') String? imageUrl,@JsonKey(name: 'image_width') int? imageWidth,@JsonKey(name: 'image_height') int? imageHeight, String status,@JsonKey(name: 'published_at') DateTime? publishedAt,@JsonKey(name: 'created_at') DateTime? createdAt,@JsonKey(name: 'reaction_count') int reactionCount,@JsonKey(name: 'comment_count') int commentCount,@JsonKey(name: 'is_mine') bool isMine, Author author,@JsonKey(name: 'prompt_id') String promptId,@JsonKey(name: 'prompt_text') String promptText,@JsonKey(name: 'prompt_category') String promptCategory,@JsonKey(name: 'prompt_nudge') String promptNudge,@JsonKey(name: 'prompt_date') DateTime? promptDate,@JsonKey(name: 'topic_name') String? topicName,@JsonKey(name: 'topic_path') String? topicPath,@JsonKey(name: 'my_reactions') List<String> myReactions,@JsonKey(name: 'reaction_counts') Map<String, int> reactionCounts
 });
 
 
@@ -1497,7 +1817,7 @@ class __$SubmissionCopyWithImpl<$Res>
 
 /// Create a copy of Submission
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? kind = null,Object? body = null,Object? imageUrl = freezed,Object? imageWidth = freezed,Object? imageHeight = freezed,Object? status = null,Object? publishedAt = freezed,Object? createdAt = freezed,Object? reactionCount = null,Object? commentCount = null,Object? isMine = null,Object? author = null,Object? promptId = null,Object? promptText = null,Object? promptCategory = null,Object? myReactions = null,Object? reactionCounts = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? kind = null,Object? body = null,Object? imageUrl = freezed,Object? imageWidth = freezed,Object? imageHeight = freezed,Object? status = null,Object? publishedAt = freezed,Object? createdAt = freezed,Object? reactionCount = null,Object? commentCount = null,Object? isMine = null,Object? author = null,Object? promptId = null,Object? promptText = null,Object? promptCategory = null,Object? promptNudge = null,Object? promptDate = freezed,Object? topicName = freezed,Object? topicPath = freezed,Object? myReactions = null,Object? reactionCounts = null,}) {
   return _then(_Submission(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
@@ -1515,7 +1835,11 @@ as bool,author: null == author ? _self.author : author // ignore: cast_nullable_
 as Author,promptId: null == promptId ? _self.promptId : promptId // ignore: cast_nullable_to_non_nullable
 as String,promptText: null == promptText ? _self.promptText : promptText // ignore: cast_nullable_to_non_nullable
 as String,promptCategory: null == promptCategory ? _self.promptCategory : promptCategory // ignore: cast_nullable_to_non_nullable
-as String,myReactions: null == myReactions ? _self._myReactions : myReactions // ignore: cast_nullable_to_non_nullable
+as String,promptNudge: null == promptNudge ? _self.promptNudge : promptNudge // ignore: cast_nullable_to_non_nullable
+as String,promptDate: freezed == promptDate ? _self.promptDate : promptDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,topicName: freezed == topicName ? _self.topicName : topicName // ignore: cast_nullable_to_non_nullable
+as String?,topicPath: freezed == topicPath ? _self.topicPath : topicPath // ignore: cast_nullable_to_non_nullable
+as String?,myReactions: null == myReactions ? _self._myReactions : myReactions // ignore: cast_nullable_to_non_nullable
 as List<String>,reactionCounts: null == reactionCounts ? _self._reactionCounts : reactionCounts // ignore: cast_nullable_to_non_nullable
 as Map<String, int>,
   ));
@@ -1537,7 +1861,7 @@ $AuthorCopyWith<$Res> get author {
 /// @nodoc
 mixin _$Comment {
 
- String get id; String get body;@JsonKey(name: 'created_at') DateTime get createdAt;@JsonKey(name: 'is_mine') bool get isMine;@JsonKey(name: 'author_username') String get authorUsername;@JsonKey(name: 'author_name') String get authorName;@JsonKey(name: 'author_avatar_url') String? get authorAvatarUrl;
+ String get id; String get body;@JsonKey(name: 'created_at') DateTime get createdAt;@JsonKey(name: 'is_mine') bool get isMine;@JsonKey(name: 'author_username') String get authorUsername;@JsonKey(name: 'author_name') String get authorName;@JsonKey(name: 'author_avatar_url') String? get authorAvatarUrl;@JsonKey(name: 'parent_id') String? get parentId;@JsonKey(name: 'reply_count') int get replyCount; List<Comment> get replies;
 /// Create a copy of Comment
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1551,20 +1875,20 @@ $CommentCopyWith<Comment> get copyWith => _$CommentCopyWithImpl<Comment>(this as
 @override
 bool operator ==(Object other) {
   final _this = this as Comment;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Comment&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.body, _this.body) || other.body == _this.body)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.isMine, _this.isMine) || other.isMine == _this.isMine)&&(identical(other.authorUsername, _this.authorUsername) || other.authorUsername == _this.authorUsername)&&(identical(other.authorName, _this.authorName) || other.authorName == _this.authorName)&&(identical(other.authorAvatarUrl, _this.authorAvatarUrl) || other.authorAvatarUrl == _this.authorAvatarUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Comment&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.body, _this.body) || other.body == _this.body)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.isMine, _this.isMine) || other.isMine == _this.isMine)&&(identical(other.authorUsername, _this.authorUsername) || other.authorUsername == _this.authorUsername)&&(identical(other.authorName, _this.authorName) || other.authorName == _this.authorName)&&(identical(other.authorAvatarUrl, _this.authorAvatarUrl) || other.authorAvatarUrl == _this.authorAvatarUrl)&&(identical(other.parentId, _this.parentId) || other.parentId == _this.parentId)&&(identical(other.replyCount, _this.replyCount) || other.replyCount == _this.replyCount)&&const DeepCollectionEquality().equals(other.replies, _this.replies));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Comment;
-  return Object.hash(runtimeType,_this.id,_this.body,_this.createdAt,_this.isMine,_this.authorUsername,_this.authorName,_this.authorAvatarUrl);
+  return Object.hash(runtimeType,_this.id,_this.body,_this.createdAt,_this.isMine,_this.authorUsername,_this.authorName,_this.authorAvatarUrl,_this.parentId,_this.replyCount,const DeepCollectionEquality().hash(_this.replies));
 }
 
 @override
 String toString() {
   final _this = this as Comment;
-  return 'Comment(id: ${_this.id}, body: ${_this.body}, createdAt: ${_this.createdAt}, isMine: ${_this.isMine}, authorUsername: ${_this.authorUsername}, authorName: ${_this.authorName}, authorAvatarUrl: ${_this.authorAvatarUrl})';
+  return 'Comment(id: ${_this.id}, body: ${_this.body}, createdAt: ${_this.createdAt}, isMine: ${_this.isMine}, authorUsername: ${_this.authorUsername}, authorName: ${_this.authorName}, authorAvatarUrl: ${_this.authorAvatarUrl}, parentId: ${_this.parentId}, replyCount: ${_this.replyCount}, replies: ${_this.replies})';
 }
 
 
@@ -1575,7 +1899,7 @@ abstract mixin class $CommentCopyWith<$Res>  {
   factory $CommentCopyWith(Comment value, $Res Function(Comment) _then) = _$CommentCopyWithImpl;
 @useResult
 $Res call({
- String id, String body,@JsonKey(name: 'created_at') DateTime createdAt,@JsonKey(name: 'is_mine') bool isMine,@JsonKey(name: 'author_username') String authorUsername,@JsonKey(name: 'author_name') String authorName,@JsonKey(name: 'author_avatar_url') String? authorAvatarUrl
+ String id, String body,@JsonKey(name: 'created_at') DateTime createdAt,@JsonKey(name: 'is_mine') bool isMine,@JsonKey(name: 'author_username') String authorUsername,@JsonKey(name: 'author_name') String authorName,@JsonKey(name: 'author_avatar_url') String? authorAvatarUrl,@JsonKey(name: 'parent_id') String? parentId,@JsonKey(name: 'reply_count') int replyCount, List<Comment> replies
 });
 
 
@@ -1592,7 +1916,7 @@ class _$CommentCopyWithImpl<$Res>
 
 /// Create a copy of Comment
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? body = null,Object? createdAt = null,Object? isMine = null,Object? authorUsername = null,Object? authorName = null,Object? authorAvatarUrl = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? body = null,Object? createdAt = null,Object? isMine = null,Object? authorUsername = null,Object? authorName = null,Object? authorAvatarUrl = freezed,Object? parentId = freezed,Object? replyCount = null,Object? replies = null,}) {
   return _then(Comment(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,body: null == body ? _self.body : body // ignore: cast_nullable_to_non_nullable
@@ -1601,7 +1925,10 @@ as DateTime,isMine: null == isMine ? _self.isMine : isMine // ignore: cast_nulla
 as bool,authorUsername: null == authorUsername ? _self.authorUsername : authorUsername // ignore: cast_nullable_to_non_nullable
 as String,authorName: null == authorName ? _self.authorName : authorName // ignore: cast_nullable_to_non_nullable
 as String,authorAvatarUrl: freezed == authorAvatarUrl ? _self.authorAvatarUrl : authorAvatarUrl // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,parentId: freezed == parentId ? _self.parentId : parentId // ignore: cast_nullable_to_non_nullable
+as String?,replyCount: null == replyCount ? _self.replyCount : replyCount // ignore: cast_nullable_to_non_nullable
+as int,replies: null == replies ? _self.replies : replies // ignore: cast_nullable_to_non_nullable
+as List<Comment>,
   ));
 }
 
@@ -1686,10 +2013,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String body, @JsonKey(name: 'created_at')  DateTime createdAt, @JsonKey(name: 'is_mine')  bool isMine, @JsonKey(name: 'author_username')  String authorUsername, @JsonKey(name: 'author_name')  String authorName, @JsonKey(name: 'author_avatar_url')  String? authorAvatarUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String body, @JsonKey(name: 'created_at')  DateTime createdAt, @JsonKey(name: 'is_mine')  bool isMine, @JsonKey(name: 'author_username')  String authorUsername, @JsonKey(name: 'author_name')  String authorName, @JsonKey(name: 'author_avatar_url')  String? authorAvatarUrl, @JsonKey(name: 'parent_id')  String? parentId, @JsonKey(name: 'reply_count')  int replyCount,  List<Comment> replies)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Comment() when $default != null:
-return $default(_that.id,_that.body,_that.createdAt,_that.isMine,_that.authorUsername,_that.authorName,_that.authorAvatarUrl);case _:
+return $default(_that.id,_that.body,_that.createdAt,_that.isMine,_that.authorUsername,_that.authorName,_that.authorAvatarUrl,_that.parentId,_that.replyCount,_that.replies);case _:
   return orElse();
 
 }
@@ -1707,10 +2034,10 @@ return $default(_that.id,_that.body,_that.createdAt,_that.isMine,_that.authorUse
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String body, @JsonKey(name: 'created_at')  DateTime createdAt, @JsonKey(name: 'is_mine')  bool isMine, @JsonKey(name: 'author_username')  String authorUsername, @JsonKey(name: 'author_name')  String authorName, @JsonKey(name: 'author_avatar_url')  String? authorAvatarUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String body, @JsonKey(name: 'created_at')  DateTime createdAt, @JsonKey(name: 'is_mine')  bool isMine, @JsonKey(name: 'author_username')  String authorUsername, @JsonKey(name: 'author_name')  String authorName, @JsonKey(name: 'author_avatar_url')  String? authorAvatarUrl, @JsonKey(name: 'parent_id')  String? parentId, @JsonKey(name: 'reply_count')  int replyCount,  List<Comment> replies)  $default,) {final _that = this;
 switch (_that) {
 case _Comment():
-return $default(_that.id,_that.body,_that.createdAt,_that.isMine,_that.authorUsername,_that.authorName,_that.authorAvatarUrl);case _:
+return $default(_that.id,_that.body,_that.createdAt,_that.isMine,_that.authorUsername,_that.authorName,_that.authorAvatarUrl,_that.parentId,_that.replyCount,_that.replies);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1727,10 +2054,10 @@ return $default(_that.id,_that.body,_that.createdAt,_that.isMine,_that.authorUse
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String body, @JsonKey(name: 'created_at')  DateTime createdAt, @JsonKey(name: 'is_mine')  bool isMine, @JsonKey(name: 'author_username')  String authorUsername, @JsonKey(name: 'author_name')  String authorName, @JsonKey(name: 'author_avatar_url')  String? authorAvatarUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String body, @JsonKey(name: 'created_at')  DateTime createdAt, @JsonKey(name: 'is_mine')  bool isMine, @JsonKey(name: 'author_username')  String authorUsername, @JsonKey(name: 'author_name')  String authorName, @JsonKey(name: 'author_avatar_url')  String? authorAvatarUrl, @JsonKey(name: 'parent_id')  String? parentId, @JsonKey(name: 'reply_count')  int replyCount,  List<Comment> replies)?  $default,) {final _that = this;
 switch (_that) {
 case _Comment() when $default != null:
-return $default(_that.id,_that.body,_that.createdAt,_that.isMine,_that.authorUsername,_that.authorName,_that.authorAvatarUrl);case _:
+return $default(_that.id,_that.body,_that.createdAt,_that.isMine,_that.authorUsername,_that.authorName,_that.authorAvatarUrl,_that.parentId,_that.replyCount,_that.replies);case _:
   return null;
 
 }
@@ -1742,7 +2069,7 @@ return $default(_that.id,_that.body,_that.createdAt,_that.isMine,_that.authorUse
 @JsonSerializable()
 
 class _Comment implements Comment {
-  const _Comment({required this.id, required this.body, @JsonKey(name: 'created_at') required this.createdAt, @JsonKey(name: 'is_mine') this.isMine = false, @JsonKey(name: 'author_username') this.authorUsername = '', @JsonKey(name: 'author_name') this.authorName = '', @JsonKey(name: 'author_avatar_url') this.authorAvatarUrl});
+  const _Comment({required this.id, required this.body, @JsonKey(name: 'created_at') required this.createdAt, @JsonKey(name: 'is_mine') this.isMine = false, @JsonKey(name: 'author_username') this.authorUsername = '', @JsonKey(name: 'author_name') this.authorName = '', @JsonKey(name: 'author_avatar_url') this.authorAvatarUrl, @JsonKey(name: 'parent_id') this.parentId, @JsonKey(name: 'reply_count') this.replyCount = 0,  List<Comment> replies = const <Comment>[]}): _replies = replies;
   factory _Comment.fromJson(Map<String, dynamic> json) => _$CommentFromJson(json);
 
 @override final  String id;
@@ -1752,6 +2079,15 @@ class _Comment implements Comment {
 @override@JsonKey(name: 'author_username') final  String authorUsername;
 @override@JsonKey(name: 'author_name') final  String authorName;
 @override@JsonKey(name: 'author_avatar_url') final  String? authorAvatarUrl;
+@override@JsonKey(name: 'parent_id') final  String? parentId;
+@override@JsonKey(name: 'reply_count') final  int replyCount;
+ final  List<Comment> _replies;
+@override@JsonKey() List<Comment> get replies {
+  if (_replies is EqualUnmodifiableListView) return _replies;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_replies);
+}
+
 
 /// Create a copy of Comment
 /// with the given fields replaced by the non-null parameter values.
@@ -1766,18 +2102,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Comment&&(identical(other.id, id) || other.id == id)&&(identical(other.body, body) || other.body == body)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.isMine, isMine) || other.isMine == isMine)&&(identical(other.authorUsername, authorUsername) || other.authorUsername == authorUsername)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.authorAvatarUrl, authorAvatarUrl) || other.authorAvatarUrl == authorAvatarUrl));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Comment&&(identical(other.id, id) || other.id == id)&&(identical(other.body, body) || other.body == body)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.isMine, isMine) || other.isMine == isMine)&&(identical(other.authorUsername, authorUsername) || other.authorUsername == authorUsername)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.authorAvatarUrl, authorAvatarUrl) || other.authorAvatarUrl == authorAvatarUrl)&&(identical(other.parentId, parentId) || other.parentId == parentId)&&(identical(other.replyCount, replyCount) || other.replyCount == replyCount)&&const DeepCollectionEquality().equals(other.replies, _replies));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,body,createdAt,isMine,authorUsername,authorName,authorAvatarUrl);
+    return Object.hash(runtimeType,id,body,createdAt,isMine,authorUsername,authorName,authorAvatarUrl,parentId,replyCount,const DeepCollectionEquality().hash(_replies));
 }
 
 @override
 String toString() {
-    return 'Comment(id: $id, body: $body, createdAt: $createdAt, isMine: $isMine, authorUsername: $authorUsername, authorName: $authorName, authorAvatarUrl: $authorAvatarUrl)';
+    return 'Comment(id: $id, body: $body, createdAt: $createdAt, isMine: $isMine, authorUsername: $authorUsername, authorName: $authorName, authorAvatarUrl: $authorAvatarUrl, parentId: $parentId, replyCount: $replyCount, replies: $replies)';
 }
 
 
@@ -1788,7 +2124,7 @@ abstract mixin class _$CommentCopyWith<$Res> implements $CommentCopyWith<$Res> {
   factory _$CommentCopyWith(_Comment value, $Res Function(_Comment) _then) = __$CommentCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String body,@JsonKey(name: 'created_at') DateTime createdAt,@JsonKey(name: 'is_mine') bool isMine,@JsonKey(name: 'author_username') String authorUsername,@JsonKey(name: 'author_name') String authorName,@JsonKey(name: 'author_avatar_url') String? authorAvatarUrl
+ String id, String body,@JsonKey(name: 'created_at') DateTime createdAt,@JsonKey(name: 'is_mine') bool isMine,@JsonKey(name: 'author_username') String authorUsername,@JsonKey(name: 'author_name') String authorName,@JsonKey(name: 'author_avatar_url') String? authorAvatarUrl,@JsonKey(name: 'parent_id') String? parentId,@JsonKey(name: 'reply_count') int replyCount, List<Comment> replies
 });
 
 
@@ -1805,7 +2141,7 @@ class __$CommentCopyWithImpl<$Res>
 
 /// Create a copy of Comment
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? body = null,Object? createdAt = null,Object? isMine = null,Object? authorUsername = null,Object? authorName = null,Object? authorAvatarUrl = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? body = null,Object? createdAt = null,Object? isMine = null,Object? authorUsername = null,Object? authorName = null,Object? authorAvatarUrl = freezed,Object? parentId = freezed,Object? replyCount = null,Object? replies = null,}) {
   return _then(_Comment(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,body: null == body ? _self.body : body // ignore: cast_nullable_to_non_nullable
@@ -1814,7 +2150,10 @@ as DateTime,isMine: null == isMine ? _self.isMine : isMine // ignore: cast_nulla
 as bool,authorUsername: null == authorUsername ? _self.authorUsername : authorUsername // ignore: cast_nullable_to_non_nullable
 as String,authorName: null == authorName ? _self.authorName : authorName // ignore: cast_nullable_to_non_nullable
 as String,authorAvatarUrl: freezed == authorAvatarUrl ? _self.authorAvatarUrl : authorAvatarUrl // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,parentId: freezed == parentId ? _self.parentId : parentId // ignore: cast_nullable_to_non_nullable
+as String?,replyCount: null == replyCount ? _self.replyCount : replyCount // ignore: cast_nullable_to_non_nullable
+as int,replies: null == replies ? _self._replies : replies // ignore: cast_nullable_to_non_nullable
+as List<Comment>,
   ));
 }
 
@@ -1825,7 +2164,7 @@ as String?,
 /// @nodoc
 mixin _$Today {
 
- Prompt get prompt;@JsonKey(name: 'seconds_remaining') int get secondsRemaining;@JsonKey(name: 'creator_count') int get creatorCount;@JsonKey(name: 'my_submission') Submission? get mySubmission; Streak get streak;
+ Prompt get prompt;@JsonKey(name: 'seconds_remaining') int get secondsRemaining;@JsonKey(name: 'creator_count') int get creatorCount;@JsonKey(name: 'my_submission') Submission? get mySubmission; Streak get streak;@JsonKey(name: 'other_prompts') List<Prompt> get otherPrompts;
 /// Create a copy of Today
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1839,20 +2178,20 @@ $TodayCopyWith<Today> get copyWith => _$TodayCopyWithImpl<Today>(this as Today, 
 @override
 bool operator ==(Object other) {
   final _this = this as Today;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Today&&(identical(other.prompt, _this.prompt) || other.prompt == _this.prompt)&&(identical(other.secondsRemaining, _this.secondsRemaining) || other.secondsRemaining == _this.secondsRemaining)&&(identical(other.creatorCount, _this.creatorCount) || other.creatorCount == _this.creatorCount)&&(identical(other.mySubmission, _this.mySubmission) || other.mySubmission == _this.mySubmission)&&(identical(other.streak, _this.streak) || other.streak == _this.streak));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Today&&(identical(other.prompt, _this.prompt) || other.prompt == _this.prompt)&&(identical(other.secondsRemaining, _this.secondsRemaining) || other.secondsRemaining == _this.secondsRemaining)&&(identical(other.creatorCount, _this.creatorCount) || other.creatorCount == _this.creatorCount)&&(identical(other.mySubmission, _this.mySubmission) || other.mySubmission == _this.mySubmission)&&(identical(other.streak, _this.streak) || other.streak == _this.streak)&&const DeepCollectionEquality().equals(other.otherPrompts, _this.otherPrompts));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Today;
-  return Object.hash(runtimeType,_this.prompt,_this.secondsRemaining,_this.creatorCount,_this.mySubmission,_this.streak);
+  return Object.hash(runtimeType,_this.prompt,_this.secondsRemaining,_this.creatorCount,_this.mySubmission,_this.streak,const DeepCollectionEquality().hash(_this.otherPrompts));
 }
 
 @override
 String toString() {
   final _this = this as Today;
-  return 'Today(prompt: ${_this.prompt}, secondsRemaining: ${_this.secondsRemaining}, creatorCount: ${_this.creatorCount}, mySubmission: ${_this.mySubmission}, streak: ${_this.streak})';
+  return 'Today(prompt: ${_this.prompt}, secondsRemaining: ${_this.secondsRemaining}, creatorCount: ${_this.creatorCount}, mySubmission: ${_this.mySubmission}, streak: ${_this.streak}, otherPrompts: ${_this.otherPrompts})';
 }
 
 
@@ -1863,7 +2202,7 @@ abstract mixin class $TodayCopyWith<$Res>  {
   factory $TodayCopyWith(Today value, $Res Function(Today) _then) = _$TodayCopyWithImpl;
 @useResult
 $Res call({
- Prompt prompt,@JsonKey(name: 'seconds_remaining') int secondsRemaining,@JsonKey(name: 'creator_count') int creatorCount,@JsonKey(name: 'my_submission') Submission? mySubmission, Streak streak
+ Prompt prompt,@JsonKey(name: 'seconds_remaining') int secondsRemaining,@JsonKey(name: 'creator_count') int creatorCount,@JsonKey(name: 'my_submission') Submission? mySubmission, Streak streak,@JsonKey(name: 'other_prompts') List<Prompt> otherPrompts
 });
 
 
@@ -1880,14 +2219,15 @@ class _$TodayCopyWithImpl<$Res>
 
 /// Create a copy of Today
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? prompt = null,Object? secondsRemaining = null,Object? creatorCount = null,Object? mySubmission = freezed,Object? streak = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? prompt = null,Object? secondsRemaining = null,Object? creatorCount = null,Object? mySubmission = freezed,Object? streak = null,Object? otherPrompts = null,}) {
   return _then(Today(
 prompt: null == prompt ? _self.prompt : prompt // ignore: cast_nullable_to_non_nullable
 as Prompt,secondsRemaining: null == secondsRemaining ? _self.secondsRemaining : secondsRemaining // ignore: cast_nullable_to_non_nullable
 as int,creatorCount: null == creatorCount ? _self.creatorCount : creatorCount // ignore: cast_nullable_to_non_nullable
 as int,mySubmission: freezed == mySubmission ? _self.mySubmission : mySubmission // ignore: cast_nullable_to_non_nullable
 as Submission?,streak: null == streak ? _self.streak : streak // ignore: cast_nullable_to_non_nullable
-as Streak,
+as Streak,otherPrompts: null == otherPrompts ? _self.otherPrompts : otherPrompts // ignore: cast_nullable_to_non_nullable
+as List<Prompt>,
   ));
 }
 /// Create a copy of Today
@@ -2002,10 +2342,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Prompt prompt, @JsonKey(name: 'seconds_remaining')  int secondsRemaining, @JsonKey(name: 'creator_count')  int creatorCount, @JsonKey(name: 'my_submission')  Submission? mySubmission,  Streak streak)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Prompt prompt, @JsonKey(name: 'seconds_remaining')  int secondsRemaining, @JsonKey(name: 'creator_count')  int creatorCount, @JsonKey(name: 'my_submission')  Submission? mySubmission,  Streak streak, @JsonKey(name: 'other_prompts')  List<Prompt> otherPrompts)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Today() when $default != null:
-return $default(_that.prompt,_that.secondsRemaining,_that.creatorCount,_that.mySubmission,_that.streak);case _:
+return $default(_that.prompt,_that.secondsRemaining,_that.creatorCount,_that.mySubmission,_that.streak,_that.otherPrompts);case _:
   return orElse();
 
 }
@@ -2023,10 +2363,10 @@ return $default(_that.prompt,_that.secondsRemaining,_that.creatorCount,_that.myS
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Prompt prompt, @JsonKey(name: 'seconds_remaining')  int secondsRemaining, @JsonKey(name: 'creator_count')  int creatorCount, @JsonKey(name: 'my_submission')  Submission? mySubmission,  Streak streak)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Prompt prompt, @JsonKey(name: 'seconds_remaining')  int secondsRemaining, @JsonKey(name: 'creator_count')  int creatorCount, @JsonKey(name: 'my_submission')  Submission? mySubmission,  Streak streak, @JsonKey(name: 'other_prompts')  List<Prompt> otherPrompts)  $default,) {final _that = this;
 switch (_that) {
 case _Today():
-return $default(_that.prompt,_that.secondsRemaining,_that.creatorCount,_that.mySubmission,_that.streak);case _:
+return $default(_that.prompt,_that.secondsRemaining,_that.creatorCount,_that.mySubmission,_that.streak,_that.otherPrompts);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -2043,10 +2383,10 @@ return $default(_that.prompt,_that.secondsRemaining,_that.creatorCount,_that.myS
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Prompt prompt, @JsonKey(name: 'seconds_remaining')  int secondsRemaining, @JsonKey(name: 'creator_count')  int creatorCount, @JsonKey(name: 'my_submission')  Submission? mySubmission,  Streak streak)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Prompt prompt, @JsonKey(name: 'seconds_remaining')  int secondsRemaining, @JsonKey(name: 'creator_count')  int creatorCount, @JsonKey(name: 'my_submission')  Submission? mySubmission,  Streak streak, @JsonKey(name: 'other_prompts')  List<Prompt> otherPrompts)?  $default,) {final _that = this;
 switch (_that) {
 case _Today() when $default != null:
-return $default(_that.prompt,_that.secondsRemaining,_that.creatorCount,_that.mySubmission,_that.streak);case _:
+return $default(_that.prompt,_that.secondsRemaining,_that.creatorCount,_that.mySubmission,_that.streak,_that.otherPrompts);case _:
   return null;
 
 }
@@ -2058,7 +2398,7 @@ return $default(_that.prompt,_that.secondsRemaining,_that.creatorCount,_that.myS
 @JsonSerializable()
 
 class _Today implements Today {
-  const _Today({required this.prompt, @JsonKey(name: 'seconds_remaining') this.secondsRemaining = 0, @JsonKey(name: 'creator_count') this.creatorCount = 0, @JsonKey(name: 'my_submission') this.mySubmission, this.streak = const Streak()});
+  const _Today({required this.prompt, @JsonKey(name: 'seconds_remaining') this.secondsRemaining = 0, @JsonKey(name: 'creator_count') this.creatorCount = 0, @JsonKey(name: 'my_submission') this.mySubmission, this.streak = const Streak(), @JsonKey(name: 'other_prompts')  List<Prompt> otherPrompts = const <Prompt>[]}): _otherPrompts = otherPrompts;
   factory _Today.fromJson(Map<String, dynamic> json) => _$TodayFromJson(json);
 
 @override final  Prompt prompt;
@@ -2066,6 +2406,13 @@ class _Today implements Today {
 @override@JsonKey(name: 'creator_count') final  int creatorCount;
 @override@JsonKey(name: 'my_submission') final  Submission? mySubmission;
 @override@JsonKey() final  Streak streak;
+ final  List<Prompt> _otherPrompts;
+@override@JsonKey(name: 'other_prompts') List<Prompt> get otherPrompts {
+  if (_otherPrompts is EqualUnmodifiableListView) return _otherPrompts;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_otherPrompts);
+}
+
 
 /// Create a copy of Today
 /// with the given fields replaced by the non-null parameter values.
@@ -2080,18 +2427,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Today&&(identical(other.prompt, prompt) || other.prompt == prompt)&&(identical(other.secondsRemaining, secondsRemaining) || other.secondsRemaining == secondsRemaining)&&(identical(other.creatorCount, creatorCount) || other.creatorCount == creatorCount)&&(identical(other.mySubmission, mySubmission) || other.mySubmission == mySubmission)&&(identical(other.streak, streak) || other.streak == streak));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Today&&(identical(other.prompt, prompt) || other.prompt == prompt)&&(identical(other.secondsRemaining, secondsRemaining) || other.secondsRemaining == secondsRemaining)&&(identical(other.creatorCount, creatorCount) || other.creatorCount == creatorCount)&&(identical(other.mySubmission, mySubmission) || other.mySubmission == mySubmission)&&(identical(other.streak, streak) || other.streak == streak)&&const DeepCollectionEquality().equals(other.otherPrompts, _otherPrompts));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,prompt,secondsRemaining,creatorCount,mySubmission,streak);
+    return Object.hash(runtimeType,prompt,secondsRemaining,creatorCount,mySubmission,streak,const DeepCollectionEquality().hash(_otherPrompts));
 }
 
 @override
 String toString() {
-    return 'Today(prompt: $prompt, secondsRemaining: $secondsRemaining, creatorCount: $creatorCount, mySubmission: $mySubmission, streak: $streak)';
+    return 'Today(prompt: $prompt, secondsRemaining: $secondsRemaining, creatorCount: $creatorCount, mySubmission: $mySubmission, streak: $streak, otherPrompts: $otherPrompts)';
 }
 
 
@@ -2102,7 +2449,7 @@ abstract mixin class _$TodayCopyWith<$Res> implements $TodayCopyWith<$Res> {
   factory _$TodayCopyWith(_Today value, $Res Function(_Today) _then) = __$TodayCopyWithImpl;
 @override @useResult
 $Res call({
- Prompt prompt,@JsonKey(name: 'seconds_remaining') int secondsRemaining,@JsonKey(name: 'creator_count') int creatorCount,@JsonKey(name: 'my_submission') Submission? mySubmission, Streak streak
+ Prompt prompt,@JsonKey(name: 'seconds_remaining') int secondsRemaining,@JsonKey(name: 'creator_count') int creatorCount,@JsonKey(name: 'my_submission') Submission? mySubmission, Streak streak,@JsonKey(name: 'other_prompts') List<Prompt> otherPrompts
 });
 
 
@@ -2119,14 +2466,15 @@ class __$TodayCopyWithImpl<$Res>
 
 /// Create a copy of Today
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? prompt = null,Object? secondsRemaining = null,Object? creatorCount = null,Object? mySubmission = freezed,Object? streak = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? prompt = null,Object? secondsRemaining = null,Object? creatorCount = null,Object? mySubmission = freezed,Object? streak = null,Object? otherPrompts = null,}) {
   return _then(_Today(
 prompt: null == prompt ? _self.prompt : prompt // ignore: cast_nullable_to_non_nullable
 as Prompt,secondsRemaining: null == secondsRemaining ? _self.secondsRemaining : secondsRemaining // ignore: cast_nullable_to_non_nullable
 as int,creatorCount: null == creatorCount ? _self.creatorCount : creatorCount // ignore: cast_nullable_to_non_nullable
 as int,mySubmission: freezed == mySubmission ? _self.mySubmission : mySubmission // ignore: cast_nullable_to_non_nullable
 as Submission?,streak: null == streak ? _self.streak : streak // ignore: cast_nullable_to_non_nullable
-as Streak,
+as Streak,otherPrompts: null == otherPrompts ? _self._otherPrompts : otherPrompts // ignore: cast_nullable_to_non_nullable
+as List<Prompt>,
   ));
 }
 
