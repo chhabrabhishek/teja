@@ -10,7 +10,6 @@ import '../../design/components/stat_row.dart';
 import '../../design/components/teja_press.dart';
 import '../../design/components/teja_scaffold.dart';
 import '../../design/tokens/colors.dart';
-import '../../design/tokens/flavor.dart';
 import '../../design/tokens/spacing.dart';
 import '../../design/tokens/typography.dart';
 import '../auth/auth_controller.dart';
@@ -60,11 +59,6 @@ class SettingsScreen extends ConsumerWidget {
           const Eyebrow('Appearance'),
           Gap.h12,
           _Group(children: [
-            _Row(
-              label: 'Design',
-              value: ref.watch(flavorProvider).label,
-              onTap: () => _pickFlavor(context, ref),
-            ),
             _Row(
               label: 'Theme',
               value: switch (theme) {
@@ -211,29 +205,6 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  void _pickFlavor(BuildContext context, WidgetRef ref) {
-    showCupertinoModalPopup<void>(
-      context: context,
-      builder: (sheetContext) => CupertinoActionSheet(
-        title: const Text('Design'),
-        message: const Text('Switch the whole app between two personalities.'),
-        actions: [
-          for (final flavor in TejaFlavor.values)
-            CupertinoActionSheetAction(
-              onPressed: () {
-                ref.read(flavorProvider.notifier).set(flavor);
-                sheetContext.pop();
-              },
-              child: Text('${flavor.label} — ${flavor.blurb}'),
-            ),
-        ],
-        cancelButton: CupertinoActionSheetAction(
-          onPressed: () => sheetContext.pop(),
-          child: const Text('Cancel'),
-        ),
-      ),
-    );
-  }
 
   void _pickTheme(BuildContext context, WidgetRef ref) {
     showCupertinoModalPopup<void>(

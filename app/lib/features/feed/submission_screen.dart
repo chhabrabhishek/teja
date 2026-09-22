@@ -6,14 +6,13 @@ import 'package:go_router/go_router.dart';
 import '../../core/utils/date_x.dart';
 import '../../data/teja_repository.dart';
 import '../../design/components/avatar.dart';
-import '../../design/components/chips.dart';
+import '../../design/components/paper.dart';
 import '../../design/components/reaction_bar.dart';
 import '../../design/components/stat_row.dart';
 import '../../design/components/states.dart';
-import '../../design/components/teja_card.dart';
 import '../../design/components/teja_press.dart';
+import '../../design/components/torn_edge.dart';
 import '../../design/tokens/colors.dart';
-import '../../design/tokens/flavor.dart';
 import '../../design/tokens/motion.dart';
 import '../../design/tokens/spacing.dart';
 import '../../design/tokens/typography.dart';
@@ -131,20 +130,6 @@ class _SubmissionScreenState extends ConsumerState<SubmissionScreen> {
 
     return CupertinoPageScaffold(
       backgroundColor: c.canvas,
-      navigationBar: CupertinoNavigationBar(
-        backgroundColor: c.canvas.withValues(alpha: 0.82),
-        border: null,
-        middle: Text(
-          submission.valueOrNull?.author.displayName ?? '',
-          style: TejaText.headline.on(c.ink),
-        ),
-        trailing: submission.hasValue
-            ? GestureDetector(
-                onTap: () => _moreActions(submission.value!),
-                child: Icon(CupertinoIcons.ellipsis, size: 20, color: c.inkSecondary),
-              )
-            : null,
-      ),
       child: submission.when(
         loading: () => const Center(child: CupertinoActivityIndicator()),
         error: (e, _) => const EmptyState(
@@ -155,67 +140,101 @@ class _SubmissionScreenState extends ConsumerState<SubmissionScreen> {
         data: (data) => SafeArea(
           child: Column(
             children: [
+              PaperHeader(
+                trailing: TejaPress(
+                  onTap: () => _moreActions(data),
+                  semanticLabel: 'More',
+                  child: Padding(
+                    padding: const EdgeInsets.all(Gap.sm),
+                    child: Icon(CupertinoIcons.ellipsis, size: 18, color: c.inkSecondary),
+                  ),
+                ),
+              ),
               Expanded(
                 child: ListView(
                   physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.fromLTRB(Gap.gutter, Gap.lg, Gap.gutter, Gap.section),
+                  padding: const EdgeInsets.only(bottom: Gap.section),
                   children: [
-                    _PromptContext(submission: data),
-                    Gap.h20,
-                    _AuthorRow(submission: data),
-                    Gap.h20,
-                    if (data.hasImage) ...[
-                      TejaImage(url: data.imageUrl!, aspectRatio: data.aspectRatio),
-                      if (data.body.isNotEmpty) ...[
-                        Gap.h16,
-                        Text(data.body, style: TejaText.body.on(c.ink)),
-                      ],
-                    ] else
-                      MarkdownBody(
-                        data: data.body,
-                        styleSheet: MarkdownStyleSheet(
-                          p: TejaText.body.on(c.ink),
-                          h1: TejaText.title2.on(c.ink),
-                          h2: TejaText.headline.on(c.ink),
-                          blockquote: TejaText.body.on(c.inkSecondary),
-                          listBullet: TejaText.body.on(c.ink),
-                        ),
-                      ),
-                    Gap.h24,
-                    ReactionBar(
-                      large: true,
-                      counts: data.reactionCounts,
-                      mine: data.myReactions,
-                      onToggle: (emoji, selected) async {
-                        await ref
-                            .read(feedControllerProvider.notifier)
-                            .react(data.id, emoji, selected);
-                        ref.invalidate(_submissionProvider(widget.submissionId));
-                      },
-                    ),
-                    Gap.h24,
-                    const Hairline(),
-                    Gap.h20,
-                    Eyebrow('Comments${data.commentCount > 0 ? ' · ${data.commentCount}' : ''}'),
-                    Gap.h16,
-                    comments.when(
-                      loading: () => const Skeleton.text(width: 200),
-                      error: (_, __) => const SizedBox.shrink(),
-                      data: (items) => items.isEmpty
-                          ? Text(
-                              'No comments yet. Be the first kind word.',
-                              style: TejaText.callout.on(c.inkTertiary),
-                            )
-                          : Column(
-                              children: [
-                                for (final comment in items)
-                                  _CommentRow(
-                                    comment: comment,
-                                    onReply: (target) =>
-                                        setState(() => _replyingTo = target),
-                                  ),
-                              ],
+                    _PostHead(submission: data),
+                    ReceiptCard(
+                      padding: const EdgeInsets.fromLTRB(
+                          Gap.xxl, Gap.xl, Gap.xxl, Gap.xl),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (data.promptText.isNotEmpty) ...[
+                            Eyebrow(data.topicName ?? 'The challenge'),
+                            Gap.h8,
+                            Text(
+                              data.promptText,
+                              style: TejaText.title2.on(c.ember),
                             ),
+                            Gap.h20,
+                          ],
+                          if (data.hasImage) ...[
+                            TejaImage(url: data.imageUrl!, aspectRatio: data.aspectRatio),
+                            if (data.body.isNotEmpty) Gap.h16,
+                          ],
+                          if (data.body.isNotEmpty)
+                            MarkdownBody(
+                              data: data.body,
+                              styleSheet: MarkdownStyleSheet(
+                                p: TejaText.body.on(c.ink),
+                                h1: TejaText.title2.on(c.ink),
+                                h2: TejaText.headline.on(c.ink),
+                                blockquote: TejaText.body.on(c.inkSecondary),
+                                listBullet: TejaText.body.on(c.ink),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                          Gap.xxl, Gap.lg, Gap.xxl, 0),
+                      child: ReactionBar(
+                        large: true,
+                        counts: data.reactionCounts,
+                        mine: data.myReactions,
+                        onToggle: (emoji, selected) async {
+                          await ref
+                              .read(feedControllerProvider.notifier)
+                              .react(data.id, emoji, selected);
+                          ref.invalidate(_submissionProvider(widget.submissionId));
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                          Gap.xxl, Gap.xl, Gap.xxl, Gap.sm),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Eyebrow(
+                            'Comments${data.commentCount > 0 ? ' · ${data.commentCount}' : ''}',
+                          ),
+                          Gap.h16,
+                          comments.when(
+                            loading: () => const Skeleton.text(width: 200),
+                            error: (_, __) => const SizedBox.shrink(),
+                            data: (items) => items.isEmpty
+                                ? Text(
+                                    'No comments yet. Be the first kind word.',
+                                    style: TejaText.callout.on(c.inkTertiary),
+                                  )
+                                : Column(
+                                    children: [
+                                      for (final comment in items)
+                                        _CommentRow(
+                                          comment: comment,
+                                          onReply: (target) =>
+                                              setState(() => _replyingTo = target),
+                                        ),
+                                    ],
+                                  ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -235,63 +254,9 @@ class _SubmissionScreenState extends ConsumerState<SubmissionScreen> {
   }
 }
 
-/// The question being answered.
-///
-/// Without this, a post is a stranger's sentence with no context — the prompt is
-/// half the work and half the meaning, so it leads rather than hides in a footer.
-class _PromptContext extends StatelessWidget {
-  const _PromptContext({required this.submission});
-
-  final Submission submission;
-
-  @override
-  Widget build(BuildContext context) {
-    final c = context.colors;
-    final s = context.style;
-    final hue = TejaColors.forCategory(submission.promptCategory);
-
-    return TejaCard(
-      elevated: false,
-      color: c.surfaceAlt,
-      padding: const EdgeInsets.all(Gap.lg),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(CategoryChip.glyphFor(submission.promptCategory), size: 13, color: hue),
-              Gap.w8,
-              Expanded(
-                child: Text(
-                  (submission.topicPath ?? submission.promptCategory).toUpperCase(),
-                  style: TejaText.eyebrow.on(hue),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              if (submission.promptDate != null)
-                Text(
-                  submission.promptDate!.eyebrowLabel.split(' · ').last,
-                  style: TejaText.footnote.on(c.inkTertiary),
-                ),
-            ],
-          ),
-          Gap.h12,
-          Text(
-            submission.promptText,
-            style: TejaText.title2.on(c.ink).copyWith(
-                  fontFamily: s.roundedFamily,
-                  fontWeight: s.headlineWeight,
-                ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _AuthorRow extends StatelessWidget {
-  const _AuthorRow({required this.submission});
+/// The receipt head: who made it, when, then a torn edge into the work itself.
+class _PostHead extends StatelessWidget {
+  const _PostHead({required this.submission});
 
   final Submission submission;
 
@@ -299,30 +264,32 @@ class _AuthorRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final author = submission.author;
-    final name = author.displayName.isEmpty ? '@${author.username}' : author.displayName;
+    final name = author.displayName.isEmpty ? author.username : author.displayName;
 
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Avatar(
-          name: name,
-          url: author.avatarUrl,
-          size: 44,
-          onTap: () => context.push('/u/${author.username}'),
-        ),
-        Gap.w12,
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        Padding(
+          padding: const EdgeInsets.fromLTRB(Gap.xxl, Gap.sm, Gap.xxl, Gap.md),
+          child: Row(
             children: [
-              Text(name, style: TejaText.headline.on(c.ink)),
-              Gap.h4,
-              Text(
-                [
-                  if (submission.publishedAt != null) submission.publishedAt!.shortAgo,
-                  if (author.streak > 0) 'Day ${author.streak}',
-                ].join(' · '),
-                style: TejaText.footnote.on(c.inkTertiary),
+              Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(color: c.glow, shape: BoxShape.circle),
               ),
+              Gap.w8,
+              Expanded(
+                child: TejaPress(
+                  onTap: () => context.push('/u/${author.username}'),
+                  child: Text(name, style: TejaText.subhead.on(c.ember)),
+                ),
+              ),
+              if (submission.publishedAt != null)
+                Text(
+                  submission.publishedAt!.shortAgo,
+                  style: TejaText.footnote.on(c.inkTertiary),
+                ),
             ],
           ),
         ),
@@ -346,41 +313,55 @@ class _CommentRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     return Padding(
-      padding: EdgeInsets.only(bottom: Gap.lg, left: isReply ? Gap.section : 0),
+      padding: EdgeInsets.only(bottom: Gap.xl, left: isReply ? Gap.xl : 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Avatar(
-                name: comment.authorName,
-                url: comment.authorAvatarUrl,
-                size: isReply ? 24 : 28,
-                onTap: () => context.push('/u/${comment.authorUsername}'),
-              ),
-              Gap.w12,
+              // A hairline rule instead of an avatar for replies: it shows the
+              // thread without repeating a face that's already above.
+              if (isReply)
+                Container(
+                  width: 1,
+                  height: 44,
+                  margin: const EdgeInsets.only(right: Gap.lg, top: Gap.xs),
+                  color: c.hairline,
+                ),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
-                        Text(comment.authorName, style: TejaText.subhead.on(c.ink)),
-                        Gap.w8,
-                        Text(comment.createdAt.shortAgo,
-                            style: TejaText.footnote.on(c.inkTertiary)),
+                        Expanded(
+                          child: TejaPress(
+                            onTap: () => context.push('/u/${comment.authorUsername}'),
+                            child: Text(
+                              comment.authorName,
+                              style: TejaText.subhead.on(c.ink),
+                            ),
+                          ),
+                        ),
+                        Text(
+                          comment.createdAt.shortAgo,
+                          style: TejaText.footnote.on(c.inkTertiary),
+                        ),
                       ],
                     ),
                     Gap.h4,
                     Text(comment.body, style: TejaText.callout.on(c.inkSecondary)),
                     Gap.h4,
-                    TejaPress(
-                      onTap: () => onReply(comment),
-                      semanticLabel: 'Reply to ${comment.authorName}',
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: Gap.xs),
-                        child: Text('Reply', style: TejaText.footnote.on(c.ember)),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TejaPress(
+                        onTap: () => onReply(comment),
+                        semanticLabel: 'Reply to ${comment.authorName}',
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: Gap.xs),
+                          child: Text('Reply', style: TejaText.footnote.on(c.ember)),
+                        ),
                       ),
                     ),
                   ],
@@ -415,11 +396,8 @@ class _CommentComposer extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     return Container(
-      padding: const EdgeInsets.fromLTRB(Gap.gutter, Gap.md, Gap.md, Gap.md),
-      decoration: BoxDecoration(
-        color: c.surfaceAlt,
-        border: Border(top: BorderSide(color: c.hairline, width: 0.5)),
-      ),
+      padding: const EdgeInsets.fromLTRB(Gap.xxl, Gap.md, Gap.xxl, Gap.lg),
+      color: c.canvas,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -443,33 +421,50 @@ class _CommentComposer extends StatelessWidget {
                 ],
               ),
             ),
-          Row(
-            children: [
-              Expanded(
-                child: CupertinoTextField(
-                  controller: controller,
-                  // Setting the norm in the placeholder measurably reduces hostility.
-                  placeholder: replyingTo == null
-                      ? 'Say something kind…'
-                      : 'Reply to ${replyingTo!.authorName}…',
-                  placeholderStyle: TejaText.callout.on(c.inkTertiary),
-                  style: TejaText.callout.on(c.ink),
-                  cursorColor: c.ember,
-                  maxLines: 4,
-                  minLines: 1,
-                  maxLength: 500,
-                  decoration: const BoxDecoration(),
-                  onSubmitted: (_) => onSend(),
+          // One flat pill, as in the design — the send arrow only appears once
+          // there is something to send, so at rest it reads as a single control.
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: Gap.xl, vertical: Gap.xs),
+            decoration: BoxDecoration(
+              color: c.surfaceAlt,
+              borderRadius: const BorderRadius.all(Radius.circular(999)),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: CupertinoTextField(
+                    controller: controller,
+                    // Setting the norm in the placeholder measurably reduces hostility.
+                    placeholder: replyingTo == null
+                        ? 'Reply'
+                        : 'Reply to ${replyingTo!.authorName}',
+                    placeholderStyle: TejaText.callout.on(c.inkTertiary),
+                    style: TejaText.callout.on(c.ink),
+                    cursorColor: c.ember,
+                    maxLines: 4,
+                    minLines: 1,
+                    maxLength: 500,
+                    padding: const EdgeInsets.symmetric(vertical: Gap.md),
+                    decoration: const BoxDecoration(),
+                    onSubmitted: (_) => onSend(),
+                  ),
                 ),
-              ),
-              Gap.w8,
-              GestureDetector(
-                onTap: onSend,
-                child: sending
-                    ? const CupertinoActivityIndicator()
-                    : Icon(CupertinoIcons.arrow_up_circle_fill, size: 30, color: c.ember),
-              ),
-            ],
+                if (sending)
+                  const CupertinoActivityIndicator()
+                else
+                  ValueListenableBuilder<TextEditingValue>(
+                    valueListenable: controller,
+                    builder: (context, value, _) => value.text.trim().isEmpty
+                        ? const SizedBox.shrink()
+                        : TejaPress(
+                            onTap: onSend,
+                            semanticLabel: 'Send',
+                            child: Icon(CupertinoIcons.arrow_up_circle_fill,
+                                size: 28, color: c.ember),
+                          ),
+                  ),
+              ],
+            ),
           ),
         ],
       ),

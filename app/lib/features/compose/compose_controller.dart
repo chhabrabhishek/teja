@@ -8,7 +8,7 @@ import '../../core/api/api_exception.dart';
 import '../../data/teja_repository.dart';
 import '../../domain/enums.dart';
 import '../../domain/models.dart';
-import '../today/today_controller.dart';
+import '../home/home_controller.dart';
 
 @immutable
 class ComposeState {
@@ -78,7 +78,7 @@ class ComposeController extends AutoDisposeNotifier<ComposeState> {
   @override
   ComposeState build() {
     ref.onDispose(() => _debounce?.cancel());
-    final existing = ref.read(todayControllerProvider).valueOrNull?.mySubmission;
+    final existing = ref.read(homeControllerProvider).valueOrNull?.today?.mySubmission;
     if (existing != null && !existing.isPublished) {
       return ComposeState(
         submissionId: existing.id,
@@ -93,7 +93,7 @@ class ComposeController extends AutoDisposeNotifier<ComposeState> {
     return const ComposeState();
   }
 
-  Prompt? get _prompt => ref.read(todayControllerProvider).valueOrNull?.prompt;
+  Prompt? get _prompt => ref.read(homeControllerProvider).valueOrNull?.today?.prompt;
 
   void setBody(String value) {
     state = state.copyWith(body: value, save: ComposeSaveState.saving, clearError: true);
@@ -116,7 +116,7 @@ class ComposeController extends AutoDisposeNotifier<ComposeState> {
             imageHeight: state.imageHeight,
           );
       state = state.copyWith(submissionId: draft.id, save: ComposeSaveState.saved);
-      ref.read(todayControllerProvider.notifier).applyDraft(draft);
+      ref.read(homeControllerProvider.notifier).applyDraft(draft);
     } on ApiException catch (e) {
       state = state.copyWith(save: ComposeSaveState.failed, error: e.message);
     }
@@ -159,7 +159,7 @@ class ComposeController extends AutoDisposeNotifier<ComposeState> {
       final id = state.submissionId;
       if (id == null) throw ApiException('Nothing to publish yet.');
       final result = await ref.read(tejaRepositoryProvider).publish(id);
-      ref.read(todayControllerProvider.notifier).applyPublish(result);
+      ref.read(homeControllerProvider.notifier).applyPublish(result);
       state = state.copyWith(publishing: false);
       return result;
     } on ApiException catch (e) {

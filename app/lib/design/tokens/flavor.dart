@@ -11,8 +11,7 @@ import 'motion.dart';
 /// Every geometry and motion decision that differs between them lives here, so a
 /// component reads `context.style` and never branches on the flavor itself.
 enum TejaFlavor {
-  calm('Calm', 'Quiet, premium, gets out of the way'),
-  playful('Playful', 'Bright, chunky, rewarding');
+  receipt('Receipt', 'Printed paper, torn edges, vermillion ink');
 
   const TejaFlavor(this.label, this.blurb);
 
@@ -73,51 +72,32 @@ class TejaStyle {
   final Curve pressCurve;
   final Curve enterCurve;
 
-  bool get isPlayful => flavor == TejaFlavor.playful;
+  bool get isPlayful => false;
 
   /// Buttons and cards sit on a solid colour edge instead of a soft shadow.
   bool get hasHardEdge => edgeDepth > 0;
 
-  static const calm = TejaStyle(
-    flavor: TejaFlavor.calm,
-    controlRadius: BorderRadius.all(Radius.circular(14)),
-    cardRadius: BorderRadius.all(Radius.circular(20)),
-    heroRadius: BorderRadius.all(Radius.circular(28)),
-    imageRadius: BorderRadius.all(Radius.circular(18)),
+  /// Printed paper: flat, hairline-ruled, no elevation anywhere.
+  static const receipt = TejaStyle(
+    flavor: TejaFlavor.receipt,
+    controlRadius: BorderRadius.all(Radius.circular(24)),
+    cardRadius: BorderRadius.all(Radius.circular(16)),
+    heroRadius: BorderRadius.all(Radius.circular(20)),
+    imageRadius: BorderRadius.all(Radius.circular(12)),
     borderWidth: 0.5,
     edgeDepth: 0,
     buttonHeight: 54,
     displayWeight: FontWeight.w700,
     headlineWeight: FontWeight.w600,
     displayScale: 1,
-    heroWash: true,
+    heroWash: false,
     roundedFamily: null,
     pressScale: 0.97,
     pressCurve: Motion.easeOut,
     enterCurve: Motion.enter,
   );
 
-  static const playful = TejaStyle(
-    flavor: TejaFlavor.playful,
-    controlRadius: BorderRadius.all(Radius.circular(16)),
-    cardRadius: BorderRadius.all(Radius.circular(20)),
-    heroRadius: BorderRadius.all(Radius.circular(24)),
-    imageRadius: BorderRadius.all(Radius.circular(16)),
-    borderWidth: 2,
-    edgeDepth: 4,
-    buttonHeight: 56,
-    displayWeight: FontWeight.w800,
-    headlineWeight: FontWeight.w700,
-    displayScale: 0.78,
-    heroWash: false,
-    roundedFamily: '.SF Pro Rounded',
-    pressScale: 1,
-    pressCurve: Curves.easeOut,
-    enterCurve: Curves.easeOutBack,
-  );
-
-  static TejaStyle of(TejaFlavor flavor) =>
-      flavor == TejaFlavor.playful ? playful : calm;
+  static TejaStyle of(TejaFlavor flavor) => receipt;
 }
 
 class TejaStyleScope extends InheritedWidget {
@@ -127,7 +107,7 @@ class TejaStyleScope extends InheritedWidget {
 
   static TejaStyle of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<TejaStyleScope>()?.style ??
-      TejaStyle.calm;
+      TejaStyle.receipt;
 
   @override
   bool updateShouldNotify(TejaStyleScope oldWidget) => style != oldWidget.style;

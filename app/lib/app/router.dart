@@ -11,11 +11,10 @@ import '../features/compose/compose_screen.dart';
 import '../features/compose/spark_screen.dart';
 import '../features/feed/feed_screen.dart';
 import '../features/feed/submission_screen.dart';
+import '../features/home/home_screen.dart';
 import '../features/profile/edit_profile_screen.dart';
 import '../features/profile/profile_screen.dart';
 import '../features/profile/settings_screen.dart';
-import '../features/shell/tab_shell.dart';
-import '../features/today/today_screen.dart';
 
 final _rootKey = GlobalKey<NavigatorState>();
 
@@ -108,49 +107,41 @@ final routerProvider = Provider<GoRouter>((ref) {
         ),
       ),
 
-      StatefulShellRoute.indexedStack(
-        builder: (context, state, shell) => TabShell(shell: shell),
-        branches: [
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/today',
-              pageBuilder: (c, s) => const NoTransitionPage(child: TodayScreen()),
+      // No shell: the app is one scrolling page, and profile is pushed from the
+      // avatar rather than living in a tab.
+      GoRoute(
+        path: '/today',
+        pageBuilder: (c, s) => const NoTransitionPage(child: HomeScreen()),
+      ),
+      GoRoute(
+        path: '/feed',
+        pageBuilder: (c, s) =>
+            CupertinoPage(key: s.pageKey, child: const FeedScreen()),
+      ),
+      GoRoute(
+        path: '/you',
+        pageBuilder: (c, s) => CupertinoPage(key: s.pageKey, child: const ProfileScreen()),
+        routes: [
+          GoRoute(
+            path: 'settings',
+            pageBuilder: (c, s) =>
+                CupertinoPage(key: s.pageKey, child: const SettingsScreen()),
+          ),
+          GoRoute(
+            path: 'interests',
+            pageBuilder: (c, s) => CupertinoPage(
+              key: s.pageKey,
+              child: const InterestsScreen(isOnboarding: false),
             ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/feed',
-              pageBuilder: (c, s) => const NoTransitionPage(child: FeedScreen()),
+          ),
+          GoRoute(
+            path: 'edit',
+            pageBuilder: (c, s) => CupertinoPage(
+              key: s.pageKey,
+              fullscreenDialog: true,
+              child: const EditProfileScreen(),
             ),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(
-              path: '/you',
-              pageBuilder: (c, s) => const NoTransitionPage(child: ProfileScreen()),
-              routes: [
-                GoRoute(
-                  path: 'settings',
-                  pageBuilder: (c, s) =>
-                      CupertinoPage(key: s.pageKey, child: const SettingsScreen()),
-                ),
-                GoRoute(
-                  path: 'interests',
-                  pageBuilder: (c, s) => CupertinoPage(
-                    key: s.pageKey,
-                    child: const InterestsScreen(isOnboarding: false),
-                  ),
-                ),
-                GoRoute(
-                  path: 'edit',
-                  pageBuilder: (c, s) => CupertinoPage(
-                    key: s.pageKey,
-                    fullscreenDialog: true,
-                    child: const EditProfileScreen(),
-                  ),
-                ),
-              ],
-            ),
-          ]),
+          ),
         ],
       ),
     ],

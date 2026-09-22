@@ -9,7 +9,7 @@ import '../../design/components/teja_scaffold.dart';
 import '../../design/tokens/colors.dart';
 import '../../design/tokens/spacing.dart';
 import '../../design/tokens/typography.dart';
-import '../today/today_controller.dart';
+import '../home/home_controller.dart';
 import 'topic_picker.dart';
 
 /// A tiny investment ritual, and the only thing that decides what you're asked
@@ -44,7 +44,7 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
     try {
       await ref.read(tejaRepositoryProvider).setTopics((_selected ?? {}).toList());
       // The daily challenge is drawn from these, so it must be re-resolved.
-      ref.invalidate(todayControllerProvider);
+      ref.invalidate(homeControllerProvider);
     } catch (_) {
       // An interest is never worth blocking onboarding over.
     }

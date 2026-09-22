@@ -6,7 +6,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../design/components/aurora_background.dart';
 import '../../design/components/confetti.dart';
-import '../../design/components/teja_button.dart';
+import '../../design/components/paper.dart';
+import '../../design/components/teja_press.dart';
 import '../../design/components/week_strip.dart';
 import '../../design/tokens/colors.dart';
 import '../../design/tokens/flavor.dart';
@@ -152,9 +153,22 @@ class _SparkScreenState extends ConsumerState<SparkScreen>
                           size: 11,
                         ),
                         const Spacer(flex: 4),
-                        TejaButton('See what others made', onPressed: _toFeed),
+                        PaperButton(
+                          label: 'See what others made',
+                          expand: true,
+                          onTap: _toFeed,
+                        ),
                         Gap.h12,
-                        TejaButton.quiet('Back to Today', onPressed: _toToday),
+                        TejaPress(
+                          onTap: _toToday,
+                          child: Padding(
+                            padding: const EdgeInsets.all(Gap.md),
+                            child: Text(
+                              'Back to Today',
+                              style: TejaText.callout.on(c.inkSecondary),
+                            ),
+                          ),
+                        ),
                         Gap.h24,
                       ],
                     ),

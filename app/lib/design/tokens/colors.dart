@@ -15,6 +15,7 @@ import 'flavor.dart';
 class TejaColors {
   const TejaColors({
     required this.canvas,
+    required this.band,
     required this.surface,
     required this.surfaceAlt,
     required this.hairline,
@@ -30,10 +31,15 @@ class TejaColors {
     required this.success,
     required this.danger,
     required this.scrim,
+    required this.perforation,
+    required this.cardShadow,
     required this.isDark,
   });
 
   final Color canvas;
+
+  /// The lighter stock between two torn edges — the printed part of the receipt.
+  final Color band;
   final Color surface;
   final Color surfaceAlt;
   final Color hairline;
@@ -51,98 +57,63 @@ class TejaColors {
   final Color success;
   final Color danger;
   final Color scrim;
+
+  /// The torn perforation line between receipt segments.
+  final Color perforation;
+
+  /// The soft drop under a receipt card; follows the torn edge, not a rectangle.
+  final Color cardShadow;
   final bool isDark;
 
-  static const light = TejaColors(
-    canvas: Color(0xFFFBF8F4),
-    surface: Color(0xFFFFFFFF),
-    surfaceAlt: Color(0xFFF3EFE8),
-    hairline: Color(0xFFE7E0D6),
-    ink: Color(0xFF17130F),
-    inkSecondary: Color(0xFF6A6157),
-    inkTertiary: Color(0xFFA29889),
-    ember: Color(0xFFDC5B34),
-    emberSoft: Color(0xFFFBEAE2),
-    emberEdge: Color(0xFFB8431F),
-    onEmber: Color(0xFFFFFDFB),
-    surfaceEdge: Color(0xFFE7E0D6),
-    glow: Color(0xFFF0A63C),
-    success: Color(0xFF3E7D5A),
-    danger: Color(0xFFC0392B),
-    scrim: Color(0x5217130F),
-    isDark: false,
-  );
-
-  static const dark = TejaColors(
-    canvas: Color(0xFF0D0C0B),
-    surface: Color(0xFF161413),
-    surfaceAlt: Color(0xFF201D1B),
-    hairline: Color(0xFF2B2725),
-    ink: Color(0xFFF6F2ED),
-    inkSecondary: Color(0xFFA79F96),
-    inkTertiary: Color(0xFF6C645B),
-    ember: Color(0xFFFF7A4F),
-    emberSoft: Color(0xFF2E1A12),
-    emberEdge: Color(0xFFC4522F),
-    onEmber: Color(0xFF14100E),
-    surfaceEdge: Color(0xFF2B2725),
-    glow: Color(0xFFFFB85C),
-    success: Color(0xFF5AA37B),
-    danger: Color(0xFFE05C4B),
-    scrim: Color(0x8F000000),
-    isDark: true,
-  );
-
-  /// Playful — saturated, high contrast, built for 2px outlines and 3D edges.
-  /// Pure white canvas here on purpose: the calm rule about warm paper is a
-  /// calm-flavor rule, and muddying these colours would kill the energy.
-  static const playfulLight = TejaColors(
-    canvas: Color(0xFFFFFFFF),
-    surface: Color(0xFFFFFFFF),
-    surfaceAlt: Color(0xFFF7F7F7),
-    hairline: Color(0xFFE5E5E5),
-    ink: Color(0xFF3C3C3C),
-    inkSecondary: Color(0xFF777777),
-    inkTertiary: Color(0xFFAFAFAF),
-    ember: Color(0xFFFF6B35),
-    emberSoft: Color(0xFFFFEDE5),
-    emberEdge: Color(0xFFD9501F),
+  /// Receipt — warm printed paper, vermillion ink, no shadows anywhere.
+  static const receiptLight = TejaColors(
+    canvas: Color(0xFFF7F6F2),
+    band: Color(0xFFFCFBF9),
+    surface: Color(0xFFFBFAF8),
+    surfaceAlt: Color(0xFFE6E4E0),
+    hairline: Color(0xFFDDD9D3),
+    ink: Color(0xFF1C1B19),
+    inkSecondary: Color(0xFF6E6A64),
+    inkTertiary: Color(0xFF9C978F),
+    ember: Color(0xFFF96B38),
+    emberSoft: Color(0xFFFDEAE3),
+    emberEdge: Color(0xFFD04A26),
     onEmber: Color(0xFFFFFFFF),
-    surfaceEdge: Color(0xFFE5E5E5),
-    glow: Color(0xFFFFC800),
-    success: Color(0xFF58CC02),
-    danger: Color(0xFFFF4B4B),
-    scrim: Color(0x663C3C3C),
+    surfaceEdge: Color(0xFFDDD9D3),
+    glow: Color(0xFFE8452B),
+    success: Color(0xFF4F7A52),
+    danger: Color(0xFFC0392B),
+    scrim: Color(0x521C1B19),
+    perforation: Color(0xFFCDC9C2),
+    cardShadow: Color(0x14000000),
     isDark: false,
   );
 
-  static const playfulDark = TejaColors(
-    canvas: Color(0xFF131F24),
-    surface: Color(0xFF1B2B32),
-    surfaceAlt: Color(0xFF223640),
-    hairline: Color(0xFF37464F),
-    ink: Color(0xFFF1F7FB),
-    inkSecondary: Color(0xFF8FA3AD),
-    inkTertiary: Color(0xFF5F7682),
-    ember: Color(0xFFFF7E4D),
-    emberSoft: Color(0xFF3A2116),
-    emberEdge: Color(0xFFC4522F),
-    onEmber: Color(0xFF131F24),
-    surfaceEdge: Color(0xFF37464F),
-    glow: Color(0xFFFFC800),
-    success: Color(0xFF58CC02),
-    danger: Color(0xFFFF4B4B),
+  static const receiptDark = TejaColors(
+    canvas: Color(0xFF15140F),
+    band: Color(0xFF1B1A15),
+    surface: Color(0xFF1C1A16),
+    surfaceAlt: Color(0xFF272420),
+    hairline: Color(0xFF34302A),
+    ink: Color(0xFFF4F1EA),
+    inkSecondary: Color(0xFFA8A29A),
+    inkTertiary: Color(0xFF6F6A62),
+    ember: Color(0xFFFF7A52),
+    emberSoft: Color(0xFF34201A),
+    emberEdge: Color(0xFFD04A26),
+    onEmber: Color(0xFF15140F),
+    surfaceEdge: Color(0xFF34302A),
+    glow: Color(0xFFFF6A4D),
+    success: Color(0xFF6FA372),
+    danger: Color(0xFFE05C4B),
     scrim: Color(0x99000000),
+    perforation: Color(0xFF38342E),
+    cardShadow: Color(0x40000000),
     isDark: true,
   );
 
-  static TejaColors resolve(TejaFlavor flavor, Brightness brightness) {
-    final isDark = brightness == Brightness.dark;
-    return switch (flavor) {
-      TejaFlavor.playful => isDark ? playfulDark : playfulLight,
-      TejaFlavor.calm => isDark ? dark : light,
-    };
-  }
+  static TejaColors resolve(TejaFlavor flavor, Brightness brightness) =>
+      brightness == Brightness.dark ? receiptDark : receiptLight;
 
   /// Category hues are identical in both themes; only their alpha changes.
   static const writing = Color(0xFF5A6A9E);

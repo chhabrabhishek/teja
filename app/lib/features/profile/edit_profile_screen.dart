@@ -76,10 +76,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Gap.h24,
-          const Text('NAME', style: TejaText.eyebrow),
+          Text('NAME', style: TejaText.eyebrow),
           TejaField(controller: _name, placeholder: 'Your name'),
           Gap.h24,
-          const Text('HANDLE', style: TejaText.eyebrow),
+          Text('HANDLE', style: TejaText.eyebrow),
           TejaField(
             controller: _username,
             placeholder: 'handle',
@@ -91,7 +91,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             style: TejaText.footnote.on(c.inkTertiary),
           ),
           Gap.h24,
-          const Text('BIO', style: TejaText.eyebrow),
+          Text('BIO', style: TejaText.eyebrow),
           TejaField(
             controller: _bio,
             placeholder: 'One line about your practice',

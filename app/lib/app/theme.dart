@@ -10,37 +10,9 @@ import '../design/tokens/typography.dart';
 final themeModeProvider =
     NotifierProvider<ThemeModeController, Brightness?>(ThemeModeController.new);
 
-/// Which visual personality the app wears. Persisted so a design review survives
-/// a restart.
-final flavorProvider =
-    NotifierProvider<FlavorController, TejaFlavor>(FlavorController.new);
-
-class FlavorController extends Notifier<TejaFlavor> {
-  static const _key = 'teja.flavor';
-
-  @override
-  TejaFlavor build() {
-    Future.microtask(_load);
-    return TejaFlavor.calm;
-  }
-
-  Future<void> _load() async {
-    final prefs = await SharedPreferences.getInstance();
-    state = prefs.getString(_key) == TejaFlavor.playful.name
-        ? TejaFlavor.playful
-        : TejaFlavor.calm;
-  }
-
-  Future<void> set(TejaFlavor flavor) async {
-    state = flavor;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_key, flavor.name);
-  }
-
-  Future<void> toggle() => set(
-        state == TejaFlavor.calm ? TejaFlavor.playful : TejaFlavor.calm,
-      );
-}
+/// One visual language now. Kept as a provider so a second can be slotted in
+/// without touching every call site.
+final flavorProvider = Provider<TejaFlavor>((ref) => TejaFlavor.receipt);
 
 /// null = follow the system. Dark mode is a first-class design, not a toggle we
 /// bolted on, so this is persisted and applied before the first frame paints.
@@ -80,7 +52,7 @@ class TejaTheme extends StatelessWidget {
     super.key,
     required this.brightness,
     required this.child,
-    this.flavor = TejaFlavor.calm,
+    this.flavor = TejaFlavor.receipt,
   });
 
   final Brightness brightness;

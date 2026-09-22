@@ -7,7 +7,7 @@ import '../../design/components/avatar.dart';
 import '../../design/components/markdown_preview.dart';
 import '../../design/components/stat_row.dart';
 import '../../design/components/states.dart';
-import '../../design/components/teja_card.dart';
+import '../../design/components/teja_press.dart';
 import '../../design/components/week_strip.dart';
 import '../../design/tokens/colors.dart';
 import '../../design/tokens/spacing.dart';
@@ -59,10 +59,17 @@ class ProfileScreen extends ConsumerWidget {
         physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         slivers: [
           CupertinoSliverNavigationBar(
-            largeTitle: Text(isMe ? 'You' : 'Profile', style: TejaText.title1.on(c.ink)),
+            largeTitle: const SizedBox.shrink(),
             backgroundColor: c.canvas.withValues(alpha: 0.82),
             border: null,
-            automaticallyImplyLeading: !isMe,
+            automaticallyImplyLeading: false,
+            leading: Navigator.of(context).canPop()
+                ? TejaPress(
+                    onTap: () => context.pop(),
+                    semanticLabel: 'Back',
+                    child: Icon(CupertinoIcons.chevron_left, size: 22, color: c.ember),
+                  )
+                : null,
             trailing: isMe
                 ? GestureDetector(
                     onTap: () => context.push('/you/settings'),
@@ -90,7 +97,7 @@ class ProfileScreen extends ConsumerWidget {
                 data: (user) => _ProfileHeader(user: user, isMe: isMe),
               ),
               Gap.h32,
-              const Eyebrow('Your creations'),
+              const Eyebrow('Creations'),
               Gap.h16,
               creations.when(
                 loading: () => const _GridSkeleton(),
@@ -171,8 +178,8 @@ abstract final class DateUtilsX {
   }
 }
 
-/// A two-column masonry: images as thumbnails, text as small cards showing the
-/// first lines. Seeing your own words tiled up is the whole emotional payoff.
+/// A uniform grid. Masonry made the wall read as ragged noise — every creation
+/// is worth the same amount of space, whether it's four words or a photograph.
 class _CreationsGrid extends StatelessWidget {
   const _CreationsGrid({required this.items});
 
@@ -181,53 +188,56 @@ class _CreationsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final left = <Submission>[];
-    final right = <Submission>[];
-    for (var i = 0; i < items.length; i++) {
-      (i.isEven ? left : right).add(items[i]);
-    }
-
-    Widget column(List<Submission> column) => Expanded(
-          child: Column(
-            children: [
-              for (final item in column)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: Gap.md),
-                  child: TejaCard(
-                    onTap: () => context.push('/s/${item.id}'),
-                    padding: item.hasImage ? EdgeInsets.zero : const EdgeInsets.all(Gap.lg),
-                    child: item.hasImage
-                        ? TejaImage(
-                            url: item.imageUrl!,
-                            aspectRatio: item.aspectRatio,
-                            borderRadius: Radii.card,
-                          )
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              MarkdownPreview(
-                                item.body,
-                                style: TejaText.subhead.on(c.ink),
-                                maxLines: 5,
-                              ),
-                              Gap.h12,
-                              Text(
-                                item.publishedAt == null
-                                    ? ''
-                                    : '${item.publishedAt!.day}/${item.publishedAt!.month}',
-                                style: TejaText.footnote.on(c.inkTertiary),
-                              ),
-                            ],
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: Gap.md,
+        mainAxisSpacing: Gap.md,
+        childAspectRatio: 1,
+      ),
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        final item = items[index];
+        return TejaPress(
+          onTap: () => context.push('/s/${item.id}'),
+          child: Container(
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              color: c.surface,
+              borderRadius: const BorderRadius.all(Radius.circular(14)),
+              border: Border.all(color: c.hairline),
+            ),
+            child: item.hasImage
+                ? TejaImage(
+                    url: item.imageUrl!,
+                    borderRadius: const BorderRadius.all(Radius.circular(14)),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(Gap.lg),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: MarkdownPreview(
+                            item.body,
+                            style: TejaText.callout.on(c.ink),
+                            maxLines: 5,
                           ),
+                        ),
+                        Text(
+                          item.publishedAt == null
+                              ? ''
+                              : '${item.publishedAt!.day}/${item.publishedAt!.month}',
+                          style: TejaText.footnote.on(c.inkTertiary),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-            ],
           ),
         );
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [column(left), Gap.w12, column(right)],
+      },
     );
   }
 }

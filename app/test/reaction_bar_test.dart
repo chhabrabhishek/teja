@@ -55,7 +55,7 @@ void main() {
   testWidgets('survives an absurdly narrow card', (tester) async {
     await pumpBar(
       tester,
-      flavor: TejaFlavor.playful,
+      flavor: TejaFlavor.receipt,
       counts: {for (final e in kReactions) e: 12345},
       width: 180,
     );

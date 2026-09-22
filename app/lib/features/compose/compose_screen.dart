@@ -5,16 +5,14 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../design/components/avatar.dart';
-import '../../design/components/stat_row.dart';
 import '../../design/components/teja_header.dart';
 import '../../design/components/teja_button.dart';
-import '../../design/components/teja_press.dart';
-import '../../design/tokens/colors.dart';
+import '../../design/components/teja_press.dart';import '../../design/components/torn_edge.dart';import '../../design/tokens/colors.dart';
 import '../../design/tokens/motion.dart';
 import '../../design/tokens/spacing.dart';
 import '../../design/tokens/typography.dart';
 import '../../domain/enums.dart';
-import '../today/today_controller.dart';
+import '../home/home_controller.dart';
 import 'compose_controller.dart';
 
 /// A writing room, not a form.
@@ -111,7 +109,7 @@ class _ComposeScreenState extends ConsumerState<ComposeScreen> {
   Widget build(BuildContext context) {
     final c = context.colors;
     final state = ref.watch(composeControllerProvider);
-    final prompt = ref.watch(todayControllerProvider).valueOrNull?.prompt;
+    final prompt = ref.watch(homeControllerProvider).valueOrNull?.today?.prompt;
     final craft = Craft.from(prompt?.category);
 
     return CupertinoPageScaffold(
@@ -157,7 +155,7 @@ class _ComposeScreenState extends ConsumerState<ComposeScreen> {
                 ],
               ),
             ),
-            const Hairline(),
+            const TornEdge(),
             Expanded(
               child: craft.isImage
                   ? _ImageComposer(craft: craft, text: _text)
