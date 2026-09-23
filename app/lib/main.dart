@@ -12,12 +12,12 @@ void main() async {
   // Loads the tz database before any screen can schedule against it.
   await container.read(notificationServiceProvider).init();
   runApp(
-    UncontrolledProviderScope(container: container, child: const TejaApp()),
+    UncontrolledProviderScope(container: container, child: const DabbleApp()),
   );
 }
 
-class TejaApp extends ConsumerWidget {
-  const TejaApp({super.key});
+class DabbleApp extends ConsumerWidget {
+  const DabbleApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,18 +25,18 @@ class TejaApp extends ConsumerWidget {
     final flavor = ref.watch(flavorProvider);
     final router = ref.watch(routerProvider);
     final brightness = override ?? MediaQuery.platformBrightnessOf(context);
-    final colors = TejaColors.resolve(flavor, brightness);
+    final colors = DabbleColors.resolve(flavor, brightness);
 
-    // TejaTheme sits above CupertinoApp, so every routed page resolves
+    // DabbleTheme sits above CupertinoApp, so every routed page resolves
     // `context.colors` and `context.style` without re-wrapping.
-    return TejaTheme(
+    return DabbleTheme(
       brightness: brightness,
       flavor: flavor,
       child: CupertinoApp.router(
-        title: 'Teja',
+        title: 'Dabble',
         debugShowCheckedModeBanner: false,
         routerConfig: router,
-        theme: TejaTheme.cupertino(colors),
+        theme: DabbleTheme.cupertino(colors),
       ),
     );
   }

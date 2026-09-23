@@ -22,7 +22,7 @@ Map<String, dynamic> _$StreakToJson(_Streak instance) => <String, dynamic>{
   'last_date': instance.lastDate?.toIso8601String(),
 };
 
-_TejaUser _$TejaUserFromJson(Map<String, dynamic> json) => _TejaUser(
+_DabbleUser _$DabbleUserFromJson(Map<String, dynamic> json) => _DabbleUser(
   id: json['id'] as String,
   username: json['username'] as String,
   displayName: json['display_name'] as String? ?? '',
@@ -41,18 +41,19 @@ _TejaUser _$TejaUserFromJson(Map<String, dynamic> json) => _TejaUser(
       : Streak.fromJson(json['streak'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$TejaUserToJson(_TejaUser instance) => <String, dynamic>{
-  'id': instance.id,
-  'username': instance.username,
-  'display_name': instance.displayName,
-  'bio': instance.bio,
-  'avatar_url': instance.avatarUrl,
-  'email': instance.email,
-  'timezone': instance.timezone,
-  'reminder_hour': instance.reminderHour,
-  'preferred_categories': instance.preferredCategories,
-  'streak': instance.streak,
-};
+Map<String, dynamic> _$DabbleUserToJson(_DabbleUser instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'username': instance.username,
+      'display_name': instance.displayName,
+      'bio': instance.bio,
+      'avatar_url': instance.avatarUrl,
+      'email': instance.email,
+      'timezone': instance.timezone,
+      'reminder_hour': instance.reminderHour,
+      'preferred_categories': instance.preferredCategories,
+      'streak': instance.streak,
+    };
 
 _Topic _$TopicFromJson(Map<String, dynamic> json) => _Topic(
   id: json['id'] as String,
@@ -325,7 +326,7 @@ _Session _$SessionFromJson(Map<String, dynamic> json) => _Session(
   refreshToken: json['refresh_token'] as String,
   expiresIn: (json['expires_in'] as num?)?.toInt() ?? 1800,
   isNewUser: json['is_new_user'] as bool? ?? false,
-  user: TejaUser.fromJson(json['user'] as Map<String, dynamic>),
+  user: DabbleUser.fromJson(json['user'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$SessionToJson(_Session instance) => <String, dynamic>{

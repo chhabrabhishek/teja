@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../design/components/teja_button.dart';
-import '../../design/components/teja_field.dart';
-import '../../design/components/teja_scaffold.dart';
+import '../../design/components/dabble_button.dart';
+import '../../design/components/dabble_field.dart';
+import '../../design/components/dabble_scaffold.dart';
 import '../../design/tokens/colors.dart';
 import '../../design/tokens/spacing.dart';
 import '../../design/tokens/typography.dart';
@@ -42,15 +42,15 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
     final c = context.colors;
     final auth = ref.watch(authControllerProvider);
 
-    return TejaPage(
+    return DabblePage(
       scrollable: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Gap.h32,
-          Text("What's your email?", style: TejaText.title1.on(c.ink)),
+          Text("What's your email?", style: DabbleText.title1.on(c.ink)),
           Gap.h32,
-          TejaField(
+          DabbleField(
             controller: _controller,
             placeholder: 'you@example.com',
             keyboardType: TextInputType.emailAddress,
@@ -62,14 +62,14 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
           Gap.h16,
           Text(
             "We'll send a 6-digit code. No password to remember.",
-            style: TejaText.footnote.on(c.inkTertiary),
+            style: DabbleText.footnote.on(c.inkTertiary),
           ),
           if (auth.error != null) ...[
             Gap.h12,
-            Text(auth.error!, style: TejaText.footnote.on(c.danger)),
+            Text(auth.error!, style: DabbleText.footnote.on(c.danger)),
           ],
           const Spacer(),
-          TejaButton(
+          DabbleButton(
             'Continue',
             loading: auth.busy,
             onPressed: _valid ? _continue : null,

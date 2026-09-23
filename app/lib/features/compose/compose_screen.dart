@@ -5,9 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../design/components/avatar.dart';
-import '../../design/components/teja_header.dart';
-import '../../design/components/teja_button.dart';
-import '../../design/components/teja_press.dart';import '../../design/components/torn_edge.dart';import '../../design/tokens/colors.dart';
+import '../../design/components/dabble_header.dart';
+import '../../design/components/dabble_button.dart';
+import '../../design/components/dabble_press.dart';import '../../design/components/torn_edge.dart';import '../../design/tokens/colors.dart';
 import '../../design/tokens/motion.dart';
 import '../../design/tokens/spacing.dart';
 import '../../design/tokens/typography.dart';
@@ -121,16 +121,16 @@ class _ComposeScreenState extends ConsumerState<ComposeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TejaHeader(
-              leading: TejaHeaderAction('Cancel', onTap: _confirmDismiss),
+            DabbleHeader(
+              leading: DabbleHeaderAction('Cancel', onTap: _confirmDismiss),
               trailing: state.publishing
                   ? const Padding(
                       padding: EdgeInsets.symmetric(horizontal: Gap.sm),
                       child: CupertinoActivityIndicator(),
                     )
-                  : TejaButton(
+                  : DabbleButton(
                       'Publish',
-                      size: TejaButtonSize.small,
+                      size: DabbleButtonSize.small,
                       expand: false,
                       onPressed: state.hasContent ? _confirmPublish : null,
                     ),
@@ -145,7 +145,7 @@ class _ComposeScreenState extends ConsumerState<ComposeScreen> {
                   Expanded(
                     child: Text(
                       prompt?.text ?? '',
-                      style: TejaText.subhead.on(c.inkSecondary),
+                      style: DabbleText.subhead.on(c.inkSecondary),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -165,7 +165,7 @@ class _ComposeScreenState extends ConsumerState<ComposeScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: Gap.gutter, vertical: Gap.sm),
-                child: Text(state.error!, style: TejaText.footnote.on(c.danger)),
+                child: Text(state.error!, style: DabbleText.footnote.on(c.danger)),
               ),
             if (!craft.isImage) _EditorToolbar(craft: craft, controller: _text),
           ],
@@ -195,11 +195,11 @@ class _TextComposer extends ConsumerWidget {
               data: state.body,
               padding: const EdgeInsets.all(Gap.gutter),
               styleSheet: MarkdownStyleSheet(
-                p: TejaText.body.on(c.ink),
-                h1: TejaText.title2.on(c.ink),
-                h2: TejaText.headline.on(c.ink),
-                blockquote: TejaText.body.on(c.inkSecondary),
-                listBullet: TejaText.body.on(c.ink),
+                p: DabbleText.body.on(c.ink),
+                h1: DabbleText.title2.on(c.ink),
+                h2: DabbleText.headline.on(c.ink),
+                blockquote: DabbleText.body.on(c.inkSecondary),
+                listBullet: DabbleText.body.on(c.ink),
               ),
             )
           : CupertinoTextField(
@@ -211,8 +211,8 @@ class _TextComposer extends ConsumerWidget {
               maxLength: craft.characterLimit,
               textAlignVertical: TextAlignVertical.top,
               placeholder: craft.placeholder,
-              placeholderStyle: TejaText.body.on(c.inkTertiary),
-              style: TejaText.body.on(c.ink),
+              placeholderStyle: DabbleText.body.on(c.inkTertiary),
+              style: DabbleText.body.on(c.ink),
               cursorColor: c.ember,
               decoration: const BoxDecoration(),
               padding: const EdgeInsets.fromLTRB(Gap.gutter, Gap.lg, Gap.gutter, Gap.lg),
@@ -267,12 +267,12 @@ class _ImageComposer extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TejaPress(
+          DabblePress(
             onTap: () => _pick(context, ref),
             child: AspectRatio(
               aspectRatio: 4 / 5,
               child: hasImage
-                  ? TejaImage(url: state.imageUrl!)
+                  ? DabbleImage(url: state.imageUrl!)
                   : DecoratedBox(
                       decoration: BoxDecoration(
                         color: c.surfaceAlt,
@@ -286,12 +286,12 @@ class _ImageComposer extends ConsumerWidget {
                           Gap.h12,
                           Text(
                             craft == Craft.sketch ? 'Add your sketch' : 'Add a photo',
-                            style: TejaText.headline.on(c.ink),
+                            style: DabbleText.headline.on(c.ink),
                           ),
                           Gap.h4,
                           Text(
                             'Camera or Library',
-                            style: TejaText.footnote.on(c.inkTertiary),
+                            style: DabbleText.footnote.on(c.inkTertiary),
                           ),
                         ],
                       ),
@@ -300,7 +300,7 @@ class _ImageComposer extends ConsumerWidget {
           ),
           if (hasImage) ...[
             Gap.h12,
-            TejaButton.quiet('Replace', onPressed: () => _pick(context, ref)),
+            DabbleButton.quiet('Replace', onPressed: () => _pick(context, ref)),
           ],
           Gap.h16,
           CupertinoTextField(
@@ -308,8 +308,8 @@ class _ImageComposer extends ConsumerWidget {
             maxLines: 3,
             minLines: 1,
             placeholder: craft.placeholder,
-            placeholderStyle: TejaText.body.on(c.inkTertiary),
-            style: TejaText.body.on(c.ink),
+            placeholderStyle: DabbleText.body.on(c.inkTertiary),
+            style: DabbleText.body.on(c.ink),
             cursorColor: c.ember,
             decoration: const BoxDecoration(),
             padding: EdgeInsets.zero,
@@ -372,7 +372,7 @@ class _EditorToolbar extends ConsumerWidget {
             _ToolButton(label: 'i', italic: true, onTap: () => _wrap(ref, '_')),
             _ToolButton(label: '“', onTap: () => _wrap(ref, '"')),
             Gap.w12,
-            TejaButton.quiet(
+            DabbleButton.quiet(
               state.preview ? 'Edit' : 'Preview',
               onPressed: ref.read(composeControllerProvider.notifier).togglePreview,
             ),
@@ -382,7 +382,7 @@ class _EditorToolbar extends ConsumerWidget {
             limit == null
                 ? '${state.body.trim().isEmpty ? 0 : state.body.trim().split(RegExp(r'\s+')).length} words'
                 : '${limit - count}',
-            style: TejaText.footnote
+            style: DabbleText.footnote
                 .on(nearLimit ? c.ember : c.inkTertiary)
                 .tabular,
           ),
@@ -408,7 +408,7 @@ class _ToolButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    return TejaPress(
+    return DabblePress(
       onTap: onTap,
       child: Container(
         width: 36,
@@ -416,7 +416,7 @@ class _ToolButton extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           label,
-          style: TejaText.headline.on(c.ink).copyWith(
+          style: DabbleText.headline.on(c.ink).copyWith(
                 fontWeight: bold ? FontWeight.w700 : FontWeight.w500,
                 fontStyle: italic ? FontStyle.italic : FontStyle.normal,
               ),
@@ -442,7 +442,7 @@ class _SaveIndicator extends StatelessWidget {
     };
     return AnimatedSwitcher(
       duration: Motion.quick,
-      child: Text(text, key: ValueKey(text), style: TejaText.footnote.on(color)),
+      child: Text(text, key: ValueKey(text), style: DabbleText.footnote.on(color)),
     );
   }
 }

@@ -29,12 +29,12 @@ class StatRow extends StatelessWidget {
                   children: [
                     Text(
                       stats[i].value,
-                      style: TejaText.display.on(c.ink).tabular.size(30),
+                      style: DabbleText.display.on(c.ink).tabular.size(30),
                     ),
                     Gap.h4,
                     Text(
                       stats[i].label.toUpperCase(),
-                      style: TejaText.eyebrow.on(c.inkTertiary),
+                      style: DabbleText.eyebrow.on(c.inkTertiary),
                     ),
                   ],
                 ),
@@ -80,6 +80,6 @@ class Eyebrow extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Text(
         text.toUpperCase(),
-        style: TejaText.eyebrow.on(color ?? context.colors.inkTertiary),
+        style: DabbleText.eyebrow.on(color ?? context.colors.inkTertiary),
       );
 }

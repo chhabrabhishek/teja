@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../design/components/teja_field.dart';
-import '../../design/components/teja_header.dart';
-import '../../design/components/teja_scaffold.dart';
+import '../../design/components/dabble_field.dart';
+import '../../design/components/dabble_header.dart';
+import '../../design/components/dabble_scaffold.dart';
 import '../../design/tokens/colors.dart';
 import '../../design/tokens/spacing.dart';
 import '../../design/tokens/typography.dart';
@@ -62,25 +62,25 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    return TejaPage(
+    return DabblePage(
       title: 'Edit profile',
       showBack: false,
-      leading: TejaHeaderAction('Cancel', onTap: () => context.pop()),
+      leading: DabbleHeaderAction('Cancel', onTap: () => context.pop()),
       trailing: _saving
           ? const Padding(
               padding: EdgeInsets.symmetric(horizontal: Gap.sm),
               child: CupertinoActivityIndicator(),
             )
-          : TejaHeaderAction('Save', emphasis: true, onTap: _save),
+          : DabbleHeaderAction('Save', emphasis: true, onTap: _save),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Gap.h24,
-          Text('NAME', style: TejaText.eyebrow),
-          TejaField(controller: _name, placeholder: 'Your name'),
+          Text('NAME', style: DabbleText.eyebrow),
+          DabbleField(controller: _name, placeholder: 'Your name'),
           Gap.h24,
-          Text('HANDLE', style: TejaText.eyebrow),
-          TejaField(
+          Text('HANDLE', style: DabbleText.eyebrow),
+          DabbleField(
             controller: _username,
             placeholder: 'handle',
             keyboardType: TextInputType.text,
@@ -88,11 +88,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           Gap.h8,
           Text(
             'Lowercase letters, numbers and underscores.',
-            style: TejaText.footnote.on(c.inkTertiary),
+            style: DabbleText.footnote.on(c.inkTertiary),
           ),
           Gap.h24,
-          Text('BIO', style: TejaText.eyebrow),
-          TejaField(
+          Text('BIO', style: DabbleText.eyebrow),
+          DabbleField(
             controller: _bio,
             placeholder: 'One line about your practice',
             maxLines: 3,
@@ -100,7 +100,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           ),
           if (_error != null) ...[
             Gap.h16,
-            Text(_error!, style: TejaText.footnote.on(c.danger)),
+            Text(_error!, style: DabbleText.footnote.on(c.danger)),
           ],
         ],
       ),

@@ -58,7 +58,7 @@ class _ConfettiBurstState extends State<ConfettiBurst>
   Widget build(BuildContext context) {
     if (Motion.reduced(context)) return const SizedBox.shrink();
     final c = context.colors;
-    final palette = [c.ember, c.glow, c.success, TejaColors.joke, TejaColors.writing];
+    final palette = [c.ember, c.glow, c.success, DabbleColors.joke, DabbleColors.writing];
 
     return IgnorePointer(
       child: AnimatedBuilder(

@@ -183,7 +183,7 @@ class DateDivider extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Text(
             label,
-            style: TejaText.footnote.on(c.inkTertiary),
+            style: DabbleText.footnote.on(c.inkTertiary),
           ),
         ),
         Expanded(child: Container(height: 0.5, color: c.hairline)),

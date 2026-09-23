@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../data/teja_repository.dart';
+import '../../data/dabble_repository.dart';
 import '../../domain/models.dart';
 
 enum FeedScope { today, all }
@@ -56,7 +56,7 @@ class FeedController extends AsyncNotifier<FeedState> {
   Future<FeedState> build() => _load(_scope);
 
   Future<FeedState> _load(FeedScope scope) async {
-    final repo = ref.read(tejaRepositoryProvider);
+    final repo = ref.read(dabbleRepositoryProvider);
     final page =
         scope == FeedScope.today ? await repo.todayFeed() : await repo.allFeed();
     return FeedState(
@@ -87,7 +87,7 @@ class FeedController extends AsyncNotifier<FeedState> {
     if (current == null || current.loadingMore || !current.hasMore) return;
     state = AsyncData(current.copyWith(loadingMore: true));
     try {
-      final repo = ref.read(tejaRepositoryProvider);
+      final repo = ref.read(dabbleRepositoryProvider);
       final page = current.scope == FeedScope.today
           ? await repo.todayFeed(cursor: current.cursor)
           : await repo.allFeed(cursor: current.cursor);
@@ -115,7 +115,7 @@ class FeedController extends AsyncNotifier<FeedState> {
       ],
     ));
     try {
-      await ref.read(tejaRepositoryProvider).react(submissionId, emoji, on: on);
+      await ref.read(dabbleRepositoryProvider).react(submissionId, emoji, on: on);
     } catch (_) {
       state = AsyncData((state.valueOrNull ?? current).copyWith(items: previous));
     }

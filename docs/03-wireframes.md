@@ -1,4 +1,4 @@
-# Teja — Wireframes
+# Dabble — Wireframes
 
 ASCII wireframes at iPhone 15 Pro scale (393 × 852 pt). `░` = skeleton/blur, `▓` = Ember fill.
 
@@ -12,7 +12,7 @@ ASCII wireframes at iPhone 15 Pro scale (393 × 852 pt). `░` = skeleton/blur, 
 │         ╭─ soft aurora ─╮     │
 │                               │
 │                               │
-│  Teja                         │  title1
+│  Dabble                         │  title1
 │                               │
 │  One prompt a day.            │  displayXL
 │  Make something small.        │
@@ -40,7 +40,7 @@ ASCII wireframes at iPhone 15 Pro scale (393 × 852 pt). `░` = skeleton/blur, 
 │ ‹ Back                        │
 │                               │
 │  Check your email             │  title1
-│  Code sent to hi@teja.app     │  callout  [Change]
+│  Code sent to hi@dabble.app     │  callout  [Change]
 │                               │
 │  ┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐     │  6 boxes, 48×56, rControl
 │  │ 4││ 8││ 1││  ││  ││  │     │  focused box: Ember border

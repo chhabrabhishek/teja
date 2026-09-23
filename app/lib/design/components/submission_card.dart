@@ -8,7 +8,7 @@ import '../../domain/models.dart';
 import 'avatar.dart';
 import 'markdown_preview.dart';
 import 'reaction_bar.dart';
-import 'teja_card.dart';
+import 'dabble_card.dart';
 
 /// A feed card shows enough to feel something and not enough to replace opening
 /// it. Text clamps to six lines behind a fade; images keep their aspect ratio
@@ -34,7 +34,7 @@ class SubmissionCard extends StatelessWidget {
     final c = context.colors;
     final author = submission.author;
 
-    return TejaCard(
+    return DabbleCard(
       onTap: onTap,
       padding: const EdgeInsets.fromLTRB(Gap.lg, Gap.lg, Gap.lg, Gap.md),
       child: Column(
@@ -51,33 +51,33 @@ class SubmissionCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   author.displayName.isEmpty ? '@${author.username}' : author.displayName,
-                  style: TejaText.headline.on(c.ink),
+                  style: DabbleText.headline.on(c.ink),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
               if (submission.publishedAt != null)
                 Text(
                   submission.publishedAt!.shortAgo,
-                  style: TejaText.footnote.on(c.inkTertiary),
+                  style: DabbleText.footnote.on(c.inkTertiary),
                 ),
               if (submission.isMine && showMineTag) ...[
                 Gap.w8,
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(color: c.emberSoft, borderRadius: Radii.pill),
-                  child: Text('You', style: TejaText.footnote.on(c.ember)),
+                  child: Text('You', style: DabbleText.footnote.on(c.ember)),
                 ),
               ],
             ],
           ),
           Gap.h16,
           if (submission.hasImage) ...[
-            TejaImage(url: submission.imageUrl!, aspectRatio: submission.aspectRatio),
+            DabbleImage(url: submission.imageUrl!, aspectRatio: submission.aspectRatio),
             if (submission.body.isNotEmpty) ...[
               Gap.h12,
               Text(
                 submission.body,
-                style: TejaText.callout.on(c.inkSecondary),
+                style: DabbleText.callout.on(c.inkSecondary),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -118,7 +118,7 @@ class _ClampedText extends StatelessWidget {
       blendMode: BlendMode.dstIn,
       child: MarkdownPreview(
         text,
-        style: TejaText.body.on(c.ink),
+        style: DabbleText.body.on(c.ink),
         maxLines: 6,
         // The fade mask is the truncation cue; an ellipsis on top would be noise.
         overflow: TextOverflow.clip,

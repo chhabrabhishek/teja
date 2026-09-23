@@ -72,7 +72,7 @@ class ReactionBar extends StatelessWidget {
                   Gap.w4,
                   Text(
                     commentCount == 0 ? '' : '$commentCount',
-                    style: TejaText.footnote.on(c.inkTertiary).tabular,
+                    style: DabbleText.footnote.on(c.inkTertiary).tabular,
                   ),
                 ],
               ),
@@ -168,7 +168,7 @@ class _ReactionButtonState extends State<_ReactionButton>
                 Gap.w4,
                 Text(
                   '${widget.count}',
-                  style: TejaText.footnote
+                  style: DabbleText.footnote
                       .on(widget.selected ? c.ember : c.inkSecondary)
                       .tabular
                       .copyWith(

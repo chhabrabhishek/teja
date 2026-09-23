@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../design/components/aurora_background.dart';
 import '../../design/components/confetti.dart';
 import '../../design/components/paper.dart';
-import '../../design/components/teja_press.dart';
+import '../../design/components/dabble_press.dart';
 import '../../design/components/week_strip.dart';
 import '../../design/tokens/colors.dart';
 import '../../design/tokens/flavor.dart';
@@ -113,7 +113,7 @@ class _SparkScreenState extends ConsumerState<SparkScreen>
                               children: [
                                 Text(
                                   'DAY',
-                                  style: TejaText.eyebrow.on(c.inkSecondary).copyWith(
+                                  style: DabbleText.eyebrow.on(c.inkSecondary).copyWith(
                                         fontFamily: s.roundedFamily,
                                       ),
                                 ),
@@ -122,7 +122,7 @@ class _SparkScreenState extends ConsumerState<SparkScreen>
                                   scale: reduce ? 1 : 0.9 + 0.1 * t,
                                   child: Text(
                                     '${count.round().clamp(1, 99999)}',
-                                    style: TejaText.display
+                                    style: DabbleText.display
                                         .on(c.ember)
                                         .tabular
                                         .copyWith(
@@ -140,7 +140,7 @@ class _SparkScreenState extends ConsumerState<SparkScreen>
                         Gap.h24,
                         Text(
                           'You made something today.',
-                          style: TejaText.title2.on(c.ink).copyWith(
+                          style: DabbleText.title2.on(c.ink).copyWith(
                                 fontFamily: s.roundedFamily,
                                 fontWeight: s.headlineWeight,
                               ),
@@ -159,13 +159,13 @@ class _SparkScreenState extends ConsumerState<SparkScreen>
                           onTap: _toFeed,
                         ),
                         Gap.h12,
-                        TejaPress(
+                        DabblePress(
                           onTap: _toToday,
                           child: Padding(
                             padding: const EdgeInsets.all(Gap.md),
                             child: Text(
                               'Back to Today',
-                              style: TejaText.callout.on(c.inkSecondary),
+                              style: DabbleText.callout.on(c.inkSecondary),
                             ),
                           ),
                         ),

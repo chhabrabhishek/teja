@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import '../tokens/colors.dart';
 import '../tokens/spacing.dart';
 import '../tokens/typography.dart';
-import 'teja_press.dart';
+import 'dabble_press.dart';
 
 /// Category hue appears only here, in the small glyph, and as a 4–10% wash behind
 /// the prompt. Never as a full-bleed fill.
@@ -16,7 +16,7 @@ class CategoryChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final hue = TejaColors.forCategory(category);
+    final hue = DabbleColors.forCategory(category);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: Gap.md, vertical: 7),
       decoration: BoxDecoration(
@@ -30,7 +30,7 @@ class CategoryChip extends StatelessWidget {
           Gap.w8,
           Text(
             label.toUpperCase(),
-            style: TejaText.eyebrow.on(c.isDark ? hue.withValues(alpha: 0.95) : hue),
+            style: DabbleText.eyebrow.on(c.isDark ? hue.withValues(alpha: 0.95) : hue),
           ),
         ],
       ),
@@ -60,7 +60,7 @@ class StreakPill extends StatelessWidget {
     final c = context.colors;
     final active = days > 0;
     final tint = active ? c.ember : c.inkTertiary;
-    return TejaPress(
+    return DabblePress(
       onTap: onTap,
       semanticLabel: active ? 'Current streak, $days days' : 'No streak yet',
       child: Container(
@@ -78,7 +78,7 @@ class StreakPill extends StatelessWidget {
               decoration: BoxDecoration(color: tint, shape: BoxShape.circle),
             ),
             Gap.w8,
-            Text('$days', style: TejaText.footnote.on(tint).tabular.copyWith(fontWeight: FontWeight.w700)),
+            Text('$days', style: DabbleText.footnote.on(tint).tabular.copyWith(fontWeight: FontWeight.w700)),
           ],
         ),
       ),

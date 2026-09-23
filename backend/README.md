@@ -1,4 +1,4 @@
-# Teja backend
+# Dabble backend
 
 Django 5 + Django Ninja + PostgreSQL. JWT auth, presigned media uploads, offline
 AI prompt generation.
@@ -31,7 +31,7 @@ The schema is portable, but production runs Postgres. To develop against it:
 ```bash
 docker compose up -d
 # in .env:
-DATABASE_URL=postgres://teja:teja@localhost:5432/teja
+DATABASE_URL=postgres://dabble:dabble@localhost:5432/dabble
 REDIS_URL=redis://localhost:6379/0
 ```
 
@@ -61,10 +61,10 @@ idempotent, so it is safe to run daily from cron.
 
 ```cron
 # top up drafts weekly
-0 6 * * 1  cd /srv/teja && /srv/teja/.venv/bin/python manage.py generate_prompts --ensure-runway 60
+0 6 * * 1  cd /srv/dabble && /srv/dabble/.venv/bin/python manage.py generate_prompts --ensure-runway 60
 
 # alert daily if the published runway gets short
-0 7 * * *  cd /srv/teja && /srv/teja/.venv/bin/python manage.py check_prompts --min-runway 14
+0 7 * * *  cd /srv/dabble && /srv/dabble/.venv/bin/python manage.py check_prompts --min-runway 14
 ```
 
 Pipe `check_prompts` into whatever pages you — its non-zero exit is the signal.
@@ -90,7 +90,7 @@ What is genuinely missing beyond local dev:
 | **Redis** | `REDIS_URL` set | Without it rate limits fall back to per-process local memory — useless behind 2+ workers, so the code-request limiter becomes bypassable. |
 | **Media** | R2/S3 bucket, `MEDIA_*` vars, bucket CORS for PUT, lifecycle rule for orphans | Image prompts are 3 of 7 days. |
 | **Secrets** | Real `DJANGO_SECRET_KEY` / `JWT_SECRET` / `EMAIL_CODE_PEPPER` | Settings now refuse to boot on `dev-` prefixed values when `DEBUG=False`. |
-| **Serving** | `gunicorn -k uvicorn.workers.UvicornWorker teja.asgi:application` behind TLS | |
+| **Serving** | `gunicorn -k uvicorn.workers.UvicornWorker dabble.asgi:application` behind TLS | |
 | **Deploy** | Run `migrate` + `collectstatic` on release | |
 | **Monitoring** | Sentry DSN, uptime check on `/api/v1/docs`, `check_prompts` alerting | |
 | **Apple** | Paid developer account, `APPLE_BUNDLE_ID`, Sign in with Apple capability | Required by App Review once you offer any third-party login. |
@@ -103,7 +103,7 @@ block in `settings.py` covers HSTS, SSL redirect, secure cookies and nosniff.
 ## Layout
 
 ```
-teja/
+dabble/
   api.py          NinjaAPI assembly — the whole surface area on one page
   common/         auth (JWT), errors, pagination, ratelimit, storage (presign)
   accounts/       User, Streak, Block, Apple + email-code sign-in

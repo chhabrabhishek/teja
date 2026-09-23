@@ -10,7 +10,7 @@ import UserNotifications
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    // Required for the daily reminder to appear while Teja is in the foreground.
+    // Required for the daily reminder to appear while Dabble is in the foreground.
     UNUserNotificationCenter.current().delegate = self
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
@@ -19,9 +19,9 @@ import UserNotifications
     GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
 
     guard let messenger = engineBridge.pluginRegistry
-      .registrar(forPlugin: "TejaPush")?.messenger() else { return }
+      .registrar(forPlugin: "DabblePush")?.messenger() else { return }
 
-    FlutterMethodChannel(name: "app.teja/push", binaryMessenger: messenger)
+    FlutterMethodChannel(name: "app.dabble/push", binaryMessenger: messenger)
       .setMethodCallHandler { [weak self] call, result in
         guard call.method == "register" else {
           result(FlutterMethodNotImplemented)

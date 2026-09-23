@@ -16,7 +16,7 @@ class NotificationService {
 
   static const _dailyId = 1;
   static const _testId = 99;
-  static const _channelId = 'teja_daily_prompt';
+  static const _channelId = 'dabble_daily_prompt';
 
   bool _ready = false;
 

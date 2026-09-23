@@ -1,4 +1,4 @@
-# Teja — iOS app
+# Dabble — iOS app
 
 Flutter · Cupertino · Riverpod · GoRouter · Freezed.
 
@@ -9,11 +9,11 @@ project is generated (it is machine-specific and shouldn't be hand-written):
 
 ```bash
 cd app                                                     # ← from app/, not backend/
-flutter create --platforms=ios --org app.teja --project-name teja .
+flutter create --platforms=ios --org app.dabble --project-name dabble .
 flutter pub get
 dart run build_runner build                                # required: Freezed models
 xcrun simctl boot "iPhone 17" && open -a Simulator
-flutter run --dart-define=TEJA_API_BASE=http://localhost:8000/api/v1
+flutter run --dart-define=DABBLE_API_BASE=http://localhost:8000/api/v1
 ```
 
 `flutter create` in an existing directory only adds the missing platform folders —
@@ -40,7 +40,7 @@ repo root or `backend/` and you'll scatter a stray Flutter project there.
 
 ```
 lib/
-  main.dart            ProviderScope → TejaTheme → CupertinoApp.router
+  main.dart            ProviderScope → DabbleTheme → CupertinoApp.router
   app/                 theme, router
   core/                env, dio client, keychain token store, auth interceptor
   design/tokens/       colors · typography · spacing · shadows · motion

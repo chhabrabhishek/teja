@@ -1,4 +1,4 @@
-# Teja — Design System
+# Dabble — Design System
 
 > Everything here is implemented in `app/lib/design/`. This doc is the source of truth;
 > the Dart tokens mirror it 1:1.
@@ -93,7 +93,7 @@ All text/background pairs meet WCAG AA (4.5:1 body, 3:1 for ≥22pt). `inkTertia
 
 **Family: San Francisco (system).** On iOS, Flutter resolves the system face when `fontFamily` is null — SF Pro Display for ≥20pt, SF Pro Text below. We use *no custom font in v1*: SF with correct optical tracking already looks more premium than a mis-licensed webfont.
 
-> Optional v1.1 upgrade: bundle **Fraunces** (variable serif, OFL) for `displayXL` only, to give the prompt a literary, Apple-Journal feel. The token `TejaText.display*` is the single place to swap it.
+> Optional v1.1 upgrade: bundle **Fraunces** (variable serif, OFL) for `displayXL` only, to give the prompt a literary, Apple-Journal feel. The token `DabbleText.display*` is the single place to swap it.
 
 ### Scale
 
@@ -189,15 +189,15 @@ Dark mode — **no shadows at all.** Depth comes from `surface` vs `canvas` ligh
 
 All in `app/lib/design/components/`.
 
-### `TejaScaffold`
+### `DabbleScaffold`
 Cupertino page scaffold. Warm canvas, large collapsing title, optional `AuroraBackground`, safe-area aware, keyboard-avoiding.
 
-### `TejaButton`
+### `DabbleButton`
 Variants: `primary` (Ember fill, white ink), `secondary` (surfaceAlt fill, ink), `quiet` (text only, Ember ink), `destructive`.
 Sizes: `large` (54h, full width, `rPill`), `medium` (44h), `small` (32h).
 States: default · pressed (scale 0.97 + 85% opacity) · loading (`CupertinoActivityIndicator`, label hidden, width locked) · disabled (40% opacity, no press).
 
-### `TejaCard`
+### `DabbleCard`
 `surface` fill, `rCard`, elevation `key` in light / `hairline` border in dark. Optional `onTap` wraps in press-scale.
 
 ### `PromptHeroCard`
@@ -243,7 +243,7 @@ Two very soft radial blobs (Ember 7%, Glow 5%) drifting on a 40s loop behind the
 ```
 AuroraBackground (static, 60% intensity)
   Spacer (35% of height)
-  Wordmark "Teja"                      title1, ink
+  Wordmark "Dabble"                      title1, ink
   "One prompt a day.\nMake something small."   displayXL, ink, 2 lines
   "Then see what the world made from the same spark."  callout, inkSecondary
   Spacer

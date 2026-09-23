@@ -6,7 +6,7 @@ import '../tokens/shadows.dart';
 import '../tokens/spacing.dart';
 import '../tokens/typography.dart';
 import 'chips.dart';
-import 'teja_press.dart';
+import 'dabble_press.dart';
 
 /// The signature component. The prompt is physically the largest thing on the
 /// display — nothing on Today is allowed to compete with it.
@@ -37,10 +37,10 @@ class PromptHeroCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     final s = context.style;
-    final hue = TejaColors.forCategory(category);
+    final hue = DabbleColors.forCategory(category);
 
     // Long prompts step down a size rather than wrapping into a wall of text.
-    final base = text.length > 90 ? TejaText.display : TejaText.displayXL;
+    final base = text.length > 90 ? DabbleText.display : DabbleText.displayXL;
     final style = base.copyWith(
       fontFamily: s.roundedFamily,
       fontWeight: s.displayWeight,
@@ -48,7 +48,7 @@ class PromptHeroCard extends StatelessWidget {
       height: s.isPlayful ? 1.15 : base.height,
     );
 
-    return TejaPress(
+    return DabblePress(
       onTap: onTap,
       onLongPress: onLongPress,
       scale: s.pressScale,
@@ -93,10 +93,10 @@ class PromptHeroCard extends StatelessWidget {
                     ),
                   ),
                   Gap.h16,
-                  Text(nudge, style: TejaText.callout.on(c.inkSecondary)),
+                  Text(nudge, style: DabbleText.callout.on(c.inkSecondary)),
                   if (timeRemaining != null) ...[
                     Gap.h8,
-                    Text(timeRemaining!, style: TejaText.footnote.on(c.inkTertiary)),
+                    Text(timeRemaining!, style: DabbleText.footnote.on(c.inkTertiary)),
                   ],
                 ],
               ),

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:teja/app/theme.dart';
-import 'package:teja/design/components/reaction_bar.dart';
-import 'package:teja/design/tokens/flavor.dart';
+import 'package:dabble/app/theme.dart';
+import 'package:dabble/design/components/reaction_bar.dart';
+import 'package:dabble/design/tokens/flavor.dart';
 
 /// Five pills, borders and multi-digit counts have to survive the narrowest
 /// card we render. Overflow here is invisible in release builds, which is
@@ -10,12 +10,12 @@ import 'package:teja/design/tokens/flavor.dart';
 void main() {
   Future<void> pumpBar(
     WidgetTester tester, {
-    required TejaFlavor flavor,
+    required DabbleFlavor flavor,
     required Map<String, int> counts,
     double width = 280, // a 320pt phone minus gutters and card padding
   }) async {
     await tester.pumpWidget(
-      TejaTheme(
+      DabbleTheme(
         brightness: Brightness.light,
         flavor: flavor,
         child: CupertinoApp(
@@ -35,7 +35,7 @@ void main() {
     );
   }
 
-  for (final flavor in TejaFlavor.values) {
+  for (final flavor in DabbleFlavor.values) {
     testWidgets('${flavor.name}: no overflow with every count populated',
         (tester) async {
       await pumpBar(
@@ -55,7 +55,7 @@ void main() {
   testWidgets('survives an absurdly narrow card', (tester) async {
     await pumpBar(
       tester,
-      flavor: TejaFlavor.receipt,
+      flavor: DabbleFlavor.receipt,
       counts: {for (final e in kReactions) e: 12345},
       width: 180,
     );

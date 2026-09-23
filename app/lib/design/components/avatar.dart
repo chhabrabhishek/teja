@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import '../tokens/colors.dart';
 import '../tokens/spacing.dart';
 import '../tokens/typography.dart';
-import 'teja_press.dart';
+import 'dabble_press.dart';
 
 class Avatar extends StatelessWidget {
   const Avatar({
@@ -38,7 +38,7 @@ class Avatar extends StatelessWidget {
       child: url == null || url!.isEmpty
           ? Text(
               initial,
-              style: TejaText.headline
+              style: DabbleText.headline
                   .on(c.inkSecondary)
                   .copyWith(fontSize: size * 0.4, height: 1),
             )
@@ -49,11 +49,11 @@ class Avatar extends StatelessWidget {
               height: size,
               fadeInDuration: const Duration(milliseconds: 180),
               errorWidget: (_, __, ___) =>
-                  Text(initial, style: TejaText.headline.on(c.inkSecondary)),
+                  Text(initial, style: DabbleText.headline.on(c.inkSecondary)),
             ),
     );
 
-    if (onTap != null) avatar = TejaPress(onTap: onTap, child: avatar);
+    if (onTap != null) avatar = DabblePress(onTap: onTap, child: avatar);
     return Semantics(label: name, image: true, child: avatar);
   }
 
@@ -67,8 +67,8 @@ class Avatar extends StatelessWidget {
 }
 
 /// A network image that never flashes: skeleton → cross-fade, warm placeholder.
-class TejaImage extends StatelessWidget {
-  const TejaImage({
+class DabbleImage extends StatelessWidget {
+  const DabbleImage({
     super.key,
     required this.url,
     this.aspectRatio,

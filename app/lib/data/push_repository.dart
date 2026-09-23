@@ -12,7 +12,7 @@ import 'auth_repository.dart';
 class PushRepository {
   PushRepository(this._api);
 
-  static const _channel = MethodChannel('app.teja/push');
+  static const _channel = MethodChannel('app.dabble/push');
 
   final ApiClient _api;
   String? _registeredToken;

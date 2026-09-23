@@ -1,4 +1,4 @@
-# Teja — Architecture
+# Dabble — Architecture
 
 ## 1. System overview
 
@@ -281,7 +281,7 @@ app/
 └── lib/
     ├── main.dart
     ├── app/
-    │   ├── teja_app.dart
+    │   ├── dabble_app.dart
     │   ├── router.dart
     │   └── theme.dart
     ├── core/
@@ -302,10 +302,10 @@ app/
     │   │   ├── shadows.dart
     │   │   └── motion.dart
     │   └── components/
-    │       ├── teja_scaffold.dart
-    │       ├── teja_button.dart
-    │       ├── teja_card.dart
-    │       ├── teja_press.dart
+    │       ├── dabble_scaffold.dart
+    │       ├── dabble_button.dart
+    │       ├── dabble_card.dart
+    │       ├── dabble_press.dart
     │       ├── aurora_background.dart
     │       ├── category_chip.dart
     │       ├── prompt_hero_card.dart
@@ -343,7 +343,7 @@ backend/
 ├── pyproject.toml
 ├── .env.example
 ├── docker-compose.yml
-└── teja/
+└── dabble/
     ├── settings.py  urls.py  asgi.py  wsgi.py
     ├── api.py                      # NinjaAPI + router registration
     ├── common/      auth.py  errors.py  pagination.py  ratelimit.py  storage.py

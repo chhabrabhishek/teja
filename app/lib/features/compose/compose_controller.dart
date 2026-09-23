@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../core/api/api_exception.dart';
-import '../../data/teja_repository.dart';
+import '../../data/dabble_repository.dart';
 import '../../domain/enums.dart';
 import '../../domain/models.dart';
 import '../home/home_controller.dart';
@@ -107,7 +107,7 @@ class ComposeController extends AutoDisposeNotifier<ComposeState> {
     final prompt = _prompt;
     if (prompt == null || !state.hasContent) return;
     try {
-      final draft = await ref.read(tejaRepositoryProvider).saveDraft(
+      final draft = await ref.read(dabbleRepositoryProvider).saveDraft(
             promptId: prompt.id,
             kind: Craft.from(prompt.category).isImage ? 'image' : 'text',
             body: state.body,
@@ -134,7 +134,7 @@ class ComposeController extends AutoDisposeNotifier<ComposeState> {
     state = state.copyWith(uploadProgress: 0, clearError: true);
     try {
       final bytes = await file.readAsBytes();
-      final repo = ref.read(tejaRepositoryProvider);
+      final repo = ref.read(dabbleRepositoryProvider);
       final target = await repo.uploadTarget(_contentType(file.path));
       await repo.upload(target, bytes,
           onProgress: (p) => state = state.copyWith(uploadProgress: p));
@@ -158,7 +158,7 @@ class ComposeController extends AutoDisposeNotifier<ComposeState> {
       await save();
       final id = state.submissionId;
       if (id == null) throw ApiException('Nothing to publish yet.');
-      final result = await ref.read(tejaRepositoryProvider).publish(id);
+      final result = await ref.read(dabbleRepositoryProvider).publish(id);
       ref.read(homeControllerProvider.notifier).applyPublish(result);
       state = state.copyWith(publishing: false);
       return result;

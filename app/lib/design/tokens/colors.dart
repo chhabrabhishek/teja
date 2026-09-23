@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 
 import 'flavor.dart';
 
-/// Teja's palette.
+/// Dabble's palette.
 ///
 /// One warm accent (Ember), a warm neutral ramp, four desaturated category hues.
 /// Dark mode is a different material, not an inversion: no shadows, depth comes
@@ -12,8 +12,8 @@ import 'flavor.dart';
 ///
 /// Pure #FFFFFF and pure #000000 are banned as canvas colours.
 @immutable
-class TejaColors {
-  const TejaColors({
+class DabbleColors {
+  const DabbleColors({
     required this.canvas,
     required this.band,
     required this.surface,
@@ -66,7 +66,7 @@ class TejaColors {
   final bool isDark;
 
   /// Receipt — warm printed paper, vermillion ink, no shadows anywhere.
-  static const receiptLight = TejaColors(
+  static const receiptLight = DabbleColors(
     canvas: Color(0xFFF7F6F2),
     band: Color(0xFFFCFBF9),
     surface: Color(0xFFFBFAF8),
@@ -89,7 +89,7 @@ class TejaColors {
     isDark: false,
   );
 
-  static const receiptDark = TejaColors(
+  static const receiptDark = DabbleColors(
     canvas: Color(0xFF15140F),
     band: Color(0xFF1B1A15),
     surface: Color(0xFF1C1A16),
@@ -112,7 +112,7 @@ class TejaColors {
     isDark: true,
   );
 
-  static TejaColors resolve(TejaFlavor flavor, Brightness brightness) =>
+  static DabbleColors resolve(DabbleFlavor flavor, Brightness brightness) =>
       brightness == Brightness.dark ? receiptDark : receiptLight;
 
   /// Category hues are identical in both themes; only their alpha changes.
@@ -134,21 +134,21 @@ class TejaColors {
 }
 
 /// Ambient access: `context.colors.ember`.
-class TejaColorScope extends InheritedWidget {
-  const TejaColorScope({super.key, required this.colors, required super.child});
+class DabbleColorScope extends InheritedWidget {
+  const DabbleColorScope({super.key, required this.colors, required super.child});
 
-  final TejaColors colors;
+  final DabbleColors colors;
 
-  static TejaColors of(BuildContext context) {
-    final scope = context.dependOnInheritedWidgetOfExactType<TejaColorScope>();
-    assert(scope != null, 'TejaColorScope is missing. Wrap the app in TejaTheme.');
+  static DabbleColors of(BuildContext context) {
+    final scope = context.dependOnInheritedWidgetOfExactType<DabbleColorScope>();
+    assert(scope != null, 'DabbleColorScope is missing. Wrap the app in DabbleTheme.');
     return scope!.colors;
   }
 
   @override
-  bool updateShouldNotify(TejaColorScope oldWidget) => colors != oldWidget.colors;
+  bool updateShouldNotify(DabbleColorScope oldWidget) => colors != oldWidget.colors;
 }
 
-extension TejaColorContext on BuildContext {
-  TejaColors get colors => TejaColorScope.of(this);
+extension DabbleColorContext on BuildContext {
+  DabbleColors get colors => DabbleColorScope.of(this);
 }

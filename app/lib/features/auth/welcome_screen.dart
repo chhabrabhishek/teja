@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../design/components/aurora_background.dart';
-import '../../design/components/teja_button.dart';
+import '../../design/components/dabble_button.dart';
 import '../../design/tokens/colors.dart';
 import '../../design/tokens/motion.dart';
 import '../../design/tokens/spacing.dart';
@@ -41,14 +41,14 @@ class WelcomeScreen extends ConsumerWidget {
               children: [
                 const Spacer(flex: 3),
                 FadeRise(
-                  child: Text('Teja', style: TejaText.title1.on(c.ember)),
+                  child: Text('Dabble', style: DabbleText.title1.on(c.ember)),
                 ),
                 Gap.h24,
                 FadeRise(
                   delay: const Duration(milliseconds: 80),
                   child: Text(
                     'One prompt a day.\nMake something small.',
-                    style: TejaText.displayXL.on(c.ink),
+                    style: DabbleText.displayXL.on(c.ink),
                   ),
                 ),
                 Gap.h16,
@@ -56,14 +56,14 @@ class WelcomeScreen extends ConsumerWidget {
                   delay: const Duration(milliseconds: 160),
                   child: Text(
                     'Then see what the world made from the same spark.',
-                    style: TejaText.callout.on(c.inkSecondary),
+                    style: DabbleText.callout.on(c.inkSecondary),
                   ),
                 ),
                 const Spacer(flex: 4),
                 if (auth.error != null) ...[
                   Text(
                     auth.error!,
-                    style: TejaText.footnote.on(c.danger),
+                    style: DabbleText.footnote.on(c.danger),
                     textAlign: TextAlign.center,
                   ),
                   Gap.h12,
@@ -83,7 +83,7 @@ class WelcomeScreen extends ConsumerWidget {
                 Gap.h12,
                 FadeRise(
                   delay: const Duration(milliseconds: 300),
-                  child: TejaButton.secondary(
+                  child: DabbleButton.secondary(
                     'Continue with email',
                     onPressed: () => context.push('/auth/email'),
                   ),
@@ -92,7 +92,7 @@ class WelcomeScreen extends ConsumerWidget {
                 Center(
                   child: Text(
                     'By continuing you agree to our Terms & Privacy Policy.',
-                    style: TejaText.footnote.on(c.inkTertiary),
+                    style: DabbleText.footnote.on(c.inkTertiary),
                     textAlign: TextAlign.center,
                   ),
                 ),

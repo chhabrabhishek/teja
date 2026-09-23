@@ -18,8 +18,8 @@ abstract class Streak with _$Streak {
 }
 
 @freezed
-abstract class TejaUser with _$TejaUser {
-  const factory TejaUser({
+abstract class DabbleUser with _$DabbleUser {
+  const factory DabbleUser({
     required String id,
     required String username,
     @JsonKey(name: 'display_name') @Default('') String displayName,
@@ -30,9 +30,9 @@ abstract class TejaUser with _$TejaUser {
     @JsonKey(name: 'reminder_hour') int? reminderHour,
     @JsonKey(name: 'preferred_categories') @Default(<String>[]) List<String> preferredCategories,
     @Default(Streak()) Streak streak,
-  }) = _TejaUser;
+  }) = _DabbleUser;
 
-  factory TejaUser.fromJson(Map<String, dynamic> json) => _$TejaUserFromJson(json);
+  factory DabbleUser.fromJson(Map<String, dynamic> json) => _$DabbleUserFromJson(json);
 }
 
 @freezed
@@ -217,7 +217,7 @@ abstract class Session with _$Session {
     @JsonKey(name: 'refresh_token') required String refreshToken,
     @JsonKey(name: 'expires_in') @Default(1800) int expiresIn,
     @JsonKey(name: 'is_new_user') @Default(false) bool isNewUser,
-    required TejaUser user,
+    required DabbleUser user,
   }) = _Session;
 
   factory Session.fromJson(Map<String, dynamic> json) => _$SessionFromJson(json);

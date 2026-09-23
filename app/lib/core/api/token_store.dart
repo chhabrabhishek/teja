@@ -6,8 +6,8 @@ class TokenStore {
 
   final FlutterSecureStorage _storage;
 
-  static const _access = 'teja.access';
-  static const _refresh = 'teja.refresh';
+  static const _access = 'dabble.access';
+  static const _refresh = 'dabble.refresh';
 
   String? accessToken;
   String? refreshToken;

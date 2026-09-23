@@ -7,7 +7,7 @@ import '../tokens/colors.dart';
 import '../tokens/spacing.dart';
 import '../tokens/typography.dart';
 import 'avatar.dart';
-import 'teja_press.dart';
+import 'dabble_press.dart';
 
 /// A pill. Flattening one side lets two buttons sit together as a single pill
 /// cut in half, which is how the pair on Home reads.
@@ -42,7 +42,7 @@ class PaperButton extends StatelessWidget {
     final enabled = onTap != null && !loading;
     const round = Radius.circular(_height / 2);
 
-    return TejaPress(
+    return DabblePress(
       onTap: enabled ? onTap : null,
       semanticLabel: label,
       child: Opacity(
@@ -61,7 +61,7 @@ class PaperButton extends StatelessWidget {
           ),
           child: loading
               ? CupertinoActivityIndicator(color: foreground, radius: 9)
-              : Text(label, style: TejaText.headline.on(foreground)),
+              : Text(label, style: DabbleText.headline.on(foreground)),
         ),
       ),
     );
@@ -97,7 +97,7 @@ class PaperHeader extends ConsumerWidget {
       child: Row(
         children: [
           if (showBack && Navigator.of(context).canPop())
-            TejaPress(
+            DabblePress(
               onTap: () => context.pop(),
               semanticLabel: 'Back',
               child: Padding(
@@ -110,7 +110,7 @@ class PaperHeader extends ConsumerWidget {
             Expanded(
               child: Text(
                 title!,
-                style: TejaText.headline.on(c.ink),
+                style: DabbleText.headline.on(c.ink),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -151,7 +151,7 @@ class StreakPill extends StatelessWidget {
       ),
       child: Text(
         streak > 0 ? '$streak' : '—',
-        style: TejaText.footnote.on(c.inkSecondary).tabular,
+        style: DabbleText.footnote.on(c.inkSecondary).tabular,
       ),
     );
   }

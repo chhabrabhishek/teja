@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../data/teja_repository.dart';
+import '../../data/dabble_repository.dart';
 import '../../domain/models.dart';
 import '../auth/auth_controller.dart';
 import '../auth/topic_picker.dart';
@@ -56,7 +56,7 @@ class HomeController extends AsyncNotifier<HomeState> {
   Future<HomeState> build() => _load();
 
   Future<HomeState> _load({String? topicId}) async {
-    final repo = ref.read(tejaRepositoryProvider);
+    final repo = ref.read(dabbleRepositoryProvider);
     // Fired together rather than chained: the hero and the feed are one screen.
     final results = await Future.wait([
       repo.today(),
@@ -93,7 +93,7 @@ class HomeController extends AsyncNotifier<HomeState> {
       clearCursor: true,
     ));
     try {
-      final feed = await ref.read(tejaRepositoryProvider).allFeed(topicId: topicId);
+      final feed = await ref.read(dabbleRepositoryProvider).allFeed(topicId: topicId);
       state = AsyncData(current.copyWith(
         items: feed.items,
         cursor: feed.nextCursor,
@@ -113,7 +113,7 @@ class HomeController extends AsyncNotifier<HomeState> {
     if (current == null || current.loadingMore || !current.hasMore) return;
     state = AsyncData(current.copyWith(loadingMore: true));
     try {
-      final feed = await ref.read(tejaRepositoryProvider).allFeed(
+      final feed = await ref.read(dabbleRepositoryProvider).allFeed(
             cursor: current.cursor,
             topicId: current.activeTopicId,
           );
@@ -165,7 +165,7 @@ class HomeController extends AsyncNotifier<HomeState> {
       ],
     ));
     try {
-      await ref.read(tejaRepositoryProvider).react(submissionId, emoji, on: on);
+      await ref.read(dabbleRepositoryProvider).react(submissionId, emoji, on: on);
     } catch (_) {
       state = AsyncData((state.valueOrNull ?? current).copyWith(items: previous));
     }

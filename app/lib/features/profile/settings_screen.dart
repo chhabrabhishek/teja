@@ -7,8 +7,8 @@ import '../../app/theme.dart';
 import '../../core/notifications.dart';
 import '../../data/auth_repository.dart';
 import '../../design/components/stat_row.dart';
-import '../../design/components/teja_press.dart';
-import '../../design/components/teja_scaffold.dart';
+import '../../design/components/dabble_press.dart';
+import '../../design/components/dabble_scaffold.dart';
 import '../../design/tokens/colors.dart';
 import '../../design/tokens/spacing.dart';
 import '../../design/tokens/typography.dart';
@@ -27,7 +27,7 @@ class SettingsScreen extends ConsumerWidget {
     final theme = ref.watch(themeModeProvider);
     final reminder = ref.watch(reminderControllerProvider);
 
-    return TejaPage(
+    return DabblePage(
       title: 'Settings',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,20 +101,20 @@ class SettingsScreen extends ConsumerWidget {
             Gap.h40,
           ],
           Center(
-            child: TejaPress(
+            child: DabblePress(
               onTap: () => ref.read(authControllerProvider.notifier).signOut(),
               child: Padding(
                 padding: const EdgeInsets.all(Gap.md),
-                child: Text('Sign out', style: TejaText.headline.on(c.ember)),
+                child: Text('Sign out', style: DabbleText.headline.on(c.ember)),
               ),
             ),
           ),
           Center(
-            child: TejaPress(
+            child: DabblePress(
               onTap: () => _confirmDelete(context, ref),
               child: Padding(
                 padding: const EdgeInsets.all(Gap.md),
-                child: Text('Delete account', style: TejaText.footnote.on(c.danger)),
+                child: Text('Delete account', style: DabbleText.footnote.on(c.danger)),
               ),
             ),
           ),
@@ -146,7 +146,7 @@ class SettingsScreen extends ConsumerWidget {
                 onSelectedItemChanged: (i) => selected = i,
                 children: [
                   for (var h = 0; h < 24; h++)
-                    Center(child: Text(_hourLabel(h), style: TejaText.body)),
+                    Center(child: Text(_hourLabel(h), style: DabbleText.body)),
                 ],
               ),
             ),
@@ -297,19 +297,19 @@ class _Row extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    return TejaPress(
+    return DabblePress(
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: Gap.lg, vertical: Gap.lg),
         child: Row(
           children: [
-            Text(label, style: TejaText.callout.on(c.ink)),
+            Text(label, style: DabbleText.callout.on(c.ink)),
             const Spacer(),
             if (value != null)
               Flexible(
                 child: Text(
                   value!,
-                  style: TejaText.callout.on(c.inkTertiary),
+                  style: DabbleText.callout.on(c.inkTertiary),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),

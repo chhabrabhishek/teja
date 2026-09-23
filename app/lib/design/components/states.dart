@@ -4,9 +4,9 @@ import '../tokens/colors.dart';
 import '../tokens/motion.dart';
 import '../tokens/spacing.dart';
 import '../tokens/typography.dart';
-import 'teja_button.dart';
+import 'dabble_button.dart';
 
-/// Empty states in Teja are never sad. No frowning illustrations, no "nothing to
+/// Empty states in Dabble are never sad. No frowning illustrations, no "nothing to
 /// see here". Each one names the feeling and offers exactly one way forward.
 class EmptyState extends StatelessWidget {
   const EmptyState({
@@ -35,16 +35,16 @@ class EmptyState extends StatelessWidget {
           children: [
             Icon(icon, size: 28, color: c.inkTertiary),
             Gap.h20,
-            Text(title, style: TejaText.title2.on(c.ink), textAlign: TextAlign.center),
+            Text(title, style: DabbleText.title2.on(c.ink), textAlign: TextAlign.center),
             Gap.h8,
             Text(
               message,
-              style: TejaText.callout.on(c.inkSecondary),
+              style: DabbleText.callout.on(c.inkSecondary),
               textAlign: TextAlign.center,
             ),
             if (actionLabel != null) ...[
               Gap.h24,
-              TejaButton.quiet(actionLabel!, onPressed: onAction),
+              DabbleButton.quiet(actionLabel!, onPressed: onAction),
             ],
           ],
         ),

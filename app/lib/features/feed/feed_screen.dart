@@ -6,7 +6,7 @@ import '../../core/utils/date_x.dart';
 import '../../design/components/avatar.dart';
 import '../../design/components/markdown_preview.dart';
 import '../../design/components/paper.dart';
-import '../../design/components/teja_press.dart';
+import '../../design/components/dabble_press.dart';
 import '../../design/components/torn_edge.dart';
 import '../../design/tokens/colors.dart';
 import '../../design/tokens/motion.dart';
@@ -114,7 +114,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                             state.items.isEmpty && !state.feedLocked
                                 ? 'Nothing here yet.'
                                 : "You've reached the beginning.",
-                            style: TejaText.footnote.on(c.inkTertiary),
+                            style: DabbleText.footnote.on(c.inkTertiary),
                           ),
                   ),
                 ),
@@ -150,7 +150,7 @@ class FeedGreeting extends StatelessWidget {
       child: Row(
         children: [
           if (showBack)
-            TejaPress(
+            DabblePress(
               onTap: () => context.pop(),
               semanticLabel: 'Back',
               child: Padding(
@@ -161,7 +161,7 @@ class FeedGreeting extends StatelessWidget {
           Expanded(
             child: Text(
               'Hi,\n$name',
-              style: TejaText.title2.on(c.inkSecondary),
+              style: DabbleText.title2.on(c.inkSecondary),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
@@ -246,7 +246,7 @@ class _Chip extends StatelessWidget {
     final c = context.colors;
     return Padding(
       padding: const EdgeInsets.only(right: Gap.sm),
-      child: TejaPress(
+      child: DabblePress(
         onTap: onTap,
         semanticLabel: label,
         child: AnimatedContainer(
@@ -260,7 +260,7 @@ class _Chip extends StatelessWidget {
           ),
           child: Text(
             label,
-            style: TejaText.subhead.on(selected ? c.canvas : c.ink),
+            style: DabbleText.subhead.on(selected ? c.canvas : c.ink),
           ),
         ),
       ),
@@ -317,7 +317,7 @@ class _FeedEntry extends ConsumerWidget {
     final author = submission.author;
     final name = author.displayName.isEmpty ? author.username : author.displayName;
 
-    return TejaPress(
+    return DabblePress(
       onTap: () => context.push('/s/${submission.id}'),
       child: Padding(
         padding: const EdgeInsets.only(bottom: Gap.section),
@@ -337,14 +337,14 @@ class _FeedEntry extends ConsumerWidget {
                   Expanded(
                     child: Text(
                       name,
-                      style: TejaText.subhead.on(c.ember),
+                      style: DabbleText.subhead.on(c.ember),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   if (submission.publishedAt != null)
                     Text(
                       submission.publishedAt!.shortAgo,
-                      style: TejaText.footnote.on(c.inkTertiary),
+                      style: DabbleText.footnote.on(c.inkTertiary),
                     ),
                 ],
               ),
@@ -355,7 +355,7 @@ class _FeedEntry extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (submission.hasImage) ...[
-                    TejaImage(
+                    DabbleImage(
                       url: submission.imageUrl!,
                       aspectRatio: submission.aspectRatio,
                     ),
@@ -364,7 +364,7 @@ class _FeedEntry extends ConsumerWidget {
                   if (submission.body.isNotEmpty)
                     MarkdownPreview(
                       submission.body,
-                      style: TejaText.body.on(c.ink),
+                      style: DabbleText.body.on(c.ink),
                       maxLines: 4,
                     ),
                 ],
@@ -378,7 +378,7 @@ class _FeedEntry extends ConsumerWidget {
                   child: Text(
                     '${submission.commentCount} '
                     '${submission.commentCount == 1 ? "Comment" : "Comments"}',
-                    style: TejaText.footnote.on(c.inkTertiary),
+                    style: DabbleText.footnote.on(c.inkTertiary),
                   ),
                 ),
               ),
@@ -403,12 +403,12 @@ class _FeedLocked extends StatelessWidget {
         children: [
           Icon(CupertinoIcons.lock, size: 20, color: c.inkTertiary),
           Gap.h16,
-          Text('Make one thing first', style: TejaText.title2.on(c.ink)),
+          Text('Make one thing first', style: DabbleText.title2.on(c.ink)),
           Gap.h8,
           Text(
             'The feed opens once you have made something yourself. '
             'Just once — not every day.',
-            style: TejaText.callout.on(c.inkSecondary),
+            style: DabbleText.callout.on(c.inkSecondary),
             textAlign: TextAlign.center,
           ),
           Gap.h24,

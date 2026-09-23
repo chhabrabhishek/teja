@@ -87,12 +87,12 @@ class _Hero extends StatelessWidget {
               children: [
                 Text(
                   'Today we are going to',
-                  style: TejaText.callout.on(c.inkSecondary),
+                  style: DabbleText.callout.on(c.inkSecondary),
                 ),
                 Gap.h4,
                 Text(
                   prompt.topicName ?? prompt.categoryLabel,
-                  style: TejaText.title2.on(c.ink),
+                  style: DabbleText.title2.on(c.ink),
                 ),
               ],
             ),
@@ -109,7 +109,7 @@ class _Hero extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Text(
                   prompt.text,
-                  style: TejaText.displayXL.on(c.ember),
+                  style: DabbleText.displayXL.on(c.ember),
                 ),
               ),
             ),
@@ -163,11 +163,11 @@ class _HomeError extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("Can't reach today's prompt", style: TejaText.title2.on(c.ink)),
+            Text("Can't reach today's prompt", style: DabbleText.title2.on(c.ink)),
             Gap.h8,
             Text(
               'Check your connection.',
-              style: TejaText.callout.on(c.inkSecondary),
+              style: DabbleText.callout.on(c.inkSecondary),
             ),
             Gap.h24,
             PaperButton(label: 'Try again', onTap: onRetry, primary: false),

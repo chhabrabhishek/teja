@@ -1,9 +1,9 @@
-# Teja
+# Dabble
 
 **One prompt a day. Make something small.**
 Then see what the world made from the same spark.
 
-Teja is Duolingo for creativity: a daily creative prompt, a place to respond to it,
+Dabble is Duolingo for creativity: a daily creative prompt, a place to respond to it,
 and a feed that unlocks only once you've published. iOS-first.
 
 ```
@@ -36,10 +36,10 @@ python manage.py runserver
 
 # app
 cd ../app
-flutter create --platforms=ios --org app.teja --project-name teja .
+flutter create --platforms=ios --org app.dabble --project-name dabble .
 flutter pub get
 dart run build_runner build --delete-conflicting-outputs
-flutter run --dart-define=TEJA_API_BASE=http://localhost:8000/api/v1
+flutter run --dart-define=DABBLE_API_BASE=http://localhost:8000/api/v1
 ```
 
 Postgres and Redis are production engines, not local prerequisites — see
@@ -48,7 +48,7 @@ Postgres and Redis are production engines, not local prerequisites — see
 ## The four decisions everything else follows from
 
 1. **The feed is earned, not scrolled.** You cannot see today's feed until you
-   publish. Enforced server-side. This single rule is what makes Teja a creation
+   publish. Enforced server-side. This single rule is what makes Dabble a creation
    app instead of another consumption app.
 2. **One global prompt per day.** Everyone answers the same question, so the feed
    is a campfire rather than a timeline — and it is *finite*. You can reach the end.

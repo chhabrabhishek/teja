@@ -60,7 +60,7 @@ class _Dot extends StatelessWidget {
 
   final _DotState state;
   final double size;
-  final TejaColors colors;
+  final DabbleColors colors;
 
   @override
   Widget build(BuildContext context) {

@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../data/teja_repository.dart';
-import '../../design/components/teja_button.dart';
-import '../../design/components/teja_header.dart';
-import '../../design/components/teja_scaffold.dart';
+import '../../data/dabble_repository.dart';
+import '../../design/components/dabble_button.dart';
+import '../../design/components/dabble_header.dart';
+import '../../design/components/dabble_scaffold.dart';
 import '../../design/tokens/colors.dart';
 import '../../design/tokens/spacing.dart';
 import '../../design/tokens/typography.dart';
@@ -42,7 +42,7 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
   Future<void> _save() async {
     setState(() => _saving = true);
     try {
-      await ref.read(tejaRepositoryProvider).setTopics((_selected ?? {}).toList());
+      await ref.read(dabbleRepositoryProvider).setTopics((_selected ?? {}).toList());
       // The daily challenge is drawn from these, so it must be re-resolved.
       ref.invalidate(homeControllerProvider);
     } catch (_) {
@@ -59,21 +59,21 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
     final selected = _selected ?? (topics.valueOrNull == null ? <String>{} : _initial(topics.value!));
     final count = selected.length;
 
-    return TejaPage(
+    return DabblePage(
       showBack: !widget.isOnboarding,
       trailing: widget.isOnboarding
-          ? TejaHeaderAction('Skip', onTap: () => context.go('/today'))
+          ? DabbleHeaderAction('Skip', onTap: () => context.go('/today'))
           : null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Gap.h16,
-          Text('Which pull at you?', style: TejaText.title1.on(c.ink)),
+          Text('Which pull at you?', style: DabbleText.title1.on(c.ink)),
           Gap.h8,
           Text(
             'Your daily challenge comes from these. Pick as many as you like — '
             'you can change them any time.',
-            style: TejaText.callout.on(c.inkSecondary),
+            style: DabbleText.callout.on(c.inkSecondary),
           ),
           Gap.h32,
           TopicPicker(
@@ -81,7 +81,7 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
             onChanged: (next) => setState(() => _selected = next),
           ),
           Gap.h16,
-          TejaButton(
+          DabbleButton(
             count == 0 ? 'Continue' : 'Continue with $count',
             loading: _saving,
             onPressed: _save,
@@ -92,7 +92,7 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
               count == 0
                   ? "Pick none and we'll draw from everything."
                   : 'One challenge a day, drawn from these.',
-              style: TejaText.footnote.on(c.inkTertiary),
+              style: DabbleText.footnote.on(c.inkTertiary),
             ),
           ),
           Gap.h40,

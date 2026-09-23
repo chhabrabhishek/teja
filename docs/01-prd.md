@@ -1,13 +1,13 @@
-# Teja — MVP PRD
+# Dabble — MVP PRD
 
-> **Teja** (तेज) — Sanskrit for *radiance, spark, brilliance*.
+> **Dabble** (तेज) — Sanskrit for *radiance, spark, brilliance*.
 > The app is named after the small spark of creativity you light every day.
 
 ---
 
 ## 1. Positioning
 
-**Teja is Duolingo for creativity.**
+**Dabble is Duolingo for creativity.**
 
 One prompt a day. Make something. Publish it. See what everyone else made from the same spark.
 
@@ -22,12 +22,12 @@ One prompt a day. Make something. Publish it. See what everyone else made from t
 
 ### Why it works
 1. **Constraint kills blank-page anxiety.** One prompt. Not "make art."
-2. **Publishing is the unlock.** The feed is *earned*, not scrolled. This is the single most important product decision — it flips Teja from consumption to creation.
+2. **Publishing is the unlock.** The feed is *earned*, not scrolled. This is the single most important product decision — it flips Dabble from consumption to creation.
 3. **Same prompt = instant belonging.** You are never comparing across contexts; everyone answered the same question today.
 4. **Streak = identity.** "I'm on day 41" is a story people tell about themselves.
 
 ### Anti-positioning
-Teja is **not** Instagram, not a portfolio, not a course, not a journaling app with locked entries. There are no followers, no likes-count leaderboard, no algorithmic ranking, no infinite scroll.
+Dabble is **not** Instagram, not a portfolio, not a course, not a journaling app with locked entries. There are no followers, no likes-count leaderboard, no algorithmic ranking, no infinite scroll.
 
 ---
 
@@ -120,7 +120,7 @@ Cut list — each of these is a real temptation and each one is a week of your l
 
 | Not building | Why |
 |---|---|
-| Following / followers | Turns Teja into a popularity contest. Same-prompt feed is enough. |
+| Following / followers | Turns Dabble into a popularity contest. Same-prompt feed is enough. |
 | DMs / chat | Moderation nightmare, zero habit value. |
 | Video / audio responses | Storage, transcoding, moderation, player UI. Later. |
 | Multiple prompts per day | Destroys the scarcity that makes the streak mean anything. |
@@ -213,7 +213,7 @@ Feed card → tap emoji (inline, optimistic, selection haptic) or tap card → d
 ## 7. Information architecture
 
 ```
-Teja
+Dabble
 ├── (unauthenticated)
 │   └── Welcome ─ Email ─ Code ─ Crafts
 │

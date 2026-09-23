@@ -62,11 +62,11 @@ class AuthRepository {
         body: {'email': email, 'code': code, 'timezone': timezone},
       ));
 
-  Future<TejaUser> me() async =>
-      TejaUser.fromJson(await _api.get<Map<String, dynamic>>('/me'));
+  Future<DabbleUser> me() async =>
+      DabbleUser.fromJson(await _api.get<Map<String, dynamic>>('/me'));
 
-  Future<TejaUser> updateMe(Map<String, dynamic> patch) async =>
-      TejaUser.fromJson(await _api.patch<Map<String, dynamic>>('/me', body: patch));
+  Future<DabbleUser> updateMe(Map<String, dynamic> patch) async =>
+      DabbleUser.fromJson(await _api.patch<Map<String, dynamic>>('/me', body: patch));
 
   Future<void> deleteAccount() async {
     await _api.delete('/me');

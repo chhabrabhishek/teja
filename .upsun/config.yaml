@@ -1,0 +1,68 @@
+# Upsun deployment for the Dabble API.
+#
+# The Flutter app is not deployed here — only the Django backend, served by
+# gunicorn over a unix socket, with Postgres as the single stateful service.
+
+applications:
+  api:
+    source:
+      root: "backend"
+
+    type: "python:3.12"
+
+    relationships:
+      # Exports DATABASE_URL (pgsql://…), which settings.py parses directly.
+      database: "postgresql:postgresql"
+
+    variables:
+      env:
+        DJANGO_DEBUG: "false"
+        DJANGO_SETTINGS_MODULE: "dabble.settings"
+        PYTHONUNBUFFERED: "1"
+        # Real hosts come from PLATFORM_ROUTES at runtime; this value only has
+        # to satisfy the production check during the build hook.
+        DJANGO_ALLOWED_HOSTS: ".platformsh.site"
+
+    hooks:
+      build: |
+        set -eu
+        pip install --upgrade pip
+        pip install -r requirements.txt
+        python manage.py collectstatic --noinput
+      deploy: |
+        set -eu
+        python manage.py migrate --noinput
+
+    web:
+      upstream:
+        socket_family: unix
+      commands:
+        start: "gunicorn --workers 4 --bind unix:$SOCKET --access-logfile - dabble.wsgi:application"
+      locations:
+        "/":
+          passthru: true
+        "/static":
+          root: "staticfiles"
+          expires: 1h
+          allow: true
+
+    crons:
+      # Keeps every topic stocked with prompts. Needs OPENAI_API_KEY set.
+      prompts:
+        spec: "17 3 * * *"
+        commands:
+          start: "python manage.py generate_prompts --ensure-runway 14"
+
+services:
+  postgresql:
+    type: "postgresql:16"
+
+routes:
+  "https://{default}/":
+    type: upstream
+    upstream: "api:http"
+    cache:
+      enabled: false
+  "https://www.{default}/":
+    type: redirect
+    to: "https://{default}/"

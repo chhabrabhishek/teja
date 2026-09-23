@@ -1,6 +1,6 @@
-/// Copy helpers. Teja's voice is warm, short, and never punitive — so date
+/// Copy helpers. Dabble's voice is warm, short, and never punitive — so date
 /// formatting lives here rather than being scattered through widgets.
-extension TejaDateX on DateTime {
+extension DabbleDateX on DateTime {
   static const _weekdays = [
     'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'
   ];

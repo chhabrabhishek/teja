@@ -293,44 +293,44 @@ as DateTime?,
 
 
 /// @nodoc
-mixin _$TejaUser {
+mixin _$DabbleUser {
 
  String get id; String get username;@JsonKey(name: 'display_name') String get displayName; String get bio;@JsonKey(name: 'avatar_url') String? get avatarUrl; String? get email; String get timezone;@JsonKey(name: 'reminder_hour') int? get reminderHour;@JsonKey(name: 'preferred_categories') List<String> get preferredCategories; Streak get streak;
-/// Create a copy of TejaUser
+/// Create a copy of DabbleUser
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$TejaUserCopyWith<TejaUser> get copyWith => _$TejaUserCopyWithImpl<TejaUser>(this as TejaUser, _$identity);
+$DabbleUserCopyWith<DabbleUser> get copyWith => _$DabbleUserCopyWithImpl<DabbleUser>(this as DabbleUser, _$identity);
 
-  /// Serializes this TejaUser to a JSON map.
+  /// Serializes this DabbleUser to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  final _this = this as TejaUser;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TejaUser&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.username, _this.username) || other.username == _this.username)&&(identical(other.displayName, _this.displayName) || other.displayName == _this.displayName)&&(identical(other.bio, _this.bio) || other.bio == _this.bio)&&(identical(other.avatarUrl, _this.avatarUrl) || other.avatarUrl == _this.avatarUrl)&&(identical(other.email, _this.email) || other.email == _this.email)&&(identical(other.timezone, _this.timezone) || other.timezone == _this.timezone)&&(identical(other.reminderHour, _this.reminderHour) || other.reminderHour == _this.reminderHour)&&const DeepCollectionEquality().equals(other.preferredCategories, _this.preferredCategories)&&(identical(other.streak, _this.streak) || other.streak == _this.streak));
+  final _this = this as DabbleUser;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DabbleUser&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.username, _this.username) || other.username == _this.username)&&(identical(other.displayName, _this.displayName) || other.displayName == _this.displayName)&&(identical(other.bio, _this.bio) || other.bio == _this.bio)&&(identical(other.avatarUrl, _this.avatarUrl) || other.avatarUrl == _this.avatarUrl)&&(identical(other.email, _this.email) || other.email == _this.email)&&(identical(other.timezone, _this.timezone) || other.timezone == _this.timezone)&&(identical(other.reminderHour, _this.reminderHour) || other.reminderHour == _this.reminderHour)&&const DeepCollectionEquality().equals(other.preferredCategories, _this.preferredCategories)&&(identical(other.streak, _this.streak) || other.streak == _this.streak));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-  final _this = this as TejaUser;
+  final _this = this as DabbleUser;
   return Object.hash(runtimeType,_this.id,_this.username,_this.displayName,_this.bio,_this.avatarUrl,_this.email,_this.timezone,_this.reminderHour,const DeepCollectionEquality().hash(_this.preferredCategories),_this.streak);
 }
 
 @override
 String toString() {
-  final _this = this as TejaUser;
-  return 'TejaUser(id: ${_this.id}, username: ${_this.username}, displayName: ${_this.displayName}, bio: ${_this.bio}, avatarUrl: ${_this.avatarUrl}, email: ${_this.email}, timezone: ${_this.timezone}, reminderHour: ${_this.reminderHour}, preferredCategories: ${_this.preferredCategories}, streak: ${_this.streak})';
+  final _this = this as DabbleUser;
+  return 'DabbleUser(id: ${_this.id}, username: ${_this.username}, displayName: ${_this.displayName}, bio: ${_this.bio}, avatarUrl: ${_this.avatarUrl}, email: ${_this.email}, timezone: ${_this.timezone}, reminderHour: ${_this.reminderHour}, preferredCategories: ${_this.preferredCategories}, streak: ${_this.streak})';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $TejaUserCopyWith<$Res>  {
-  factory $TejaUserCopyWith(TejaUser value, $Res Function(TejaUser) _then) = _$TejaUserCopyWithImpl;
+abstract mixin class $DabbleUserCopyWith<$Res>  {
+  factory $DabbleUserCopyWith(DabbleUser value, $Res Function(DabbleUser) _then) = _$DabbleUserCopyWithImpl;
 @useResult
 $Res call({
  String id, String username,@JsonKey(name: 'display_name') String displayName, String bio,@JsonKey(name: 'avatar_url') String? avatarUrl, String? email, String timezone,@JsonKey(name: 'reminder_hour') int? reminderHour,@JsonKey(name: 'preferred_categories') List<String> preferredCategories, Streak streak
@@ -341,17 +341,17 @@ $StreakCopyWith<$Res> get streak;
 
 }
 /// @nodoc
-class _$TejaUserCopyWithImpl<$Res>
-    implements $TejaUserCopyWith<$Res> {
-  _$TejaUserCopyWithImpl(this._self, this._then);
+class _$DabbleUserCopyWithImpl<$Res>
+    implements $DabbleUserCopyWith<$Res> {
+  _$DabbleUserCopyWithImpl(this._self, this._then);
 
-  final TejaUser _self;
-  final $Res Function(TejaUser) _then;
+  final DabbleUser _self;
+  final $Res Function(DabbleUser) _then;
 
-/// Create a copy of TejaUser
+/// Create a copy of DabbleUser
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? username = null,Object? displayName = null,Object? bio = null,Object? avatarUrl = freezed,Object? email = freezed,Object? timezone = null,Object? reminderHour = freezed,Object? preferredCategories = null,Object? streak = null,}) {
-  return _then(TejaUser(
+  return _then(DabbleUser(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,username: null == username ? _self.username : username // ignore: cast_nullable_to_non_nullable
 as String,displayName: null == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
@@ -365,7 +365,7 @@ as List<String>,streak: null == streak ? _self.streak : streak // ignore: cast_n
 as Streak,
   ));
 }
-/// Create a copy of TejaUser
+/// Create a copy of DabbleUser
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -378,8 +378,8 @@ $StreakCopyWith<$Res> get streak {
 }
 
 
-/// Adds pattern-matching-related methods to [TejaUser].
-extension TejaUserPatterns on TejaUser {
+/// Adds pattern-matching-related methods to [DabbleUser].
+extension DabbleUserPatterns on DabbleUser {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -392,10 +392,10 @@ extension TejaUserPatterns on TejaUser {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TejaUser value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _DabbleUser value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _TejaUser() when $default != null:
+case _DabbleUser() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -414,10 +414,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TejaUser value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _DabbleUser value)  $default,){
 final _that = this;
 switch (_that) {
-case _TejaUser():
+case _DabbleUser():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -435,10 +435,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TejaUser value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _DabbleUser value)?  $default,){
 final _that = this;
 switch (_that) {
-case _TejaUser() when $default != null:
+case _DabbleUser() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -458,7 +458,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String username, @JsonKey(name: 'display_name')  String displayName,  String bio, @JsonKey(name: 'avatar_url')  String? avatarUrl,  String? email,  String timezone, @JsonKey(name: 'reminder_hour')  int? reminderHour, @JsonKey(name: 'preferred_categories')  List<String> preferredCategories,  Streak streak)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _TejaUser() when $default != null:
+case _DabbleUser() when $default != null:
 return $default(_that.id,_that.username,_that.displayName,_that.bio,_that.avatarUrl,_that.email,_that.timezone,_that.reminderHour,_that.preferredCategories,_that.streak);case _:
   return orElse();
 
@@ -479,7 +479,7 @@ return $default(_that.id,_that.username,_that.displayName,_that.bio,_that.avatar
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String username, @JsonKey(name: 'display_name')  String displayName,  String bio, @JsonKey(name: 'avatar_url')  String? avatarUrl,  String? email,  String timezone, @JsonKey(name: 'reminder_hour')  int? reminderHour, @JsonKey(name: 'preferred_categories')  List<String> preferredCategories,  Streak streak)  $default,) {final _that = this;
 switch (_that) {
-case _TejaUser():
+case _DabbleUser():
 return $default(_that.id,_that.username,_that.displayName,_that.bio,_that.avatarUrl,_that.email,_that.timezone,_that.reminderHour,_that.preferredCategories,_that.streak);case _:
   throw StateError('Unexpected subclass');
 
@@ -499,7 +499,7 @@ return $default(_that.id,_that.username,_that.displayName,_that.bio,_that.avatar
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String username, @JsonKey(name: 'display_name')  String displayName,  String bio, @JsonKey(name: 'avatar_url')  String? avatarUrl,  String? email,  String timezone, @JsonKey(name: 'reminder_hour')  int? reminderHour, @JsonKey(name: 'preferred_categories')  List<String> preferredCategories,  Streak streak)?  $default,) {final _that = this;
 switch (_that) {
-case _TejaUser() when $default != null:
+case _DabbleUser() when $default != null:
 return $default(_that.id,_that.username,_that.displayName,_that.bio,_that.avatarUrl,_that.email,_that.timezone,_that.reminderHour,_that.preferredCategories,_that.streak);case _:
   return null;
 
@@ -511,9 +511,9 @@ return $default(_that.id,_that.username,_that.displayName,_that.bio,_that.avatar
 /// @nodoc
 @JsonSerializable()
 
-class _TejaUser implements TejaUser {
-  const _TejaUser({required this.id, required this.username, @JsonKey(name: 'display_name') this.displayName = '', this.bio = '', @JsonKey(name: 'avatar_url') this.avatarUrl, this.email, this.timezone = 'UTC', @JsonKey(name: 'reminder_hour') this.reminderHour, @JsonKey(name: 'preferred_categories')  List<String> preferredCategories = const <String>[], this.streak = const Streak()}): _preferredCategories = preferredCategories;
-  factory _TejaUser.fromJson(Map<String, dynamic> json) => _$TejaUserFromJson(json);
+class _DabbleUser implements DabbleUser {
+  const _DabbleUser({required this.id, required this.username, @JsonKey(name: 'display_name') this.displayName = '', this.bio = '', @JsonKey(name: 'avatar_url') this.avatarUrl, this.email, this.timezone = 'UTC', @JsonKey(name: 'reminder_hour') this.reminderHour, @JsonKey(name: 'preferred_categories')  List<String> preferredCategories = const <String>[], this.streak = const Streak()}): _preferredCategories = preferredCategories;
+  factory _DabbleUser.fromJson(Map<String, dynamic> json) => _$DabbleUserFromJson(json);
 
 @override final  String id;
 @override final  String username;
@@ -532,20 +532,20 @@ class _TejaUser implements TejaUser {
 
 @override@JsonKey() final  Streak streak;
 
-/// Create a copy of TejaUser
+/// Create a copy of DabbleUser
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$TejaUserCopyWith<_TejaUser> get copyWith => __$TejaUserCopyWithImpl<_TejaUser>(this, _$identity);
+_$DabbleUserCopyWith<_DabbleUser> get copyWith => __$DabbleUserCopyWithImpl<_DabbleUser>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$TejaUserToJson(this, );
+  return _$DabbleUserToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _TejaUser&&(identical(other.id, id) || other.id == id)&&(identical(other.username, username) || other.username == username)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.bio, bio) || other.bio == bio)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.email, email) || other.email == email)&&(identical(other.timezone, timezone) || other.timezone == timezone)&&(identical(other.reminderHour, reminderHour) || other.reminderHour == reminderHour)&&const DeepCollectionEquality().equals(other.preferredCategories, _preferredCategories)&&(identical(other.streak, streak) || other.streak == streak));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DabbleUser&&(identical(other.id, id) || other.id == id)&&(identical(other.username, username) || other.username == username)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.bio, bio) || other.bio == bio)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.email, email) || other.email == email)&&(identical(other.timezone, timezone) || other.timezone == timezone)&&(identical(other.reminderHour, reminderHour) || other.reminderHour == reminderHour)&&const DeepCollectionEquality().equals(other.preferredCategories, _preferredCategories)&&(identical(other.streak, streak) || other.streak == streak));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -556,15 +556,15 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'TejaUser(id: $id, username: $username, displayName: $displayName, bio: $bio, avatarUrl: $avatarUrl, email: $email, timezone: $timezone, reminderHour: $reminderHour, preferredCategories: $preferredCategories, streak: $streak)';
+    return 'DabbleUser(id: $id, username: $username, displayName: $displayName, bio: $bio, avatarUrl: $avatarUrl, email: $email, timezone: $timezone, reminderHour: $reminderHour, preferredCategories: $preferredCategories, streak: $streak)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$TejaUserCopyWith<$Res> implements $TejaUserCopyWith<$Res> {
-  factory _$TejaUserCopyWith(_TejaUser value, $Res Function(_TejaUser) _then) = __$TejaUserCopyWithImpl;
+abstract mixin class _$DabbleUserCopyWith<$Res> implements $DabbleUserCopyWith<$Res> {
+  factory _$DabbleUserCopyWith(_DabbleUser value, $Res Function(_DabbleUser) _then) = __$DabbleUserCopyWithImpl;
 @override @useResult
 $Res call({
  String id, String username,@JsonKey(name: 'display_name') String displayName, String bio,@JsonKey(name: 'avatar_url') String? avatarUrl, String? email, String timezone,@JsonKey(name: 'reminder_hour') int? reminderHour,@JsonKey(name: 'preferred_categories') List<String> preferredCategories, Streak streak
@@ -575,17 +575,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$TejaUserCopyWithImpl<$Res>
-    implements _$TejaUserCopyWith<$Res> {
-  __$TejaUserCopyWithImpl(this._self, this._then);
+class __$DabbleUserCopyWithImpl<$Res>
+    implements _$DabbleUserCopyWith<$Res> {
+  __$DabbleUserCopyWithImpl(this._self, this._then);
 
-  final _TejaUser _self;
-  final $Res Function(_TejaUser) _then;
+  final _DabbleUser _self;
+  final $Res Function(_DabbleUser) _then;
 
-/// Create a copy of TejaUser
+/// Create a copy of DabbleUser
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? username = null,Object? displayName = null,Object? bio = null,Object? avatarUrl = freezed,Object? email = freezed,Object? timezone = null,Object? reminderHour = freezed,Object? preferredCategories = null,Object? streak = null,}) {
-  return _then(_TejaUser(
+  return _then(_DabbleUser(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,username: null == username ? _self.username : username // ignore: cast_nullable_to_non_nullable
 as String,displayName: null == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
@@ -600,7 +600,7 @@ as Streak,
   ));
 }
 
-/// Create a copy of TejaUser
+/// Create a copy of DabbleUser
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -3670,7 +3670,7 @@ as String,
 /// @nodoc
 mixin _$Session {
 
-@JsonKey(name: 'access_token') String get accessToken;@JsonKey(name: 'refresh_token') String get refreshToken;@JsonKey(name: 'expires_in') int get expiresIn;@JsonKey(name: 'is_new_user') bool get isNewUser; TejaUser get user;
+@JsonKey(name: 'access_token') String get accessToken;@JsonKey(name: 'refresh_token') String get refreshToken;@JsonKey(name: 'expires_in') int get expiresIn;@JsonKey(name: 'is_new_user') bool get isNewUser; DabbleUser get user;
 /// Create a copy of Session
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -3708,11 +3708,11 @@ abstract mixin class $SessionCopyWith<$Res>  {
   factory $SessionCopyWith(Session value, $Res Function(Session) _then) = _$SessionCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'access_token') String accessToken,@JsonKey(name: 'refresh_token') String refreshToken,@JsonKey(name: 'expires_in') int expiresIn,@JsonKey(name: 'is_new_user') bool isNewUser, TejaUser user
+@JsonKey(name: 'access_token') String accessToken,@JsonKey(name: 'refresh_token') String refreshToken,@JsonKey(name: 'expires_in') int expiresIn,@JsonKey(name: 'is_new_user') bool isNewUser, DabbleUser user
 });
 
 
-$TejaUserCopyWith<$Res> get user;
+$DabbleUserCopyWith<$Res> get user;
 
 }
 /// @nodoc
@@ -3732,16 +3732,16 @@ as String,refreshToken: null == refreshToken ? _self.refreshToken : refreshToken
 as String,expiresIn: null == expiresIn ? _self.expiresIn : expiresIn // ignore: cast_nullable_to_non_nullable
 as int,isNewUser: null == isNewUser ? _self.isNewUser : isNewUser // ignore: cast_nullable_to_non_nullable
 as bool,user: null == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
-as TejaUser,
+as DabbleUser,
   ));
 }
 /// Create a copy of Session
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$TejaUserCopyWith<$Res> get user {
+$DabbleUserCopyWith<$Res> get user {
   
-  return $TejaUserCopyWith<$Res>(_self.user, (value) {
+  return $DabbleUserCopyWith<$Res>(_self.user, (value) {
     return _then(_self.copyWith(user: value));
   });
 }
@@ -3826,7 +3826,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'access_token')  String accessToken, @JsonKey(name: 'refresh_token')  String refreshToken, @JsonKey(name: 'expires_in')  int expiresIn, @JsonKey(name: 'is_new_user')  bool isNewUser,  TejaUser user)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'access_token')  String accessToken, @JsonKey(name: 'refresh_token')  String refreshToken, @JsonKey(name: 'expires_in')  int expiresIn, @JsonKey(name: 'is_new_user')  bool isNewUser,  DabbleUser user)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Session() when $default != null:
 return $default(_that.accessToken,_that.refreshToken,_that.expiresIn,_that.isNewUser,_that.user);case _:
@@ -3847,7 +3847,7 @@ return $default(_that.accessToken,_that.refreshToken,_that.expiresIn,_that.isNew
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'access_token')  String accessToken, @JsonKey(name: 'refresh_token')  String refreshToken, @JsonKey(name: 'expires_in')  int expiresIn, @JsonKey(name: 'is_new_user')  bool isNewUser,  TejaUser user)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'access_token')  String accessToken, @JsonKey(name: 'refresh_token')  String refreshToken, @JsonKey(name: 'expires_in')  int expiresIn, @JsonKey(name: 'is_new_user')  bool isNewUser,  DabbleUser user)  $default,) {final _that = this;
 switch (_that) {
 case _Session():
 return $default(_that.accessToken,_that.refreshToken,_that.expiresIn,_that.isNewUser,_that.user);case _:
@@ -3867,7 +3867,7 @@ return $default(_that.accessToken,_that.refreshToken,_that.expiresIn,_that.isNew
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'access_token')  String accessToken, @JsonKey(name: 'refresh_token')  String refreshToken, @JsonKey(name: 'expires_in')  int expiresIn, @JsonKey(name: 'is_new_user')  bool isNewUser,  TejaUser user)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'access_token')  String accessToken, @JsonKey(name: 'refresh_token')  String refreshToken, @JsonKey(name: 'expires_in')  int expiresIn, @JsonKey(name: 'is_new_user')  bool isNewUser,  DabbleUser user)?  $default,) {final _that = this;
 switch (_that) {
 case _Session() when $default != null:
 return $default(_that.accessToken,_that.refreshToken,_that.expiresIn,_that.isNewUser,_that.user);case _:
@@ -3889,7 +3889,7 @@ class _Session implements Session {
 @override@JsonKey(name: 'refresh_token') final  String refreshToken;
 @override@JsonKey(name: 'expires_in') final  int expiresIn;
 @override@JsonKey(name: 'is_new_user') final  bool isNewUser;
-@override final  TejaUser user;
+@override final  DabbleUser user;
 
 /// Create a copy of Session
 /// with the given fields replaced by the non-null parameter values.
@@ -3926,11 +3926,11 @@ abstract mixin class _$SessionCopyWith<$Res> implements $SessionCopyWith<$Res> {
   factory _$SessionCopyWith(_Session value, $Res Function(_Session) _then) = __$SessionCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'access_token') String accessToken,@JsonKey(name: 'refresh_token') String refreshToken,@JsonKey(name: 'expires_in') int expiresIn,@JsonKey(name: 'is_new_user') bool isNewUser, TejaUser user
+@JsonKey(name: 'access_token') String accessToken,@JsonKey(name: 'refresh_token') String refreshToken,@JsonKey(name: 'expires_in') int expiresIn,@JsonKey(name: 'is_new_user') bool isNewUser, DabbleUser user
 });
 
 
-@override $TejaUserCopyWith<$Res> get user;
+@override $DabbleUserCopyWith<$Res> get user;
 
 }
 /// @nodoc
@@ -3950,7 +3950,7 @@ as String,refreshToken: null == refreshToken ? _self.refreshToken : refreshToken
 as String,expiresIn: null == expiresIn ? _self.expiresIn : expiresIn // ignore: cast_nullable_to_non_nullable
 as int,isNewUser: null == isNewUser ? _self.isNewUser : isNewUser // ignore: cast_nullable_to_non_nullable
 as bool,user: null == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
-as TejaUser,
+as DabbleUser,
   ));
 }
 
@@ -3958,9 +3958,9 @@ as TejaUser,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$TejaUserCopyWith<$Res> get user {
+$DabbleUserCopyWith<$Res> get user {
   
-  return $TejaUserCopyWith<$Res>(_self.user, (value) {
+  return $DabbleUserCopyWith<$Res>(_self.user, (value) {
     return _then(_self.copyWith(user: value));
   });
 }

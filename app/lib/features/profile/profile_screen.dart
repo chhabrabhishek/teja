@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../data/teja_repository.dart';
+import '../../data/dabble_repository.dart';
 import '../../design/components/avatar.dart';
 import '../../design/components/markdown_preview.dart';
 import '../../design/components/stat_row.dart';
 import '../../design/components/states.dart';
-import '../../design/components/teja_press.dart';
+import '../../design/components/dabble_press.dart';
 import '../../design/components/week_strip.dart';
 import '../../design/tokens/colors.dart';
 import '../../design/tokens/spacing.dart';
@@ -16,13 +16,13 @@ import '../../domain/models.dart';
 import '../auth/auth_controller.dart';
 
 final _profileProvider =
-    FutureProvider.autoDispose.family<TejaUser, String>((ref, username) {
-  return ref.read(tejaRepositoryProvider).profile(username);
+    FutureProvider.autoDispose.family<DabbleUser, String>((ref, username) {
+  return ref.read(dabbleRepositoryProvider).profile(username);
 });
 
 final _creationsProvider =
     FutureProvider.autoDispose.family<List<Submission>, String>((ref, username) async {
-  final page = await ref.read(tejaRepositoryProvider).profileSubmissions(username);
+  final page = await ref.read(dabbleRepositoryProvider).profileSubmissions(username);
   return page.items;
 });
 
@@ -64,7 +64,7 @@ class ProfileScreen extends ConsumerWidget {
             border: null,
             automaticallyImplyLeading: false,
             leading: Navigator.of(context).canPop()
-                ? TejaPress(
+                ? DabblePress(
                     onTap: () => context.pop(),
                     semanticLabel: 'Back',
                     child: Icon(CupertinoIcons.chevron_left, size: 22, color: c.ember),
@@ -123,7 +123,7 @@ class ProfileScreen extends ConsumerWidget {
 class _ProfileHeader extends StatelessWidget {
   const _ProfileHeader({required this.user, required this.isMe});
 
-  final TejaUser user;
+  final DabbleUser user;
   final bool isMe;
 
   @override
@@ -135,14 +135,14 @@ class _ProfileHeader extends StatelessWidget {
       children: [
         Avatar(name: name, url: user.avatarUrl, size: 80),
         Gap.h16,
-        Text(name, style: TejaText.title1.on(c.ink)),
+        Text(name, style: DabbleText.title1.on(c.ink)),
         Gap.h4,
-        Text('@${user.username}', style: TejaText.subhead.on(c.inkTertiary)),
+        Text('@${user.username}', style: DabbleText.subhead.on(c.inkTertiary)),
         if (user.bio.isNotEmpty) ...[
           Gap.h12,
           Text(
             user.bio,
-            style: TejaText.callout.on(c.inkSecondary),
+            style: DabbleText.callout.on(c.inkSecondary),
             textAlign: TextAlign.center,
             maxLines: 3,
           ),
@@ -151,7 +151,7 @@ class _ProfileHeader extends StatelessWidget {
           Gap.h16,
           GestureDetector(
             onTap: () => context.push('/you/edit'),
-            child: Text('Edit profile', style: TejaText.footnote.on(c.ember)),
+            child: Text('Edit profile', style: DabbleText.footnote.on(c.ember)),
           ),
         ],
         Gap.h32,
@@ -200,7 +200,7 @@ class _CreationsGrid extends StatelessWidget {
       itemCount: items.length,
       itemBuilder: (context, index) {
         final item = items[index];
-        return TejaPress(
+        return DabblePress(
           onTap: () => context.push('/s/${item.id}'),
           child: Container(
             clipBehavior: Clip.antiAlias,
@@ -210,7 +210,7 @@ class _CreationsGrid extends StatelessWidget {
               border: Border.all(color: c.hairline),
             ),
             child: item.hasImage
-                ? TejaImage(
+                ? DabbleImage(
                     url: item.imageUrl!,
                     borderRadius: const BorderRadius.all(Radius.circular(14)),
                   )
@@ -222,7 +222,7 @@ class _CreationsGrid extends StatelessWidget {
                         Expanded(
                           child: MarkdownPreview(
                             item.body,
-                            style: TejaText.callout.on(c.ink),
+                            style: DabbleText.callout.on(c.ink),
                             maxLines: 5,
                           ),
                         ),
@@ -230,7 +230,7 @@ class _CreationsGrid extends StatelessWidget {
                           item.publishedAt == null
                               ? ''
                               : '${item.publishedAt!.day}/${item.publishedAt!.month}',
-                          style: TejaText.footnote.on(c.inkTertiary),
+                          style: DabbleText.footnote.on(c.inkTertiary),
                         ),
                       ],
                     ),

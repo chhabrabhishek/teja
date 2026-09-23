@@ -12,7 +12,7 @@ analyzer:
 
 linter:
   rules:
-    # Teja is a Cupertino app. Importing material is how Material Design creeps in.
+    # Dabble is a Cupertino app. Importing material is how Material Design creeps in.
     - avoid_print
     - prefer_const_constructors
     - prefer_const_declarations

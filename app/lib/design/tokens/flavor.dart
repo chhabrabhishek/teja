@@ -10,18 +10,18 @@ import 'motion.dart';
 ///
 /// Every geometry and motion decision that differs between them lives here, so a
 /// component reads `context.style` and never branches on the flavor itself.
-enum TejaFlavor {
+enum DabbleFlavor {
   receipt('Receipt', 'Printed paper, torn edges, vermillion ink');
 
-  const TejaFlavor(this.label, this.blurb);
+  const DabbleFlavor(this.label, this.blurb);
 
   final String label;
   final String blurb;
 }
 
 @immutable
-class TejaStyle {
-  const TejaStyle({
+class DabbleStyle {
+  const DabbleStyle({
     required this.flavor,
     required this.controlRadius,
     required this.cardRadius,
@@ -40,7 +40,7 @@ class TejaStyle {
     required this.enterCurve,
   });
 
-  final TejaFlavor flavor;
+  final DabbleFlavor flavor;
 
   final BorderRadius controlRadius;
   final BorderRadius cardRadius;
@@ -78,8 +78,8 @@ class TejaStyle {
   bool get hasHardEdge => edgeDepth > 0;
 
   /// Printed paper: flat, hairline-ruled, no elevation anywhere.
-  static const receipt = TejaStyle(
-    flavor: TejaFlavor.receipt,
+  static const receipt = DabbleStyle(
+    flavor: DabbleFlavor.receipt,
     controlRadius: BorderRadius.all(Radius.circular(24)),
     cardRadius: BorderRadius.all(Radius.circular(16)),
     heroRadius: BorderRadius.all(Radius.circular(20)),
@@ -97,22 +97,22 @@ class TejaStyle {
     enterCurve: Motion.enter,
   );
 
-  static TejaStyle of(TejaFlavor flavor) => receipt;
+  static DabbleStyle of(DabbleFlavor flavor) => receipt;
 }
 
-class TejaStyleScope extends InheritedWidget {
-  const TejaStyleScope({super.key, required this.style, required super.child});
+class DabbleStyleScope extends InheritedWidget {
+  const DabbleStyleScope({super.key, required this.style, required super.child});
 
-  final TejaStyle style;
+  final DabbleStyle style;
 
-  static TejaStyle of(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<TejaStyleScope>()?.style ??
-      TejaStyle.receipt;
+  static DabbleStyle of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<DabbleStyleScope>()?.style ??
+      DabbleStyle.receipt;
 
   @override
-  bool updateShouldNotify(TejaStyleScope oldWidget) => style != oldWidget.style;
+  bool updateShouldNotify(DabbleStyleScope oldWidget) => style != oldWidget.style;
 }
 
-extension TejaStyleContext on BuildContext {
-  TejaStyle get style => TejaStyleScope.of(this);
+extension DabbleStyleContext on BuildContext {
+  DabbleStyle get style => DabbleStyleScope.of(this);
 }

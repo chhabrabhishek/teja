@@ -22,7 +22,7 @@ class AuthState {
   });
 
   final AuthStatus status;
-  final TejaUser? user;
+  final DabbleUser? user;
   final bool busy;
   final String? error;
   final bool isNewUser;
@@ -31,7 +31,7 @@ class AuthState {
 
   AuthState copyWith({
     AuthStatus? status,
-    TejaUser? user,
+    DabbleUser? user,
     bool? busy,
     String? error,
     bool? isNewUser,
@@ -133,7 +133,7 @@ class AuthController extends Notifier<AuthState> {
     state = state.copyWith(user: user);
   }
 
-  void refreshUser(TejaUser user) => state = state.copyWith(user: user);
+  void refreshUser(DabbleUser user) => state = state.copyWith(user: user);
 
   /// Called after a publish so the streak on Profile is correct immediately.
   void applyStreak(Streak streak) {

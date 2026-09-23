@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Teja</string>
+	<string>Dabble</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>teja</string>
+	<string>dabble</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -50,11 +50,11 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Teja uses the camera so you can respond to today's prompt.</string>
+	<string>Dabble uses the camera so you can respond to today's prompt.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Teja needs your photo library so you can share what you made.</string>
+	<string>Dabble needs your photo library so you can share what you made.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Teja saves your creations back to your photo library.</string>
+	<string>Dabble saves your creations back to your photo library.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

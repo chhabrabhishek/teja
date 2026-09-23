@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:teja/design/components/markdown_preview.dart';
+import 'package:dabble/design/components/markdown_preview.dart';
 
 void main() {
   group('MarkdownPreview.plainText', () {

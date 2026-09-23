@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../data/teja_repository.dart';
+import '../../data/dabble_repository.dart';
 import '../../design/components/chips.dart';
-import '../../design/components/teja_press.dart';
+import '../../design/components/dabble_press.dart';
 import '../../design/tokens/colors.dart';
 import '../../design/tokens/flavor.dart';
 import '../../design/tokens/motion.dart';
@@ -12,7 +12,7 @@ import '../../design/tokens/typography.dart';
 import '../../domain/models.dart';
 
 final topicsProvider = FutureProvider.autoDispose<List<Topic>>(
-  (ref) => ref.read(tejaRepositoryProvider).topics(),
+  (ref) => ref.read(dabbleRepositoryProvider).topics(),
 );
 
 /// The interest tree.
@@ -44,7 +44,7 @@ class TopicPicker extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(vertical: Gap.xl),
         child: Text(
           "Couldn't load topics. Pull to try again.",
-          style: TejaText.callout.on(c.inkSecondary),
+          style: DabbleText.callout.on(c.inkSecondary),
         ),
       ),
       data: (roots) => Column(
@@ -92,7 +92,7 @@ class _RootSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final hue = TejaColors.forCategory(root.craft);
+    final hue = DabbleColors.forCategory(root.craft);
     final childIds = root.children.map((t) => t.id).toSet();
     final allOn = childIds.isNotEmpty && childIds.every(selected.contains);
 
@@ -104,16 +104,16 @@ class _RootSection extends StatelessWidget {
             Icon(CategoryChip.glyphFor(root.craft), size: 16, color: hue),
             Gap.w8,
             Expanded(
-              child: Text(root.name.toUpperCase(), style: TejaText.eyebrow.on(hue)),
+              child: Text(root.name.toUpperCase(), style: DabbleText.eyebrow.on(hue)),
             ),
-            TejaPress(
+            DabblePress(
               onTap: onToggleAll,
               semanticLabel: allOn ? 'Deselect all ${root.name}' : 'Select all ${root.name}',
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: Gap.xs, vertical: Gap.sm),
                 child: Text(
                   allOn ? 'None' : 'All',
-                  style: TejaText.footnote.on(c.inkTertiary),
+                  style: DabbleText.footnote.on(c.inkTertiary),
                 ),
               ),
             ),
@@ -121,7 +121,7 @@ class _RootSection extends StatelessWidget {
         ),
         if (root.blurb.isNotEmpty) ...[
           Gap.h4,
-          Text(root.blurb, style: TejaText.footnote.on(c.inkTertiary)),
+          Text(root.blurb, style: DabbleText.footnote.on(c.inkTertiary)),
         ],
         Gap.h12,
         for (final child in root.children)
@@ -157,7 +157,7 @@ class _TopicRow extends StatelessWidget {
     final c = context.colors;
     final s = context.style;
 
-    return TejaPress(
+    return DabblePress(
       onTap: onTap,
       scale: s.pressScale,
       semanticLabel: '${topic.name}. ${isSelected ? 'Selected' : 'Not selected'}',
@@ -181,14 +181,14 @@ class _TopicRow extends StatelessWidget {
                 children: [
                   Text(
                     topic.name,
-                    style: TejaText.headline.on(c.ink).copyWith(
+                    style: DabbleText.headline.on(c.ink).copyWith(
                           fontFamily: s.roundedFamily,
                           fontWeight: s.headlineWeight,
                         ),
                   ),
                   if (topic.blurb.isNotEmpty) ...[
                     Gap.h4,
-                    Text(topic.blurb, style: TejaText.footnote.on(c.inkSecondary)),
+                    Text(topic.blurb, style: DabbleText.footnote.on(c.inkSecondary)),
                   ],
                 ],
               ),
