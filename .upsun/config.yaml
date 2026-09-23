@@ -42,7 +42,9 @@ applications:
       upstream:
         socket_family: unix
       commands:
-        start: "gunicorn --workers 4 --bind unix:$SOCKET --access-logfile - dabble.wsgi:application"
+        # Two workers is what 224MB holds: each one imports Django, psycopg and
+        # boto3 separately, and the container only has 0.5 CPU to share.
+        start: "gunicorn --workers 2 --bind unix:$SOCKET --access-logfile - dabble.wsgi:application"
       locations:
         "/":
           passthru: true

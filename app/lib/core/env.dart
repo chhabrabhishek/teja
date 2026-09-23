@@ -1,10 +1,10 @@
 /// Build-time configuration:
-/// `flutter run --dart-define=DABBLE_API_BASE=https://api.dabble.app/api/v1`
+/// `flutter run --dart-define=DABBLE_API_BASE=http://localhost:8000/api/v1`
 abstract final class Env {
   static const apiBase = String.fromEnvironment(
     'DABBLE_API_BASE',
-    // iOS Simulator can reach the host machine on localhost.
-    defaultValue: 'http://localhost:8000/api/v1',
+    defaultValue:
+        'https://main-bvxea6i-q6k7ce43roozq.de-2.platformsh.site/api/v1',
   );
 
   static const appStoreUrl = String.fromEnvironment(
