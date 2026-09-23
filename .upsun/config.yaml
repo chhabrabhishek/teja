@@ -13,6 +13,8 @@ applications:
     relationships:
       # Exports DATABASE_URL (pgsql://…), which settings.py parses directly.
       database: "postgresql:postgresql"
+      # Exports REDIS_URL; without it rate limits fall back to per-process memory.
+      redis: "redis:redis"
 
     variables:
       env:
@@ -28,7 +30,10 @@ applications:
         set -eu
         pip install --upgrade pip
         pip install -r requirements.txt
-        python manage.py collectstatic --noinput
+        # CI=true only waives the EMAIL_HOST check: the mail relay is attached
+        # at deploy time, so the host cannot exist yet. Everything else,
+        # including the real-secret check, still runs with DJANGO_DEBUG=false.
+        CI=true python manage.py collectstatic --noinput
       deploy: |
         set -eu
         python manage.py migrate --noinput
@@ -56,6 +61,8 @@ applications:
 services:
   postgresql:
     type: "postgresql:16"
+  redis:
+    type: "redis:7.2"
 
 routes:
   "https://{default}/":
