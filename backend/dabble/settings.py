@@ -31,6 +31,15 @@ def env_int(key: str, default: int) -> int:
         return default
 
 
+def relationship(name: str) -> dict | None:
+    """First instance of an Upsun relationship, or None when not on Upsun."""
+    raw = env("PLATFORM_RELATIONSHIPS")
+    if not raw:
+        return None
+    instances = json.loads(base64.b64decode(raw)).get(name) or []
+    return instances[0] if instances else None
+
+
 SECRET_KEY = env("DJANGO_SECRET_KEY", "dev-insecure-change-me")
 DEBUG = env_bool("DJANGO_DEBUG", True)
 ALLOWED_HOSTS = [h for h in env("DJANGO_ALLOWED_HOSTS", "*").split(",") if h]
@@ -97,8 +106,21 @@ TEMPLATES = [
 # SQLite by default so a new machine needs nothing installed; Postgres in
 # staging and production. The schema is deliberately portable between the two.
 DATABASE_URL = env("DATABASE_URL", "sqlite:///dabble.sqlite3")
+_db_rel = relationship("database")
 
-if DATABASE_URL.startswith("sqlite"):
+if _db_rel:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": _db_rel["path"],
+            "USER": _db_rel["username"] or "",
+            "PASSWORD": _db_rel["password"] or "",
+            "HOST": _db_rel["host"],
+            "PORT": str(_db_rel["port"]),
+            "CONN_MAX_AGE": 60,
+        }
+    }
+elif DATABASE_URL.startswith("sqlite"):
     _path = DATABASE_URL.split("://", 1)[1].lstrip("/") or "dabble.sqlite3"
     DATABASES = {
         "default": {
@@ -182,7 +204,10 @@ MEDIA_PUBLIC_BASE_URL = env("MEDIA_PUBLIC_BASE_URL", "").rstrip("/")
 MEDIA_MAX_BYTES = 10 * 1024 * 1024
 MEDIA_ALLOWED_TYPES = ["image/jpeg", "image/png", "image/heic", "image/webp"]
 
-REDIS_URL = env("REDIS_URL") or None
+_redis_rel = relationship("redis")
+REDIS_URL = env("REDIS_URL") or (
+    f"redis://{_redis_rel['host']}:{_redis_rel['port']}/0" if _redis_rel else None
+)
 
 # --- OpenAI -----------------------------------------------------------------
 # Used only by the offline prompt generator, never in a request path.
